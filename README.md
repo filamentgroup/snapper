@@ -1,2 +1,58 @@
 # snapper
+
 A CSS Snap-Points based carousel (and lightweight polyfill)
+
+MIT License
+[c] 2015 Filament Group, Inc
+
+## Dependencies
+- jQuery or similar DOM library
+- Overthrow's toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-overthrow/src/overthrow-toss.js`
+
+## Docs
+
+1. Include dependencies, plus the css and js files in the src dir.
+2. Use the  markup pattern below.
+
+``` html
+<div class="snapper">
+	<div class="snapper_pane">
+		<div class="snapper_items">
+			<div class="snapper_item" id="img-a">
+				<img src="a-image.jpg" alt="">
+				<a href="#img-d" class="snapper_prev">Prev</a>
+				<a href="#img-b" class="snapper_next">Next</a>
+			</div>
+			<div class="snapper_item" id="img-b">
+				<img src="b-image.jpg" alt="">
+				<a href="#img-a" class="snapper_prev">Prev</a>
+				<a href="#img-c" class="snapper_next">Next</a>
+			</div>
+			<div class="snapper_item" id="img-c">
+				<img src="c-image.jpg" alt="">
+				<a href="#img-b" class="snapper_prev">Prev</a>
+				<a href="#img-d" class="snapper_next">Next</a>
+			</div>
+			<div class="snapper_item" id="img-d">
+				<img src="d-image.jpg" alt="">
+				<a href="#img-c" class="snapper_prev">Prev</a>
+				<a href="#img-a" class="snapper_next">Next</a>
+			</div>
+		</div>
+	</div>
+	<div class="snapper_nav">
+		<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
+		<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
+		<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
+		<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
+	</div>
+</div>
+```
+
+3. Trigger an "enhance" event on a parent of the markup to initialize. You might do this on domready, as shown below:
+
+``` js
+$( function(){
+	$( document ).trigger( "enhance" );
+});
+```

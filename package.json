@@ -1,0 +1,26 @@
+{
+  "name": "fg-snapper",
+  "version": "0.1.0",
+  "description": "A CSS Snap-Points based carousel (and lightweight polyfill)",
+  "author": {
+    "name": "Scott Jehl, Filament Group, Inc.",
+    "url": "http://filamentgroup.com"
+  },
+  "main": "src/snapper.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/filamentgroup/snapper.git"
+  },
+  "keywords": [
+    "CSS",
+    "snap points"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/filamentgroup/snapper/issues"
+  },
+  "dependencies": {
+    "jquery": "^1.11.3",
+    "fg-overthrow": "0.7.1"
+  }
+}
