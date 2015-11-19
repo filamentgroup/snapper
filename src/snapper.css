@@ -53,11 +53,9 @@
 	scroll-snap-coordinate: 50% 50%;
 }
 .snapper_nav {
-	display: table;
-	width: 100%;
-	margin: 10px 0;
+	overflow: hidden;
 }
 .snapper_nav a {
-	display: table-cell;
-	width: 1%;
+	float: left;
+	margin: 0 5px 5px 0;
 }
