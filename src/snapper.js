@@ -36,22 +36,44 @@
 				}
 			});
 
+
+			// snap to nearest slide
+			function snapScroll(){
+				var currScroll = $slider[ 0 ].scrollLeft;
+				var width = $itemsContain.width();
+				var itemWidth = $items.eq(0).width();
+				var numItems = $items.length;
+				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
+				if( roundedScroll > width ){
+					roundedScroll = width;
+				}
+				if( roundedScroll !== currScroll ){
+					goto( $slider[ 0 ], roundedScroll );
+				}
+			}
+
+			// retain snapping on resize (necessary even in scroll-snap supporting browsers, unfortunately)
+			var startSlide;
+			var afterResize;
+			function snapStay(){
+				var currScroll = $slider[ 0 ].scrollLeft;
+				var width = $itemsContain.width();
+				var numItems = $items.length;
+				if( startSlide === undefined ){
+					startSlide = Math.round(  ( currScroll / width * numItems ) );
+				}
+				if( afterResize ){
+					clearTimeout( afterResize );
+				}
+				afterResize = setTimeout( function(){
+					goto( $slider[ 0 ], $items[ startSlide ].offsetLeft );
+					startSlide = afterResize = undefined;
+				}, 300 );
+			}
+			$( w ).bind( "resize", snapStay );
+
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			function polyfillSnap(){
-				function snapScroll(){
-					var currScroll = $slider[ 0 ].scrollLeft;
-					var width = $itemsContain.width();
-					var itemWidth = $items.eq(0).width();
-					var numItems = $items.length;
-					var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
-					if( roundedScroll > width ){
-						roundedScroll = width;
-					}
-					if( roundedScroll !== currScroll ){
-						goto( $slider[ 0 ], roundedScroll );
-					}
-				}
-
 				var scrollStop;
 				$slider.bind( "scroll", function(){
 					if( scrollStop ){
