@@ -31,8 +31,8 @@
 				e.preventDefault();
 				var $slide = $( slideID, self );
 				goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
-				if( "pushState" in w.history ){
-					w.history.pushState( {}, document.title, slideID );
+				if( "replaceState" in w.history ){
+					w.history.replaceState( {}, document.title, slideID );
 				}
 			});
 
