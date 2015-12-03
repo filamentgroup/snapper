@@ -20,6 +20,8 @@
 			var $slider = $( "." + pluginName + "_pane", self );
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
 			var $items = $itemsContain.children();
+			var $nav = $( "." + pluginName + "_nav", self );
+			var navSelectedClass = pluginName + "_nav_item-selected";
 
 			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			$( "a", this ).bind( "click", function( e ){
@@ -71,6 +73,27 @@
 				}, 300 );
 			}
 			$( w ).bind( "resize", snapStay );
+
+			// update thumbnail state on pane scroll
+			if( $nav.length ){
+				function activeItem(){
+					var currScroll = $slider[ 0 ].scrollLeft;
+					var activeIndex;
+					$items.each(function( i ){
+						if( $items[ i ].offsetLeft === currScroll ){
+							activeIndex = i;
+						}
+					});
+					// update thumbnail class
+					if( activeIndex ){
+						$nav
+							.children().removeClass( navSelectedClass )
+							.eq( activeIndex )
+							.addClass( navSelectedClass );
+					}
+				}
+				$slider.bind( "scroll", activeItem );
+			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			function polyfillSnap(){
