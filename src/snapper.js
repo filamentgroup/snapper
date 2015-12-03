@@ -92,7 +92,10 @@
 							.addClass( navSelectedClass );
 					}
 				}
+				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
+				// set active item on init
+				activeItem();
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
