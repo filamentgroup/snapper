@@ -85,7 +85,7 @@
 						}
 					});
 					// update thumbnail class
-					if( activeIndex ){
+					if( activeIndex !== undefined ){
 						$nav
 							.children().removeClass( navSelectedClass )
 							.eq( activeIndex )
