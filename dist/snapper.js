@@ -26,8 +26,8 @@
 			var navSelectedClass = pluginName + "_nav_item-selected";
 
 			$( self ).addClass( enhancedClass );
-			//$itemsContain.css( "width", numItems * 100 + "%" );
-			//$items.css( "width", 100 / numItems + "%" );
+			$itemsContain.css( "width", numItems * 100 + "%" );
+			$items.css( "width", 100 / numItems + "%" );
 
 			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			$( "a", this ).bind( "click", function( e ){
