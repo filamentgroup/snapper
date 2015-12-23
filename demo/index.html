@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Snapper Demo</title>
+  <link rel="stylesheet" href="../dist/snapper.css">
+  <script src="../src/lib/jquery.js"></script>
+  <script src="../src/lib/overthrow-toss.js"></script>
+  <script src="../dist/snapper.js"></script>
+  <style>
+    body {
+      max-width: 30em;
+      margin: 0 auto;
+    }
+  </style>
+  <script>
+    document.documentElement.className += "enhanced";
+    $(function(){
+      $( document ).trigger( "enhance" );
+    });
+  </script>
+</head>
+<body>
+
+<div class="snapper">
+	<div class="snapper_pane">
+		<div class="snapper_items">
+			<div class="snapper_item" id="img-a">
+				<img src="imgs/monkey.jpg" alt="">
+				<a href="#img-d" class="snapper_prev">Prev</a>
+				<a href="#img-b" class="snapper_next">Next</a>
+			</div>
+			<div class="snapper_item" id="img-b">
+				<img src="imgs/large.jpg" alt="">
+				<a href="#img-a" class="snapper_prev">Prev</a>
+				<a href="#img-c" class="snapper_next">Next</a>
+			</div>
+			<div class="snapper_item" id="img-c">
+				<img src="imgs/monks.jpg" alt="">
+				<a href="#img-b" class="snapper_prev">Prev</a>
+				<a href="#img-d" class="snapper_next">Next</a>
+			</div>
+		</div>
+	</div>
+	<div class="snapper_nav">
+		<a href="#img-a"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+		<a href="#img-b"><img src="imgs/large-thmb.jpg" alt=""></a>
+		<a href="#img-c"><img src="imgs/monks-thmb.jpg" alt=""></a>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>
