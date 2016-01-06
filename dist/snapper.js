@@ -79,6 +79,27 @@
 			}
 			$( w ).bind( "resize", snapStay );
 
+			function next(){
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider[ 0 ].offsetWidth );
+			}
+
+			function prev(){
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider[ 0 ].offsetWidth );
+			}
+
+			$( this )
+				.attr( "tabindex", "0" )
+				.bind( "keyup", function( e ){
+					if( e.keyCode === 37 || e.keyCode === 38 ){
+						e.preventDefault();
+						prev();
+					}
+					if( e.keyCode === 39 || e.keyCode === 40 ){
+						e.preventDefault();
+						next();
+					}
+				} );
+
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
 				function activeItem(){

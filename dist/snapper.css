@@ -9,6 +9,10 @@
 .snapper, .snapper_items, .snapper_nav {
   *zoom: 1; }
 
+.snapper:focus {
+  /* snapper div receives a tabindex to allow focus for keyboard arrow control */
+  outline: none; }
+
 .snapper_pane {
   overflow-x: auto;
   overflow-y: hidden;
