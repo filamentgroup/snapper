@@ -104,12 +104,9 @@
 			if( $nav.length ){
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
-					var activeIndex;
-					$items.each(function( i ){
-						if( $items[ i ].offsetLeft === currScroll ){
-							activeIndex = i;
-						}
-					});
+					var width = $itemsContain.width();
+					var activeIndex = Math.round( currScroll / width * numItems );
+
 					// update thumbnail class
 					if( activeIndex !== undefined ){
 						$nav

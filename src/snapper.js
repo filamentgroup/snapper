@@ -104,19 +104,12 @@
 			if( $nav.length ){
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
-					var activeIndex;
-					$items.each(function( i ){
-						if( $items[ i ].offsetLeft === currScroll ){
-							activeIndex = i;
-						}
-					});
-					// update thumbnail class
-					if( activeIndex !== undefined ){
-						$nav
-							.children().removeClass( navSelectedClass )
-							.eq( activeIndex )
-							.addClass( navSelectedClass );
-					}
+					var width = $itemsContain.width();
+					var activeIndex = Math.round( currScroll / width * numItems );
+					$nav
+						.children().removeClass( navSelectedClass )
+						.eq( activeIndex )
+						.addClass( navSelectedClass );
 				}
 				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
