@@ -13,6 +13,15 @@
   /* snapper div receives a tabindex to allow focus for keyboard arrow control */
   outline: none; }
 
+/* to hide the scrollbar handles while still allowing touch and gesture scrolling, wrap the snapper pane in a div with a snapper_pane_crop class
+note: only use this if you have thumbnails or some other means of advancing slides for non-touchscreen devices */
+.enhanced .snapper_pane_crop {
+  overflow: hidden; }
+
+.enhanced .snapper_pane_crop .snapper_pane {
+  padding-bottom: 30px;
+  margin-bottom: -30px; }
+
 .snapper_pane {
   overflow-x: auto;
   overflow-y: hidden;

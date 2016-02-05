@@ -106,14 +106,10 @@
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = $itemsContain.width();
 					var activeIndex = Math.round( currScroll / width * numItems );
-
-					// update thumbnail class
-					if( activeIndex !== undefined ){
-						$nav
-							.children().removeClass( navSelectedClass )
-							.eq( activeIndex )
-							.addClass( navSelectedClass );
-					}
+					$nav
+						.children().removeClass( navSelectedClass )
+						.eq( activeIndex )
+						.addClass( navSelectedClass );
 				}
 				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
