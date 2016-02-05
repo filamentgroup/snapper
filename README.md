@@ -56,3 +56,37 @@ $( function(){
 	$( document ).trigger( "enhance" );
 });
 ```
+
+### Hiding the scrollbar
+
+In some browsers, native scrollbar handles can be pretty ugly across the bottom of the carousel. As long as you're using thumbnails or some means of advancing the slides, you can wrap the `snapper_pane` in a `div` with a class of `snapper_pane_crop` and it'll hide the scrollbar from sight.
+
+``` html
+<div class="snapper">
+	<div class="snapper_pane_crop">
+		<div class="snapper_pane">
+			<div class="snapper_items">
+				<div class="snapper_item" id="img-a">
+					<img src="a-image.jpg" alt="">
+					<a href="#img-d" class="snapper_prev">Prev</a>
+					<a href="#img-b" class="snapper_next">Next</a>
+				</div>
+				<div class="snapper_item" id="img-b">
+					...
+				</div>
+				<div class="snapper_item" id="img-c">
+					...
+				</div>
+				<div class="snapper_item" id="img-d">
+				...
+			</div>
+		</div>
+	</div>
+	<div class="snapper_nav">
+		<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
+		<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
+		<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
+		<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
+	</div>
+</div>
+```
