@@ -64,7 +64,7 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 <div class="snapper" data-snapper-nextprev>
 	...
 </div>
-
+```
 
 ### Hiding the scrollbar
 
