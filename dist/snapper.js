@@ -17,6 +17,7 @@
 
 		return this.each(function(){
 			var self = this;
+			var addNextPrev = $( self ).is( "[data-" + pluginName + "-nextprev]" );
 			var $slider = $( "." + pluginName + "_pane", self );
 			var enhancedClass = pluginName + "-enhanced";
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
@@ -29,9 +30,22 @@
 			$itemsContain.css( "width", numItems * 100 + "%" );
 			$items.css( "width", 100 / numItems + "%" );
 
+			if( addNextPrev ){
+				var	$nextprev = $( '<ul class="snapper_nextprev"><li class="snapper_nextprev_item"><a href="#prev" class="snapper_nextprev_prev">Prev</a></li><li class="snapper_nextprev_item"><a href="#next" class="snapper_nextprev_next">Next</a></li></ul>' );
+				$nextprev.appendTo( self );
+			}
+
 			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			$( "a", this ).bind( "click", function( e ){
 				var slideID = $( this ).attr( "href" );
+				if( $( this ).is( ".snapper_nextprev_next" ) ){
+					e.preventDefault();
+					return next();
+				}
+				if( $( this ).is( ".snapper_nextprev_prev" ) ){
+					e.preventDefault();
+					return prev();
+				}
 				if( slideID.indexOf( "#" ) === -1 ){
 					// only local anchor links
 					return;

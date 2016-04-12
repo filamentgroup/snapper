@@ -20,31 +20,17 @@ MIT License
 		<div class="snapper_items">
 			<div class="snapper_item" id="img-a">
 				<img src="a-image.jpg" alt="">
-				<a href="#img-d" class="snapper_prev">Prev</a>
-				<a href="#img-b" class="snapper_next">Next</a>
 			</div>
 			<div class="snapper_item" id="img-b">
 				<img src="b-image.jpg" alt="">
-				<a href="#img-a" class="snapper_prev">Prev</a>
-				<a href="#img-c" class="snapper_next">Next</a>
 			</div>
 			<div class="snapper_item" id="img-c">
 				<img src="c-image.jpg" alt="">
-				<a href="#img-b" class="snapper_prev">Prev</a>
-				<a href="#img-d" class="snapper_next">Next</a>
 			</div>
 			<div class="snapper_item" id="img-d">
 				<img src="d-image.jpg" alt="">
-				<a href="#img-c" class="snapper_prev">Prev</a>
-				<a href="#img-a" class="snapper_next">Next</a>
 			</div>
 		</div>
-	</div>
-	<div class="snapper_nav">
-		<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
-		<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
-		<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
-		<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
 	</div>
 </div>
 ```
@@ -56,6 +42,29 @@ $( function(){
 	$( document ).trigger( "enhance" );
 });
 ```
+
+### Adding thumbnails
+
+To add thumbnail or graphic navigation to the carousel, you can append the following markup to the end of the snapper div (substituting your own styles, images, and hrefs to correspond to the IDs of their associated slides):
+
+``` html
+<div class="snapper_nav">
+	<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
+	<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
+	<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
+	<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
+</div>
+```
+
+### Adding next/prev navigation
+
+To add next and previous links that persist state, you can add a `data-snapper-nextprev` attribute to the snapper div.
+
+``` html
+<div class="snapper" data-snapper-nextprev>
+	...
+</div>
+
 
 ### Hiding the scrollbar
 

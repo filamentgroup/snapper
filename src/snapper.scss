@@ -17,6 +17,7 @@
 
 .snapper {
 	@extend %clearfix;
+	position: relative;
 }
 .snapper:focus { /* snapper div receives a tabindex to allow focus for keyboard arrow control */
 	outline: none;
@@ -64,28 +65,38 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	display: block;
 }
 
-.snapper_next,
-.snapper_prev {
-	position: absolute;
-	top: 0;
-	width: 50%;
-	height: 100%;
-	overflow: hidden;
-	text-indent: -999px;
-	opacity: 0;
+.snapper_nextprev,
+.snapper_nextprev_item {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.snapper_next:hover,
-.snapper_prev:hover,
-.snapper_next:focus,
-.snapper_prev:focus {
-	opacity: .4;
+.snapper_nextprev_next,
+.snapper_nextprev_prev {
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+	margin-top: -27px;
+  background: #fff;
+	border: 2px solid #333;
+  border-radius: 100%;
+  overflow: hidden;
+  text-indent: -999px;
+  opacity: .6;
 }
-.snapper_next {
-	right: 0;
-}
-.snapper_prev {
-	left: 0;
-}
+
+.snapper_nextprev_next:hover,
+.snapper_nextprev_prev:hover,
+.snapper_nextprev_next:focus,
+.snapper_nextprev_prev:focus {
+  opacity: .4; }
+
+.snapper_nextprev_next {
+  right: -27px; }
+
+.snapper_nextprev_prev {
+  left: -27px; }
 .snapper_item img {
 	width: 100%;
 }
