@@ -6,8 +6,8 @@
 		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")  || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
-		function goto( elem, x ){
-			if( typeof w.overthrow !== "undefined" ){
+		function goto( elem, x, nothrow ){
+			if( typeof w.overthrow !== "undefined" && !nothrow ){
 				w.overthrow.toss( elem, { left: x } );
 			}
 			else {
@@ -87,9 +87,9 @@
 					clearTimeout( afterResize );
 				}
 				afterResize = setTimeout( function(){
-					goto( $slider[ 0 ], $items[ startSlide ].offsetLeft );
+					goto( $slider[ 0 ], $items[ startSlide ].offsetLeft, true );
 					startSlide = afterResize = undefined;
-				}, 300 );
+				}, 50 );
 			}
 			$( w ).bind( "resize", snapStay );
 
