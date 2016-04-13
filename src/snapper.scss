@@ -65,38 +65,23 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	display: block;
 }
 
+/* next prev arrow selectors */
 .snapper_nextprev,
 .snapper_nextprev_item {
-  list-style: none;
-  margin: 0;
-  padding: 0;
 }
 .snapper_nextprev_next,
 .snapper_nextprev_prev {
-  position: absolute;
-  top: 50%;
-  width: 50px;
-  height: 50px;
-	margin-top: -27px;
-  background: #fff;
-	border: 2px solid #333;
-  border-radius: 100%;
-  overflow: hidden;
-  text-indent: -999px;
-  opacity: .6;
 }
-
 .snapper_nextprev_next:hover,
 .snapper_nextprev_prev:hover,
 .snapper_nextprev_next:focus,
 .snapper_nextprev_prev:focus {
-  opacity: .4; }
-
+ }
 .snapper_nextprev_next {
-  right: -27px; }
-
+ }
 .snapper_nextprev_prev {
-  left: -27px; }
+}
+
 .snapper_item img {
 	width: 100%;
 }
