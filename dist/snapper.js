@@ -38,13 +38,27 @@
 			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			$( "a", this ).bind( "click", function( e ){
 				var slideID = $( this ).attr( "href" );
+				var currScroll = $slider[ 0 ].scrollLeft;
+				var width = $itemsContain.width();
+				var itemWidth = $items.eq(0).width();
+
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
 					e.preventDefault();
-					return next();
+					if( currScroll === width - itemWidth ){
+						return first();
+					}
+					else {
+						return next();
+					}
 				}
 				if( $( this ).is( ".snapper_nextprev_prev" ) ){
 					e.preventDefault();
-					return prev();
+					if( currScroll === 0 ){
+						return last();
+					}
+					else {
+						return prev();
+					}
 				}
 				if( slideID.indexOf( "#" ) === -1 ){
 					// only local anchor links
@@ -99,6 +113,14 @@
 
 			function prev(){
 				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider[ 0 ].offsetWidth );
+			}
+
+			function first(){
+				goto( $slider[ 0 ], 0 );
+			}
+
+			function last(){
+				goto( $slider[ 0 ], $itemsContain.width() );
 			}
 
 			$( this )
