@@ -8,8 +8,31 @@
   <script src="../src/snapper.js"></script>
   <style>
     body {
-      max-width: 30em;
+      max-width: 50em;
       margin: 0 auto;
+    }
+
+
+    /* breakpoints example */
+    @media (min-width: 30em){
+    	.snapper-enhanced.snapper-smallpoints .snapper_items {
+    		width: 300% !important;
+    	}
+    	.snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(50%);
+    	  -ms-scroll-snap-points-x: repeat(50%);
+    	  scroll-snap-points-x: repeat(50%);
+    	}
+    }
+    @media (min-width: 50em){
+    	.snapper-enhanced.snapper-smallpoints .snapper_items {
+    		width: 200% !important;
+    	}
+    	.snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(33.33333%);
+    	  -ms-scroll-snap-points-x: repeat(33.33333%);
+    	  scroll-snap-points-x: repeat(33.33333%);
+    	}
     }
   </style>
   <script>
@@ -80,6 +103,35 @@
   				<img src="imgs/large.jpg" alt="">
   			</div>
   			<div class="snapper_item" id="img-c2">
+  				<img src="imgs/monks.jpg" alt="">
+  			</div>
+  		</div>
+  	</div>
+  </div>
+</div>
+
+
+<h2 class="docs">Example with smaller snap points</h2>
+<div class="snapper snapper-smallpoints" data-snapper-nextprev>
+  <div class="snapper_pane_crop">
+  	<div class="snapper_pane">
+  		<div class="snapper_items">
+  			<div class="snapper_item" id="img-a4">
+  				<img src="imgs/monkey.jpg" alt="">
+  			</div>
+  			<div class="snapper_item" id="img-b4">
+  				<img src="imgs/large.jpg" alt="">
+  			</div>
+  			<div class="snapper_item" id="img-c4">
+  				<img src="imgs/monks.jpg" alt="">
+  			</div>
+        <div class="snapper_item" id="img-d4">
+  				<img src="imgs/monkey.jpg" alt="">
+  			</div>
+  			<div class="snapper_item" id="img-e4">
+  				<img src="imgs/large.jpg" alt="">
+  			</div>
+  			<div class="snapper_item" id="img-f4">
   				<img src="imgs/monks.jpg" alt="">
   			</div>
   		</div>
