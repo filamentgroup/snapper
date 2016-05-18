@@ -26,9 +26,23 @@
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
 
+			function updateWidths(){
+				var itemsContainStyle = $itemsContain.attr( "style" );
+				$itemsContain.attr( "style", "" );
+				var itemStyle = $items.eq(0).attr( "style" );
+				$items.eq(0).attr( "style", "" );
+				var sliderWidth = $slider.width();
+				var itemWidth = $items.eq(0).width();
+				$items.eq(0).attr( "style", itemStyle );
+				$itemsContain.attr( "style", itemsContainStyle );
+				var iPercentWidth = itemWidth / sliderWidth * 100;
+				$itemsContain.css( "width", numItems * iPercentWidth + "%" );
+				$items.css( "width", 100 / numItems + "%" );
+			}
+
 			$( self ).addClass( enhancedClass );
-			$itemsContain.css( "width", numItems * 100 + "%" );
-			$items.css( "width", 100 / numItems + "%" );
+			updateWidths();
+
 
 			if( addNextPrev ){
 				var	$nextprev = $( '<ul class="snapper_nextprev"><li class="snapper_nextprev_item"><a href="#prev" class="snapper_nextprev_prev">Prev</a></li><li class="snapper_nextprev_item"><a href="#next" class="snapper_nextprev_next">Next</a></li></ul>' );
@@ -101,6 +115,7 @@
 					clearTimeout( afterResize );
 				}
 				afterResize = setTimeout( function(){
+					updateWidths();
 					goto( $slider[ 0 ], $items[ startSlide ].offsetLeft, true );
 					startSlide = afterResize = undefined;
 				}, 50 );
