@@ -44,6 +44,8 @@ note: only use this if you have thumbnails or some other means of advancing slid
 .snapper_item {
   width: 100%;
   float: left;
+  clear: none !important;
+  /* important to ensure default clears don't leak through */
   position: relative; }
 
 .enhanced .snapper_item,
