@@ -22,6 +22,7 @@
 			var enhancedClass = pluginName + "-enhanced";
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
 			var $items = $itemsContain.children();
+			$items.addClass( pluginName + "_item" );
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
