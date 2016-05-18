@@ -34,11 +34,21 @@
 				$items.eq(0).attr( "style", "" );
 				var sliderWidth = $slider.width();
 				var itemWidth = $items.eq(0).width();
+				var itemLeftMargin = parseFloat( w.getComputedStyle( $items[ 0 ], null ).getPropertyValue( "margin-left" ) );
+				var itemRightMargin = parseFloat( w.getComputedStyle( $items[ 0 ], null ).getPropertyValue( "margin-right" ) );
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
 				var iPercentWidth = itemWidth / sliderWidth * 100;
-				$itemsContain.css( "width", numItems * iPercentWidth + "%" );
-				$items.css( "width", 100 / numItems + "%" );
+				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
+				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
+				var outerPercentWidth = iPercentWidth + iPercentLeftMargin + iPercentRightMargin;
+				var percentAsWidth = iPercentWidth / outerPercentWidth;
+				var percentAsRightMargin = iPercentRightMargin / outerPercentWidth;
+				var percentAsLeftMargin = iPercentLeftMargin / outerPercentWidth;
+				$itemsContain.css( "width", numItems * outerPercentWidth + "%" );
+				$items.css( "width", 100 / numItems * percentAsWidth + "%" );
+				$items.css( "margin-left", 100 / numItems * percentAsLeftMargin + "%" );
+				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
 			}
 
 			$( self ).addClass( enhancedClass );
@@ -55,7 +65,7 @@
 				var slideID = $( this ).attr( "href" );
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items.eq(0).width();
+				var itemWidth = $items.eq(0).outerWidth();
 
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
 					e.preventDefault();
@@ -92,7 +102,7 @@
 			function snapScroll(){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items.eq(0).width();
+				var itemWidth = $items[1].offsetLeft;
 				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
 				if( roundedScroll > width ){
 					roundedScroll = width;
