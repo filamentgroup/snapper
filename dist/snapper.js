@@ -34,8 +34,9 @@
 				$items.eq(0).attr( "style", "" );
 				var sliderWidth = $slider.width();
 				var itemWidth = $items.eq(0).width();
-				var itemLeftMargin = parseFloat( w.getComputedStyle( $items[ 0 ], null ).getPropertyValue( "margin-left" ) );
-				var itemRightMargin = parseFloat( w.getComputedStyle( $items[ 0 ], null ).getPropertyValue( "margin-right" ) );
+				var computed = w.getComputedStyle( $items[ 0 ], null );
+				var itemLeftMargin = parseFloat( computed.getPropertyValue( "margin-left" ) );
+				var itemRightMargin = parseFloat( computed.getPropertyValue( "margin-right" ) );
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
 				var iPercentWidth = itemWidth / sliderWidth * 100;
@@ -102,7 +103,7 @@
 			function snapScroll(){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items[1].offsetLeft;
+				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : $items.eq( 0 ).outerWidth();
 				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
 				if( roundedScroll > width ){
 					roundedScroll = width;

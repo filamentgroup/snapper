@@ -103,7 +103,7 @@
 			function snapScroll(){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items[1].offsetLeft;
+				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : $items.eq( 0 ).outerWidth();
 				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
 				if( roundedScroll > width ){
 					roundedScroll = width;
