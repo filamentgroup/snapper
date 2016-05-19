@@ -43,10 +43,6 @@ note: only use this if you have thumbnails or some other means of advancing slid
 
 .snapper_item {
   width: 100%;
-  float: left !important;
-  /* important to ensure default float nones don't leak through */
-  clear: none !important;
-  /* important to ensure default clears don't leak through */
   position: relative; }
 
 .enhanced .snapper_item,
@@ -56,7 +52,11 @@ note: only use this if you have thumbnails or some other means of advancing slid
 .enhanced .snapper_item:first-child,
 .snapper-enhanced .snapper_item:first-child,
 .snapper-enhanced .snapper_item[style] {
-  display: block; }
+  display: block;
+  float: left !important;
+  /* important to ensure default float nones don't leak through */
+  clear: none !important;
+  /* important to ensure default clears don't leak through */ }
 
 /* next prev arrow selectors */
 .snapper_item img {
