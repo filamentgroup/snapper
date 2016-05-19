@@ -43,7 +43,8 @@ note: only use this if you have thumbnails or some other means of advancing slid
 
 .snapper_item {
   width: 100%;
-  position: relative; }
+  position: relative;
+  white-space: normal; }
 
 .enhanced .snapper_item,
 .snapper-enhanced .snapper_item {
