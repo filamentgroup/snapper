@@ -52,8 +52,8 @@
 				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
 			}
 
-			$( self ).addClass( enhancedClass );
 			updateWidths();
+			$( self ).addClass( enhancedClass );
 
 
 			if( addNextPrev ){

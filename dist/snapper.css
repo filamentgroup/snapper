@@ -53,7 +53,10 @@ note: only use this if you have thumbnails or some other means of advancing slid
 .enhanced .snapper_item:first-child,
 .snapper-enhanced .snapper_item:first-child,
 .snapper-enhanced .snapper_item[style] {
-  display: block;
+  display: block; }
+
+.snapper-enhanced .snapper_item:first-child,
+.snapper-enhanced .snapper_item[style] {
   float: left !important;
   /* important to ensure default float nones don't leak through */
   clear: none !important;
