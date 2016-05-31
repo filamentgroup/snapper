@@ -5,8 +5,26 @@
 		var testProp = "scroll-snap-type";
 		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")  || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
+		function itemsAtOffset( elem, offset ){
+			var $childNodes = $( elem ).find( "." + pluginName + "_item" );
+			var containWidth = $( elem ).width();
+			var activeItems = [];
+			$childNodes.each(function( i ){
+				if( this.offsetLeft >= offset && this.offsetLeft < offset + containWidth ){
+					activeItems.push( this );
+				}
+			});
+			return $( activeItems );
+		}
+
+		function snapEvent( elem, x ){
+			var activeSlides = itemsAtOffset( elem, x );
+			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
+		}
+
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow ){
+			snapEvent( elem, x );
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
 				w.overthrow.toss( elem, { left: x } );
 			}
@@ -109,7 +127,12 @@
 					roundedScroll = width;
 				}
 				if( roundedScroll !== currScroll ){
-					goto( $slider[ 0 ], roundedScroll );
+					if( snapSupported ){
+						snapEvent( $slider[ 0 ], roundedScroll );
+					}
+					else {
+						goto( $slider[ 0 ], roundedScroll );
+					}
 				}
 			}
 
@@ -181,20 +204,15 @@
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
-			function polyfillSnap(){
-				var scrollStop;
-				$slider.bind( "scroll", function(){
-					if( scrollStop ){
-						clearTimeout( scrollStop );
-					}
-					scrollStop = setTimeout( snapScroll, 50 );
-				});
-			}
+			var scrollStop;
+			$slider.bind( "scroll", function(){
+				if( scrollStop ){
+					clearTimeout( scrollStop );
+				}
+				scrollStop = setTimeout( snapScroll, 50 );
+			});
 
-			// polyfill if unsupported
-			if( !snapSupported ){
-				polyfillSnap();
-			}
+
 		});
 	};
 
