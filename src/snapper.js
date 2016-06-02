@@ -9,6 +9,7 @@
 			var $childNodes = $( elem ).find( "." + pluginName + "_item" );
 			var containWidth = $( elem ).width();
 			var activeItems = [];
+
 			$childNodes.each(function( i ){
 				if( this.offsetLeft >= offset && this.offsetLeft < offset + containWidth ){
 					activeItems.push( this );
@@ -22,14 +23,26 @@
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 		}
 
+		var scrollListening = true;
+
+		function disableScrollListening(){
+			scrollListening = false;
+		}
+
+		function enableScrollListening(){
+			scrollListening = true;
+		}
+
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow ){
+			disableScrollListening();
 			snapEvent( elem, x );
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
-				w.overthrow.toss( elem, { left: x } );
+				w.overthrow.toss( elem, { left: x, finished: enableScrollListening } );
 			}
 			else {
 				elem.scrollLeft = x;
+				enableScrollListening();
 			}
 		}
 
@@ -84,18 +97,18 @@
 				var slideID = $( this ).attr( "href" );
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items.eq(0).outerWidth();
+				var itemWidth = $slider.outerWidth();
 
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
 					e.preventDefault();
-					if( currScroll === width - itemWidth ){
+					if( currScroll + itemWidth >= width ){
 						return first();
 					}
 					else {
 						return next();
 					}
 				}
-				if( $( this ).is( ".snapper_nextprev_prev" ) ){
+				else if( $( this ).is( ".snapper_nextprev_prev" ) ){
 					e.preventDefault();
 					if( currScroll === 0 ){
 						return last();
@@ -158,11 +171,11 @@
 			$( w ).bind( "resize", snapStay );
 
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider[ 0 ].offsetWidth );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $itemsContain.width() );
 			}
 
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider[ 0 ].offsetWidth );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $itemsContain.width() );
 			}
 
 			function first(){
@@ -189,6 +202,9 @@
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
 				function activeItem(){
+					if( scrollListening === false ){
+						return;
+					}
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = $itemsContain.width();
 					var activeIndex = Math.round( currScroll / width * numItems );
@@ -206,6 +222,9 @@
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
 			$slider.bind( "scroll", function(){
+				if( scrollListening === false ){
+					return;
+				}
 				if( scrollStop ){
 					clearTimeout( scrollStop );
 				}
