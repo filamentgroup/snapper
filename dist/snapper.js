@@ -35,8 +35,8 @@
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow ){
-			disableScrollListening();
 			snapEvent( elem, x );
+			disableScrollListening();
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
 				w.overthrow.toss( elem, { left: x, finished: enableScrollListening } );
 			}
@@ -139,13 +139,11 @@
 				if( roundedScroll > width ){
 					roundedScroll = width;
 				}
-				if( roundedScroll !== currScroll ){
-					if( snapSupported ){
-						snapEvent( $slider[ 0 ], roundedScroll );
-					}
-					else {
-						goto( $slider[ 0 ], roundedScroll );
-					}
+				if( snapSupported ){
+					snapEvent( $slider[ 0 ], roundedScroll );
+				}
+				else {
+					goto( $slider[ 0 ], roundedScroll );
 				}
 			}
 
@@ -171,11 +169,11 @@
 			$( w ).bind( "resize", snapStay );
 
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $itemsContain.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider.width() );
 			}
 
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $itemsContain.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider.width() );
 			}
 
 			function first(){
@@ -202,9 +200,6 @@
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
 				function activeItem(){
-					if( scrollListening === false ){
-						return;
-					}
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = $itemsContain.width();
 					var activeIndex = Math.round( currScroll / width * numItems );
