@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "jquery": "^1.11.3",
-    "fg-overthrow": "0.7.1"
+    "fg-overthrow": "0.8.0"
   }
 }
