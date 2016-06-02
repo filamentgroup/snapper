@@ -11,7 +11,7 @@
 			var activeItems = [];
 
 			$childNodes.each(function( i ){
-				if( this.offsetLeft >= offset && this.offsetLeft < offset + containWidth ){
+				if( this.offsetLeft >= offset - 5 && this.offsetLeft < offset + containWidth - 5 ){
 					activeItems.push( this );
 				}
 			});
@@ -23,26 +23,14 @@
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 		}
 
-		var scrollListening = true;
-
-		function disableScrollListening(){
-			scrollListening = false;
-		}
-
-		function enableScrollListening(){
-			scrollListening = true;
-		}
-
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow ){
 			snapEvent( elem, x );
-			disableScrollListening();
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
-				w.overthrow.toss( elem, { left: x, finished: enableScrollListening } );
+				w.overthrow.toss( elem, { left: x } );
 			}
 			else {
 				elem.scrollLeft = x;
-				enableScrollListening();
 			}
 		}
 
@@ -98,10 +86,11 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $slider.outerWidth();
+				var maxScroll = width - itemWidth;
 
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
 					e.preventDefault();
-					if( currScroll + itemWidth >= width ){
+					if( currScroll >= maxScroll ){
 						return first();
 					}
 					else {
@@ -135,15 +124,18 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : $items.eq( 0 ).outerWidth();
-				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
-				if( roundedScroll > width ){
-					roundedScroll = width;
+				var roundedScroll = currScroll/itemWidth*itemWidth;
+				var maxScroll = width - $slider.width();
+				if( roundedScroll > maxScroll ){
+					roundedScroll = maxScroll;
 				}
-				if( snapSupported ){
-					snapEvent( $slider[ 0 ], roundedScroll );
-				}
-				else {
-					goto( $slider[ 0 ], roundedScroll );
+				if( currScroll !== roundedScroll ){
+					if( snapSupported ){
+						snapEvent( $slider[ 0 ], roundedScroll );
+					}
+					else {
+						goto( $slider[ 0 ], roundedScroll );
+					}
 				}
 			}
 
@@ -155,7 +147,7 @@
 				var numItems = $items.length;
 				var width = $itemsContain.width();
 				if( startSlide === undefined ){
-					startSlide = Math.round(  ( currScroll / width * numItems ) );
+					startSlide = Math.round( currScroll / width * numItems );
 				}
 				if( afterResize ){
 					clearTimeout( afterResize );
@@ -181,7 +173,7 @@
 			}
 
 			function last(){
-				goto( $slider[ 0 ], $itemsContain.width() );
+				goto( $slider[ 0 ], $itemsContain.width() - $slider.width() );
 			}
 
 			$( this )
@@ -201,7 +193,7 @@
 			if( $nav.length ){
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
-					var width = $itemsContain.width();
+					var width = $itemsContain.outerWidth();
 					var activeIndex = Math.round( currScroll / width * numItems );
 					$nav
 						.children().removeClass( navSelectedClass )
@@ -216,10 +208,7 @@
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
-			$slider.bind( "scroll", function(){
-				if( scrollListening === false ){
-					return;
-				}
+			$slider.bind( "scroll", function(e){
 				if( scrollStop ){
 					clearTimeout( scrollStop );
 				}
