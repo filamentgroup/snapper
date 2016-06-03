@@ -20,7 +20,6 @@
 
 		function snapEvent( elem, x ){
 			var activeSlides = itemsAtOffset( elem, x );
-			console.log(activeSlides);
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 		}
 
@@ -84,39 +83,39 @@
 			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			$( "a", this ).bind( "click", function( e ){
 				var slideID = $( this ).attr( "href" );
-				var currScroll = $slider[ 0 ].scrollLeft;
-				var width = $itemsContain.width();
-				var itemWidth = $slider.outerWidth();
-				var maxScroll = width - itemWidth - 5;
-				if( $( this ).is( ".snapper_nextprev_next" ) ){
-					e.preventDefault();
-					if( currScroll >= maxScroll ){
-						return first();
-					}
-					else {
-						return next();
-					}
-				}
-				else if( $( this ).is( ".snapper_nextprev_prev" ) ){
-					e.preventDefault();
-					if( currScroll === 0 ){
-						return last();
-					}
-					else {
-						return prev();
-					}
-				}
 				if( slideID.indexOf( "#" ) === -1 ){
 					// only local anchor links
 					return;
 				}
 				e.preventDefault();
-				var $slide = $( slideID, self );
-				goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
-				if( "replaceState" in w.history ){
-					w.history.replaceState( {}, document.title, slideID );
+				if( $( this ).is( ".snapper_nextprev_next" ) ){
+					return arrowNavigate( true );
+				}
+				else if( $( this ).is( ".snapper_nextprev_prev" ) ){
+					return arrowNavigate( false );
+				}
+				else {
+					var $slide = $( slideID, self );
+					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
+					if( "replaceState" in w.history ){
+						w.history.replaceState( {}, document.title, slideID );
+					}
 				}
 			});
+
+			// arrow key bindings for next/prev
+			$( this )
+				.attr( "tabindex", "0" )
+				.bind( "keyup", function( e ){
+					if( e.keyCode === 37 || e.keyCode === 38 ){
+						e.preventDefault();
+						arrowNavigate( false );
+					}
+					if( e.keyCode === 39 || e.keyCode === 40 ){
+						e.preventDefault();
+						arrowNavigate( true );
+					}
+				} );
 
 
 			// snap to nearest slide
@@ -160,6 +159,31 @@
 			}
 			$( w ).bind( "resize", snapStay );
 
+
+			function arrowNavigate( forward ){
+				var currScroll = $slider[ 0 ].scrollLeft;
+				var width = $itemsContain.width();
+				var itemWidth = $slider.outerWidth();
+				var maxScroll = width - itemWidth - 5;
+				if( forward ){
+					if( currScroll >= maxScroll ){
+						return first();
+					}
+					else {
+						return next();
+					}
+				}
+				else {
+					if( currScroll === 0 ){
+						return last();
+					}
+					else {
+						return prev();
+					}
+				}
+			}
+
+
 			function next(){
 				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider.width() );
 			}
@@ -175,19 +199,6 @@
 			function last(){
 				goto( $slider[ 0 ], $itemsContain.width() - $slider.width() );
 			}
-
-			$( this )
-				.attr( "tabindex", "0" )
-				.bind( "keyup", function( e ){
-					if( e.keyCode === 37 || e.keyCode === 38 ){
-						e.preventDefault();
-						prev();
-					}
-					if( e.keyCode === 39 || e.keyCode === 40 ){
-						e.preventDefault();
-						next();
-					}
-				} );
 
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
