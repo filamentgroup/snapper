@@ -20,8 +20,8 @@
 
 		function snapEvent( elem, x ){
 			var activeSlides = itemsAtOffset( elem, x );
-			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 			console.log(activeSlides);
+			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 		}
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
@@ -87,8 +87,7 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $slider.outerWidth();
-				var maxScroll = width - itemWidth;
-
+				var maxScroll = width - itemWidth - 5;
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
 					e.preventDefault();
 					if( currScroll >= maxScroll ){
@@ -125,7 +124,7 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : $items.eq( 0 ).outerWidth();
-				var roundedScroll = currScroll/itemWidth*itemWidth;
+				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
 				var maxScroll = width - $slider.width();
 				if( roundedScroll > maxScroll ){
 					roundedScroll = maxScroll;
