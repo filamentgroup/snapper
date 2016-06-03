@@ -2,9 +2,12 @@
 ;(function( w, $ ){
 	var pluginName = "snapper";
 	$.fn[ pluginName ] = function(){
+		// css snap points feature test.
+		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
 		var testProp = "scroll-snap-type";
 		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")  || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
+		// get the snapper_item elements whose left offsets fall within the scroll pane. Returns a wrapped array.
 		function itemsAtOffset( elem, offset ){
 			var $childNodes = $( elem ).find( "." + pluginName + "_item" );
 			var containWidth = $( elem ).width();
@@ -18,6 +21,9 @@
 			return $( activeItems );
 		}
 
+		// snapEvent dispatches the "snapper.snap" event.
+		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
+		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );  } );
 		function snapEvent( elem, x ){
 			var activeSlides = itemsAtOffset( elem, x );
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
@@ -34,6 +40,7 @@
 			}
 		}
 
+		// Loop through snapper elements and enhance/bind events
 		return this.each(function(){
 			var self = this;
 			var addNextPrev = $( self ).is( "[data-" + pluginName + "-nextprev]" );
@@ -46,6 +53,8 @@
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
 
+			// this function updates the widths of the items within the slider, and their container.
+			// It factors in margins and converts those to values that make sense when all items are placed in a long row
 			function updateWidths(){
 				var itemsContainStyle = $itemsContain.attr( "style" );
 				$itemsContain.attr( "style", "" );
@@ -74,13 +83,14 @@
 			updateWidths();
 			$( self ).addClass( enhancedClass );
 
-
+			// if the nextprev option is set, add the nextprev nav
 			if( addNextPrev ){
 				var	$nextprev = $( '<ul class="snapper_nextprev"><li class="snapper_nextprev_item"><a href="#prev" class="snapper_nextprev_prev">Prev</a></li><li class="snapper_nextprev_item"><a href="#next" class="snapper_nextprev_next">Next</a></li></ul>' );
 				$nextprev.appendTo( self );
 			}
 
-			// even if CSS snap is supported, this click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
+			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
+			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
 				var slideID = $( this ).attr( "href" );
 				if( slideID.indexOf( "#" ) === -1 ){
@@ -118,7 +128,7 @@
 				} );
 
 
-			// snap to nearest slide
+			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
@@ -138,7 +148,7 @@
 				}
 			}
 
-			// retain snapping on resize (necessary even in scroll-snap supporting browsers, unfortunately)
+			// retain snapping on resize (necessary even in scroll-snap supporting browsers currently, unfortunately)
 			var startSlide;
 			var afterResize;
 			function snapStay(){
@@ -159,7 +169,7 @@
 			}
 			$( w ).bind( "resize", snapStay );
 
-
+			// next/prev links or arrows should loop back to the other end when an extreme is reached
 			function arrowNavigate( forward ){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
@@ -183,19 +193,22 @@
 				}
 			}
 
-
+			// advance slide one full scrollpane's width forward
 			function next(){
 				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider.width() );
 			}
 
+			// advance slide one full scrollpane's width backwards
 			function prev(){
 				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider.width() );
 			}
 
+			// go to first slide
 			function first(){
 				goto( $slider[ 0 ], 0 );
 			}
 
+			// go to last slide
 			function last(){
 				goto( $slider[ 0 ], $itemsContain.width() - $slider.width() );
 			}
@@ -230,7 +243,7 @@
 		});
 	};
 
-	// auto-init
+	// auto-init on enhance
 	$( document ).bind( "enhance", function( e ){
 		$( "." + pluginName, e.target ).add( e.target ).filter( "." + pluginName )[ pluginName ]();
 	});
