@@ -92,6 +92,26 @@ window.onload = function(){
 				$(".snapper_nextprev_prev").trigger( "click" );
 		});
 
+		asyncTest( 'fwd arrow loops to 0', function() {
+			expect(1);
+			$(".snapper_pane")[0].scrollLeft = 5000;
+			setTimeout(function(){
+					ok( $(".snapper_pane")[0].scrollLeft === 0 );
+					start();
+				}, 1000);
+				$(".snapper_nextprev_next").trigger( "click" );
+		});
+
+		asyncTest( 'back arrow loops to end', function() {
+			expect(1);
+			$(".snapper_pane")[0].scrollLeft = 0;
+			setTimeout(function(){
+					ok( $(".snapper_pane")[0].scrollLeft === $(".snapper_pane")[0].scrollWidth );
+					start();
+				}, 1000);
+				$(".snapper_nextprev_prev").trigger( "click" );
+		});
+
 
 
 
