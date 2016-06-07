@@ -50,6 +50,40 @@ window.onload = function(){
 			},1000);
 		});
 
+		asyncTest( 'thumbnail clicks cause pane to scroll', function() {
+			expect(2);
+			$(".snapper_pane")[0].scrollLeft = 0;
+			$(".snapper_nav a:eq(2)").trigger( "click" );
+			setTimeout(function(){
+				ok( $(".snapper_pane")[0].scrollLeft !== 0, "scroll changed" );
+				ok( window.location.hash === $(".snapper_nav a:eq(2)").attr( "href" ), "location hash set to active slide" )
+				start();
+			},1000);
+		});
+
+		asyncTest( 'Snap event check', function() {
+			expect(1);
+			$(".snapper_pane")[0].scrollLeft = 0;
+
+				$(".snapper").bind( "snapper.snap", function(e, o){
+					ok( o.activeSlides.length > 0 );
+					start();
+				});
+				$(".snapper_pane")[0].scrollLeft = 35;
+		});
+
+		asyncTest( 'Arrows navigate', function() {
+			expect(1);
+			$(".snapper_pane")[0].scrollLeft = 0;
+			setTimeout(function(){
+					ok( $(".snapper_pane")[0].scrollLeft > 0 );
+					start();
+				}, 1000);
+				$(".snapper_nextprev_next").trigger( "click" );
+		});
+
+
+
 
 
 
