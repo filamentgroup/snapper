@@ -82,6 +82,16 @@ window.onload = function(){
 				$(".snapper_nextprev_next").trigger( "click" );
 		});
 
+		asyncTest( 'Arrows navigate part 2', function() {
+			expect(1);
+			$(".snapper_pane")[0].scrollLeft = 500;
+			setTimeout(function(){
+					ok( $(".snapper_pane")[0].scrollLeft < 500 );
+					start();
+				}, 1000);
+				$(".snapper_nextprev_prev").trigger( "click" );
+		});
+
 
 
 
