@@ -41,14 +41,19 @@ module.exports = function(grunt) {
 					ext: '.css'
 				}]
 			}
+		},
+		qunit: {
+			files: ['test/**/*.html']
 		}
 
 	});
 
+	grunt.registerTask('test', ['qunit']);
 
 	grunt.registerTask('default', [
     'copy',
-		'sass'
+		'sass',
+		'test'
 	]);
 
 };
