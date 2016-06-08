@@ -21,6 +21,11 @@
 			return $( activeItems );
 		}
 
+		function outerWidth( $elem ){
+			return $elem.width() + parseFloat( $elem.css( "margin-left" ) ) + parseFloat( $elem.css( "margin-right" ) );
+		}
+
+
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
 		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );  } );
@@ -127,12 +132,11 @@
 					}
 				} );
 
-
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : $items.eq( 0 ).outerWidth();
+				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
 				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
 				var maxScroll = width - $slider.width();
 				if( roundedScroll > maxScroll ){
@@ -173,7 +177,7 @@
 			function arrowNavigate( forward ){
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
-				var itemWidth = $slider.outerWidth();
+				var itemWidth = outerWidth( $slider );
 				var maxScroll = width - itemWidth - 5;
 				if( forward ){
 					if( currScroll >= maxScroll ){
@@ -217,7 +221,7 @@
 			if( $nav.length ){
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
-					var width = $itemsContain.outerWidth();
+					var width = outerWidth( $itemsContain );
 					var activeIndex = Math.round( currScroll / width * numItems );
 					$nav
 						.children().removeClass( navSelectedClass )
