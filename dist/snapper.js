@@ -79,7 +79,7 @@
 				var percentAsWidth = iPercentWidth / outerPercentWidth;
 				var percentAsRightMargin = iPercentRightMargin / outerPercentWidth;
 				var percentAsLeftMargin = iPercentLeftMargin / outerPercentWidth;
-				$itemsContain.css( "width", numItems * outerPercentWidth + "%" );
+				$itemsContain.css( "width", Math.ceil(numItems * outerPercentWidth) + "%" );
 				$items.css( "width", 100 / numItems * percentAsWidth + "%" );
 				$items.css( "margin-left", 100 / numItems * percentAsLeftMargin + "%" );
 				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
