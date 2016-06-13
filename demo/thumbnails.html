@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Snapper Demo</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../dist/snapper.css">
+  <link rel="stylesheet" href="docs.css" />
+  <link rel="stylesheet" href="http://filamentgroup.github.io/demo-head/demohead.css">
+  <script src="../src/lib/jquery.js"></script>
+  <script src="../src/lib/overthrow-toss.js"></script>
+  <script src="../src/snapper.js"></script>
+
+  <script src="/demo-head/loadfont.js"></script>
+  <script>
+    document.documentElement.className += "enhanced";
+    $(function(){
+      $( document ).trigger( "enhance" );
+    });
+  </script>
+  <style>
+    .snapper_nav img {
+      max-width: 50px;
+    }
+    .snapper {
+      max-width: 30em;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-header">
+    <div class="company">
+      <img src="https://filamentgroup.com/images/fg-logo-positive-sm-crop.png">
+    </div>
+    <div class="details">
+      <p class="description-container">Demo of <span class="repo-name">Snapper.js</span>
+        <span class="description">A CSS Snap Points Helper and Polyfill</span>
+      </p>
+      <ul class="outbound-links">
+        <li><a href="https://github.com/filamentgroup/snapper">Code</a></li>
+        <li><a href="https://github.com/filamentgroup/snapper/issues">Issues</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nav-container">
+		<div class="docs-globalnav">
+			<nav class="docs-nav">
+			<a href="index.html">Basic</a>
+			<a href="thumbnails.html">Thumbnails</a>
+			<a href="nextprev.html">Next/Prev Links</a>
+      <a href="breakpoints.html">Breakpoints</a>
+			</nav>
+		</div>
+	</div>
+  <div class="docs-main">
+
+
+
+
+    <h2 class="docs">Example with thumbnails </h2>
+    <p class="docs"> Thumbnails are just regular links to a slide's ID attribute. In this demo, the scrollbar is cropped from sight using the optional <code>snapper_pane_crop</code> div (only recommended when thumbnails or next/prev navigation is in play).</p>
+    <div class="snapper">
+      <div class="snapper_pane_crop">
+      	<div class="snapper_pane">
+      		<div class="snapper_items">
+      			<div class="snapper_item" id="img-a2">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-b2">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-c2">
+      				<img src="imgs/monks.jpg" alt="">
+      			</div>
+            <div class="snapper_item" id="img-d2">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-e2">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-f2">
+      				<img src="imgs/monks.jpg" alt="">
+      			</div>
+            <div class="snapper_item" id="img-g2">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-h2">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      		</div>
+      	</div>
+      </div>
+      <div class="snapper_nav">
+    		<a href="#img-a2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    		<a href="#img-b2"><img src="imgs/large-thmb.jpg" alt=""></a>
+    		<a href="#img-c2"><img src="imgs/monks-thmb.jpg" alt=""></a>
+        <a href="#img-d2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    		<a href="#img-e2"><img src="imgs/large-thmb.jpg" alt=""></a>
+    		<a href="#img-f2"><img src="imgs/monks-thmb.jpg" alt=""></a>
+        <a href="#img-g2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    		<a href="#img-h2"><img src="imgs/large-thmb.jpg" alt=""></a>
+    	</div>
+    </div>
+
+
+
+
+</div>
+
+</body>
+</html>

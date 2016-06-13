@@ -120,12 +120,13 @@ code[class*="language-"],
 pre[class*="language-"] {
 	color: black;
 	text-shadow: 0 1px white;
+	font-weight: normal;
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
 	direction: ltr;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
-	font-size: 0.8em;
+	font-size: .9em;
 
 	-moz-tab-size: 4;
 	-o-tab-size: 4;

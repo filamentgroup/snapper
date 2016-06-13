@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Snapper Demo</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../dist/snapper.css">
+  <link rel="stylesheet" href="docs.css" />
+  <link rel="stylesheet" href="http://filamentgroup.github.io/demo-head/demohead.css">
+  <script src="../src/lib/jquery.js"></script>
+  <script src="../src/lib/overthrow-toss.js"></script>
+  <script src="../src/snapper.js"></script>
+  <style>
+
+
+    /* breakpoints example */
+    @media (min-width: 30em){
+    	.snapper-smallpoints  .snapper_item {
+    	  width: 40%;
+        margin-right: 10%;
+    	}
+      .snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(50%);
+    	  -ms-scroll-snap-points-x: repeat(50%);
+    	  scroll-snap-points-x: repeat(50%);
+    	}
+    }
+    @media (min-width: 50em){
+      .snapper-smallpoints  .snapper_item {
+    	  width: 30%;
+        margin-right: 3.3333%;
+    	}
+      .snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(33.33333%);
+    	  -ms-scroll-snap-points-x: repeat(33.33333%);
+    	  scroll-snap-points-x: repeat(33.33333%);
+    	}
+    }
+  </style>
+  <script src="/demo-head/loadfont.js"></script>
+  <script>
+    document.documentElement.className += "enhanced";
+    $(function(){
+      $( document ).trigger( "enhance" );
+    });
+  </script>
+</head>
+<body>
+  <div class="demo-header">
+    <div class="company">
+      <img src="https://filamentgroup.com/images/fg-logo-positive-sm-crop.png">
+    </div>
+    <div class="details">
+      <p class="description-container">Demo of <span class="repo-name">Snapper.js</span>
+        <span class="description">A CSS Snap Points Helper and Polyfill</span>
+      </p>
+      <ul class="outbound-links">
+        <li><a href="https://github.com/filamentgroup/snapper">Code</a></li>
+        <li><a href="https://github.com/filamentgroup/snapper/issues">Issues</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nav-container">
+		<div class="docs-globalnav">
+			<nav class="docs-nav">
+			<a href="index.html">Basic</a>
+			<a href="thumbnails.html">Thumbnails</a>
+			<a href="nextprev.html">Next/Prev Links</a>
+      <a href="breakpoints.html">Breakpoints</a>
+			</nav>
+		</div>
+	</div>
+  <div class="docs-main">
+
+
+
+
+    <h2 class="docs">Example with smaller snap points</h2>
+    <p class="docs">This example plays nicely with CSS breakpoints to show a different number of slides depending on the viewport size. The <code>data-snapper-setwidths</code> attribute instructs Snapper to calculate item widths at a given viewport size based on the items' original %-based width (in this demo, 50%, then 33.33%, respectively), rather than filling the snapper width with a single item as it would by default. To use breakpoints in this way, be sure to include Snap Points that correspond to the item widths. <a href="#css">See CSS for this example</a></p>
+
+    <div class="snapper snapper-smallpoints" data-snapper-setwidths>
+      	<div class="snapper_pane">
+      		<div class="snapper_items">
+      			<div class="snapper_item" id="img-a4">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-b4">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-c4">
+      				<img src="imgs/monks.jpg" alt="">
+      			</div>
+            <div class="snapper_item" id="img-d4">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-e4">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-f4">
+      				<img src="imgs/monks.jpg" alt="">
+      			</div>
+      		</div>
+      </div>
+    </div>
+
+
+    <h3 class="docs">CSS for this example</h3>
+    <pre class="docs language-css"><code class="docs language-css">
+@media (min-width: 30em){
+  .snapper_item {
+    width: 40%;
+    margin-right: 10%;
+  }
+  .snapper_pane {
+    -webkit-scroll-snap-points-x: repeat(50%);
+    -ms-scroll-snap-points-x: repeat(50%);
+    scroll-snap-points-x: repeat(50%);
+  }
+}
+@media (min-width: 50em){
+  .snapper_item {
+    width: 30%;
+    margin-right: 3.3333%;
+  }
+  .snapper_pane {
+    -webkit-scroll-snap-points-x: repeat(33.33333%);
+    -ms-scroll-snap-points-x: repeat(33.33333%);
+    scroll-snap-points-x: repeat(33.33333%);
+  }
+}
+</code></pre>
+
+</div>
+
+</body>
+</html>
