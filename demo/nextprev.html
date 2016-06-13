@@ -15,60 +15,6 @@
     margin: 0 20px;
   }
 
-/* next prev arrow selectors */
-.snapper_nextprev,
-.snapper_nextprev_item {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.snapper_nextprev_next,
-.snapper_nextprev_prev {
-  position: absolute;
-  top: 50%;
-  width: 46px;
-  height: 46px;
-  line-height: 46px;
-	margin-top: -23px;
-  background-color: #fff;
-  border-radius: 100%;
-  overflow: hidden;
-	text-align: center;
-  font-size: .7em;
-  text-transform: uppercase;
-  opacity: .8;
-  text-decoration: none;
-	cursor: pointer;
-  border: 1px solid #eee;
-  box-shadow: 0 0 5px rgba(0,0,0,.5);
-}
-.snapper_nextprev_next:hover,
-.snapper_nextprev_prev:hover {
-  opacity: 1;
-}
-.snapper_nextprev_next {
-  right: -23px;
-}
-.snapper_nextprev_prev {
-  left: -23px;
-}
-
-
-@media (min-width: 40em) {
-	.snapper_nextprev_next,
-	.snapper_nextprev_prev {
-	  width: 50px;
-	  height: 50px;
-    line-height: 50px;
-		margin-top: -25px;
-	}
-	.snapper_nextprev_next {
-	  right: -25px;
-	}
-	.snapper_nextprev_prev {
-	  left: -25px;
-	}
-}
 
   </style>
   <script src="/demo-head/loadfont.js"></script>
@@ -97,10 +43,9 @@
   <div class="nav-container">
 		<div class="docs-globalnav">
 			<nav class="docs-nav">
-			<a href="index.html">Basic</a>
-			<a href="thumbnails.html">Thumbnails</a>
-			<a href="nextprev.html">Next/Prev Links</a>
-      <a href="breakpoints.html">Breakpoints</a>
+        <a href="index.html">Thumbnails</a>
+  			<a href="nextprev.html">Next/Prev Links (w/ dot nav)</a>
+        <a href="breakpoints.html">Breakpoints (w/ next/prev and dot nav)</a>
 			</nav>
 		</div>
 	</div>
@@ -112,12 +57,12 @@
 
     <h2 class="docs">Example with next prev nav</h2>
     <p class="docs">A snapper carousel with next/prev links automatically added through the addition of a <code>data-snapper-nextprev</code> attribute. In this demo, the scrollbar is cropped from sight using the optional <code>snapper_pane_crop</code> div (only recommended when thumbnails or next/prev navigation is in play)</p>
-
+    <p class="docs">This example also has a regular thumbnail links nav with links styled instead to appear as dots.</p>
     <div class="snapper" data-snapper-nextprev>
       <div class="snapper_pane_crop">
       	<div class="snapper_pane">
       		<div class="snapper_items">
-      			<div class="snapper_item" id="img-a2">
+            <div class="snapper_item" id="img-a2">
       				<img src="imgs/monkey.jpg" alt="">
       			</div>
       			<div class="snapper_item" id="img-b2">
@@ -126,8 +71,21 @@
       			<div class="snapper_item" id="img-c2">
       				<img src="imgs/monks.jpg" alt="">
       			</div>
+            <div class="snapper_item" id="img-d2">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-e2">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
       		</div>
       	</div>
+      </div>
+      <div class="snapper_nav snapper_nav-dots">
+        <a href="#img-a2">Slide 1</a>
+        <a href="#img-b2">Slide 2</a>
+        <a href="#img-c2">Slide 3</a>
+        <a href="#img-d2">Slide 4</a>
+        <a href="#img-e2">Slide 5</a>
       </div>
     </div>
 
