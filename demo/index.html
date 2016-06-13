@@ -13,6 +13,9 @@
   .snapper {
   	max-width: 30em;
   }
+  .snapper_nav img {
+    max-width: 50px;
+  }
   </style>
   <script src="/demo-head/loadfont.js"></script>
   <script>
@@ -40,10 +43,9 @@
   <div class="nav-container">
 		<div class="docs-globalnav">
 			<nav class="docs-nav">
-			<a href="index.html">Basic</a>
-			<a href="thumbnails.html">Thumbnails</a>
-			<a href="nextprev.html">Next/Prev Links</a>
-      <a href="breakpoints.html">Breakpoints</a>
+			<a href="index.html">Thumbnails</a>
+			<a href="nextprev.html">Next/Prev Links (w/ dot nav)</a>
+      <a href="breakpoints.html">Breakpoints (w/ next/prev and dot nav)</a>
 			</nav>
 		</div>
 	</div>
@@ -51,23 +53,50 @@
 
 
 <h2 class="docs">Basic Snapper example</h2>
-<p class="docs">Just a snapper carousel without any external navigation. By default, item widths are calculated evenly based on the number of total items, so that one item fills 100% of the scroll pane at a time, and the scroller snaps to each item. Scrollbar is visible, which we recommend when not using additional navigation (like thumbnails or next/prev links).</p>
+<p class="docs">A snapper carousel with some thumbnail links. By default, item widths are calculated evenly based on the number of total items, so that one item fills 100% of the scroll pane at a time, and the scroller snaps to each item.</p>
+<p class="docs"> Thumbnails are just regular links to a slide's ID attribute. The scrollbar is cropped from sight using the optional <code>snapper_pane_crop</code> div (only recommended when thumbnails or next/prev navigation is in play).</p>
 <div class="snapper">
-	<div class="snapper_pane">
-		<div class="snapper_items">
-			<div id="img-a">
-				<img src="imgs/monkey.jpg" alt="">
-			</div>
-			<div id="img-b">
-				<img src="imgs/large.jpg" alt="">
-			</div>
-			<div id="img-c">
-				<img src="imgs/monks.jpg" alt="">
-			</div>
-		</div>
-	</div>
+  <div class="snapper_pane_crop">
+    <div class="snapper_pane">
+      <div class="snapper_items">
+        <div class="snapper_item" id="img-a2">
+          <img src="imgs/monkey.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-b2">
+          <img src="imgs/large.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-c2">
+          <img src="imgs/monks.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-d2">
+          <img src="imgs/monkey.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-e2">
+          <img src="imgs/large.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-f2">
+          <img src="imgs/monks.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-g2">
+          <img src="imgs/monkey.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-h2">
+          <img src="imgs/large.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snapper_nav">
+    <a href="#img-a2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    <a href="#img-b2"><img src="imgs/large-thmb.jpg" alt=""></a>
+    <a href="#img-c2"><img src="imgs/monks-thmb.jpg" alt=""></a>
+    <a href="#img-d2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    <a href="#img-e2"><img src="imgs/large-thmb.jpg" alt=""></a>
+    <a href="#img-f2"><img src="imgs/monks-thmb.jpg" alt=""></a>
+    <a href="#img-g2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    <a href="#img-h2"><img src="imgs/large-thmb.jpg" alt=""></a>
+  </div>
 </div>
-
 
 
 
