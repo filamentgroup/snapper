@@ -99,3 +99,8 @@ In some browsers, native scrollbar handles can be pretty ugly across the bottom 
 	</div>
 </div>
 ```
+
+### Support
+
+CSS Snap Points support can be found here: [CSS Snap Points on Caniuse.com](http://caniuse.com/#feat=css-snappoints)
+This plugin is tested to work broadly across modern browsers, and as long as you use thumbnail navigation, it will even work in browsers that do not support overflow scrolling properly (such as Android 2.x browser).
