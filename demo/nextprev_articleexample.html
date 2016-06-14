@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Snapper Demo</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../dist/snapper.css">
+  <link rel="stylesheet" href="docs.css" />
+  <link rel="stylesheet" href="http://filamentgroup.github.io/demo-head/demohead.css">
+  <script src="../src/lib/jquery.js"></script>
+  <script src="../src/lib/overthrow-toss.js"></script>
+  <script src="../src/snapper.js"></script>
+  <style>
+  .snapper {
+    max-width: 25em;
+    margin: 0 40px;
+  }
+
+
+  </style>
+  <script src="/demo-head/loadfont.js"></script>
+  <script>
+    document.documentElement.className += "enhanced";
+    $(function(){
+      $( document ).trigger( "enhance" );
+    });
+  </script>
+</head>
+<body>
+      <div class="snapper" data-snapper-nextprev>
+      <div class="snapper_pane_crop">
+      	<div class="snapper_pane">
+      		<div class="snapper_items">
+            <div class="snapper_item" id="img-a2">
+      				<img src="imgs/monkey.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-b2">
+      				<img src="imgs/large.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-c2">
+      				<img src="imgs/monks.jpg" alt="">
+      			</div>
+            <div class="snapper_item" id="img-d2">
+      				<img src="imgs/interior.jpg" alt="">
+      			</div>
+      			<div class="snapper_item" id="img-e2">
+      				<img src="imgs/cows.jpg" alt="">
+      			</div>
+            <div class="snapper_item" id="img-f2">
+      				<img src="imgs/bike.jpg" alt="">
+      			</div>
+      		</div>
+      	</div>
+      </div>
+      <div class="snapper_nav snapper_nav-dots">
+        <a href="#img-a2">Slide 1</a>
+        <a href="#img-b2">Slide 2</a>
+        <a href="#img-c2">Slide 3</a>
+        <a href="#img-d2">Slide 4</a>
+        <a href="#img-e2">Slide 5</a>
+        <a href="#img-f2">Slide 5</a>
+      </div>
+    </div>
+
+
+</body>
+</html>
