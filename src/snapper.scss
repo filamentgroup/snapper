@@ -15,7 +15,8 @@
 	}
 }
 
-.snapper {
+.snapper,
+.snapper_nextprev_contain {
 	@extend %clearfix;
 	position: relative;
 }

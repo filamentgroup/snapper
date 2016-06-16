@@ -1,15 +1,20 @@
 /* snapper css snap points carousel */
-.snapper:before, .snapper_items:before, .snapper_nav:before, .snapper:after, .snapper_items:after, .snapper_nav:after {
+.snapper:before,
+.snapper_nextprev_contain:before, .snapper_items:before, .snapper_nav:before, .snapper:after,
+.snapper_nextprev_contain:after, .snapper_items:after, .snapper_nav:after {
   content: " ";
   display: table; }
 
-.snapper:after, .snapper_items:after, .snapper_nav:after {
+.snapper:after,
+.snapper_nextprev_contain:after, .snapper_items:after, .snapper_nav:after {
   clear: both; }
 
-.snapper, .snapper_items, .snapper_nav {
+.snapper,
+.snapper_nextprev_contain, .snapper_items, .snapper_nav {
   *zoom: 1; }
 
-.snapper {
+.snapper,
+.snapper_nextprev_contain {
   position: relative; }
 
 .snapper:focus {

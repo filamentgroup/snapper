@@ -91,7 +91,11 @@
 			// if the nextprev option is set, add the nextprev nav
 			if( addNextPrev ){
 				var	$nextprev = $( '<ul class="snapper_nextprev"><li class="snapper_nextprev_item"><a href="#prev" class="snapper_nextprev_prev">Prev</a></li><li class="snapper_nextprev_item"><a href="#next" class="snapper_nextprev_next">Next</a></li></ul>' );
-				$nextprev.appendTo( self );
+				var $nextprevContain = $( ".snapper_nextprev_contain", self );
+				if( !$nextprevContain.length ){
+					$nextprevContain = $( self );
+				}
+				$nextprev.appendTo( $nextprevContain );
 			}
 
 			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
