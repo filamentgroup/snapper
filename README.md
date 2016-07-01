@@ -9,6 +9,14 @@ MIT License
 - jQuery or similar DOM library
 - Overthrow's toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-overthrow/src/overthrow-toss.js`
 
+## Demo
+
+View the Snapper demos:
+* <a href="http://filamentgroup.github.io/snapper/demo/">Basic example with minimal controls</a>
+* <a href="http://filamentgroup.github.io/snapper/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
+* <a href="http://filamentgroup.github.io/snapper/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+
+
 ## Docs
 
 1. Include dependencies, plus the css and js files in the src dir.
