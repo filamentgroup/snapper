@@ -255,4 +255,4 @@
 	$( document ).bind( "enhance", function( e ){
 		$( "." + pluginName, e.target ).add( e.target ).filter( "." + pluginName )[ pluginName ]();
 	});
-}( this, jQuery ));
+}( window, jQuery ));
