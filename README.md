@@ -103,7 +103,8 @@ In some browsers, native scrollbar handles can be pretty ugly across the bottom 
 					...
 				</div>
 				<div class="snapper_item" id="img-d">
-				...
+					...
+				</div>
 			</div>
 		</div>
 	</div>
