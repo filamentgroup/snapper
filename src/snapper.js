@@ -72,6 +72,7 @@
 				var itemRightMargin = parseFloat( computed.getPropertyValue( "margin-right" ) );
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
+				var parentWidth = numItems / Math.round(sliderWidth / itemWidth) * 100;
 				var iPercentWidth = itemWidth / sliderWidth * 100;
 				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
 				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
@@ -79,7 +80,7 @@
 				var percentAsWidth = iPercentWidth / outerPercentWidth;
 				var percentAsRightMargin = iPercentRightMargin / outerPercentWidth;
 				var percentAsLeftMargin = iPercentLeftMargin / outerPercentWidth;
-				$itemsContain.css( "width", Math.ceil(numItems * outerPercentWidth) + "%" );
+				$itemsContain.css( "width", parentWidth + "%");
 				$items.css( "width", 100 / numItems * percentAsWidth + "%" );
 				$items.css( "margin-left", 100 / numItems * percentAsLeftMargin + "%" );
 				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
@@ -203,12 +204,12 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ) );
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ) );
 			}
 
 			// go to first slide
