@@ -12,9 +12,9 @@ MIT License
 ## Demo
 
 View the Snapper demos:
-* <a href="http://filamentgroup.github.io/snapper/demo/">Basic example with minimal controls</a>
-* <a href="http://filamentgroup.github.io/snapper/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
-* <a href="http://filamentgroup.github.io/snapper/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+* <a href="http://master.origin.snapper.fgview.com/demo/">Basic example with minimal controls</a>
+* <a href="http://master.origin.snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
+* <a href="http://master.origin.snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
 
 
 ## Docs
