@@ -55,5 +55,9 @@ module.exports = function(grunt) {
 		'sass',
 		'test'
 	]);
+	
+	grunt.registerTask('stage', [
+    'default'
+	]);
 
 };
