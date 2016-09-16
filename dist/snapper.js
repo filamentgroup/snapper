@@ -70,9 +70,10 @@
 				var computed = w.getComputedStyle( $items[ 0 ], null );
 				var itemLeftMargin = parseFloat( computed.getPropertyValue( "margin-left" ) );
 				var itemRightMargin = parseFloat( computed.getPropertyValue( "margin-right" ) );
+				var outerItemWidth = itemWidth + itemLeftMargin + itemRightMargin;
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
-				var parentWidth = numItems / Math.round(sliderWidth / itemWidth) * 100;
+				var parentWidth = numItems / Math.round(sliderWidth / outerItemWidth) * 100;
 				var iPercentWidth = itemWidth / sliderWidth * 100;
 				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
 				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
