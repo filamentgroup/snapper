@@ -50,7 +50,8 @@
 			var self = this;
 			var $self = $( self );
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
-			var autoTiming = $self.attr( "data-autoplay" );
+			var autoTiming =
+				$self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
 			var autoInterval;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var enhancedClass = pluginName + "-enhanced";

@@ -50,7 +50,8 @@
 			var self = this;
 			var $self = $( self );
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
-			var autoTiming = $self.attr( "data-autoplay" );
+			var autoTiming =
+				$self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
 			var autoInterval;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var enhancedClass = pluginName + "-enhanced";
@@ -254,6 +255,12 @@
 					clearTimeout( scrollStop );
 				}
 				scrollStop = setTimeout( snapScroll, 50 );
+			});
+
+			// if a touch event is fired on the snapper we know the user is trying to
+			// interact with it and we should disable the auto play
+			$self.bind("touchstart", function(){
+				clearTimeout(autoInterval);
 			});
 
 			// if the `data-autotplay` attribute is assigned a natural number value
