@@ -256,6 +256,12 @@
 				scrollStop = setTimeout( snapScroll, 50 );
 			});
 
+			// if a touch event is fired on the snapper we know the user is trying to
+			// interact with it and we should disable the auto play
+			$self.bind("touchstart", function(){
+				clearTimeout(autoInterval);
+			});
+
 			// if the `data-autotplay` attribute is assigned a natural number value
 			// use it to make the slides cycle until there is a user interaction
 			if(autoTiming){
