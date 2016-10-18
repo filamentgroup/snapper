@@ -132,7 +132,6 @@
 
 			// arrow key bindings for next/prev
 			$( this )
-				.attr( "tabindex", "0" )
 				.bind( "keyup", function( e ){
 					if( e.keyCode === 37 || e.keyCode === 38 ){
 						clearInterval(autoInterval);
