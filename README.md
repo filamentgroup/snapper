@@ -76,7 +76,7 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 
 ### Showing multiple images at a time
 
-To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://filamentgroup.github.io/snapper/demo/breakpoints.html
+To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
 
 ``` html
 <div class="snapper" data-snapper-setwidths>
