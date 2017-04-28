@@ -1,11 +1,13 @@
 /* snapper css snap points carousel */
 ;(function( w, $ ){
 	var pluginName = "snapper";
-	$.fn[ pluginName ] = function(){
+	$.fn[ pluginName ] = function(optionsOrMethod){
+		var pluginArgs = arguments;
+
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
 		var testProp = "scroll-snap-type";
-		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")  || w.CSS.supports("-ms-" + testProp, "mandatory") );
+		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")	 || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
 		// get the snapper_item elements whose left offsets fall within the scroll pane. Returns a wrapped array.
 		function itemsAtOffset( elem, offset ){
@@ -28,7 +30,7 @@
 
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
-		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );  } );
+		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );	} );
 		function snapEvent( elem, x ){
 			var activeSlides = itemsAtOffset( elem, x );
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
@@ -45,8 +47,14 @@
 			}
 		}
 
+		var result, innerResult;
+
 		// Loop through snapper elements and enhance/bind events
-		return this.each(function(){
+		result = this.each(function(){
+			if( innerResult !== undefined ){
+				return;
+			}
+
 			var self = this;
 			var $self = $( self );
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
@@ -61,6 +69,28 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
+
+
+			if( typeof optionsOrMethod === "string" ){
+				var args = Array.prototype.slice.call(pluginArgs, 1);
+				var index;
+				var itemWidth = ( $itemsContain.width() / numItems );
+
+				switch(optionsOrMethod) {
+				case "goto":
+					index = args[0];
+					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
+					// width / items * index
+					goto( $slider[ 0 ], offset );
+					break;
+				case "getIndex":
+					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
+					break;
+				}
+
+				return;
+			}
+
 
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
@@ -285,6 +315,8 @@
 				}, autoTiming);
 			}
 		});
+
+		return (innerResult !== undefined ? innerResult : result);
 	};
 
 	// auto-init on enhance
