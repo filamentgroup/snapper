@@ -80,7 +80,6 @@
 				case "goto":
 					index = args[0];
 					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
-					console.log(offset);
 					// width / items * index
 					goto( $slider[ 0 ], offset );
 					break;
