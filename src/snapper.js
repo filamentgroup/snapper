@@ -14,6 +14,7 @@
 			var $childNodes = $( elem ).find( "." + pluginName + "_item" );
 			var containWidth = $( elem ).width();
 			var activeItems = [];
+			var snapForbidden = false;
 
 			$childNodes.each(function( i ){
 				if( this.offsetLeft >= offset - 5 && this.offsetLeft < offset + containWidth - 5 ){
@@ -37,13 +38,28 @@
 		}
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
-		function goto( elem, x, nothrow ){
+		function goto( elem, x, nothrow, callback ){
 			snapEvent( elem, x );
+
+			var after = function(){
+				$( elem ).trigger( pluginName + ".after-goto", {
+					activeSlides: itemsAtOffset( elem, x )
+				});
+
+				// resume snapping on scroll
+				snapForbidden = false;
+				if( callback ){ callback(); };
+			};
+
+			// disable snapping on scroll since we're going to scroll right now
+			// programatically using overthrow where available
+			snapForbidden = true;
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
-				w.overthrow.toss( elem, { left: x } );
+				w.overthrow.toss( elem, { left: x, finished: after });
 			}
 			else {
 				elem.scrollLeft = x;
+				after();
 			}
 		}
 
@@ -79,9 +95,12 @@
 				switch(optionsOrMethod) {
 				case "goto":
 					index = args[0];
-					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
-					// width / items * index
-					goto( $slider[ 0 ], offset );
+					// width / items * index + (padding) to make sure it goes
+					offset = $slider[ 0 ].scrollLeft + itemWidth * index + (itemWidth * 0.1);
+					goto( $slider[ 0 ], offset, function(){
+						// snap the scroll to the right position
+						snapScroll();
+					});
 					break;
 				case "getIndex":
 					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
@@ -177,6 +196,10 @@
 
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
+				if(snapForbidden){
+					return;
+				}
+
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
