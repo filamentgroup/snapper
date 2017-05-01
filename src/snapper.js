@@ -96,7 +96,7 @@
 				case "goto":
 					index = args[0];
 					// width / items * index + (padding) to make sure it goes
-					offset = $slider[ 0 ].scrollLeft + itemWidth * index + (itemWidth * 0.1);
+					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
 					goto( $slider[ 0 ], offset, function(){
 						// snap the scroll to the right position
 						snapScroll();
