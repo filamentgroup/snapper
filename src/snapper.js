@@ -94,15 +94,18 @@
 
 				switch(optionsOrMethod) {
 				case "goto":
-					index = args[0];
-					// width / items * index + (padding) to make sure it goes
-					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
+					index = args[0] % numItems;
+
+					// width / items * index to make sure it goes
+					offset = itemWidth * index;
 					goto( $slider[ 0 ], offset, false, function(){
 						// snap the scroll to the right position
 						snapScroll();
 
 						// invoke the callback if it was supplied
-						if( typeof args[1] === "function" ){ args[1](); }
+						if( typeof args[1] === "function" ){
+							args[1]();
+						}
 					});
 					break;
 				case "getIndex":
