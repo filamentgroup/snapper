@@ -97,9 +97,12 @@
 					index = args[0];
 					// width / items * index + (padding) to make sure it goes
 					offset = $slider[ 0 ].scrollLeft + itemWidth * index;
-					goto( $slider[ 0 ], offset, function(){
+					goto( $slider[ 0 ], offset, false, function(){
 						// snap the scroll to the right position
 						snapScroll();
+
+						// invoke the callback if it was supplied
+						if( typeof args[1] === "function" ){ args[1](); }
 					});
 					break;
 				case "getIndex":
