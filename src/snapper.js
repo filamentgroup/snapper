@@ -271,12 +271,16 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ) );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-next" );
+				});
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ) );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-prev" );
+				});
 			}
 
 			// go to first slide
