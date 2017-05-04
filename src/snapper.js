@@ -3,6 +3,7 @@
 	var pluginName = "snapper";
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
+		var snapForbidden = false;
 
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
@@ -14,7 +15,6 @@
 			var $childNodes = $( elem ).find( "." + pluginName + "_item" );
 			var containWidth = $( elem ).width();
 			var activeItems = [];
-			var snapForbidden = false;
 
 			$childNodes.each(function( i ){
 				if( this.offsetLeft >= offset - 5 && this.offsetLeft < offset + containWidth - 5 ){
