@@ -84,6 +84,7 @@
 			$items.addClass( pluginName + "_item" );
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
+			var $navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
 			var navSelectedClass = pluginName + "_nav_item-selected";
 
 
