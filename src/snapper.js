@@ -295,14 +295,28 @@
 
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
+				// function for scrolling to the xy of the active thumbnail
+				function scrollNav(elem, x, y){
+					if( typeof w.overthrow !== "undefined" ){
+						w.overthrow.toss( elem, { left: x, top:y });
+					}
+					else {
+						elem.scrollLeft = x;
+						elem.scrollTop = y;
+					}
+				}
+
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = outerWidth( $itemsContain );
 					var activeIndex = Math.round( currScroll / width * numItems );
-					$nav
-						.children().removeClass( navSelectedClass )
-						.eq( activeIndex )
-						.addClass( navSelectedClass );
+					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
+					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
+
+					var thumbX = activeChild[ 0 ].offsetLeft;
+					var thumbY = activeChild[ 0 ].offsetTop;
+
+					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
 				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
