@@ -28,6 +28,10 @@
 			return $elem.width() + parseFloat( $elem.css( "margin-left" ) ) + parseFloat( $elem.css( "margin-right" ) );
 		}
 
+		function outerHeight( $elem ){
+			return $elem.height() + parseFloat( $elem.css( "margin-bottom" ) ) + parseFloat( $elem.css( "margin-top" ) );
+		}
+
 
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
@@ -310,12 +314,14 @@
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = outerWidth( $itemsContain );
+					var navWidth = outerWidth( $nav );
+					var navHeight = outerHeight( $nav );
 					var activeIndex = Math.round( currScroll / width * numItems );
 					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
 					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
 
-					var thumbX = activeChild[ 0 ].offsetLeft;
-					var thumbY = activeChild[ 0 ].offsetTop;
+					var thumbX = activeChild[ 0 ].offsetLeft - (navWidth/2);
+					var thumbY = activeChild[ 0 ].offsetTop - (navHeight/2);
 
 					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
