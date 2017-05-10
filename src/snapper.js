@@ -125,7 +125,7 @@
 			// avoid monkeying with the DOM when it's unwarranted
 			var $navInner = $nav.find( "." + pluginName + "_nav_inner" );
 			if( !$navInner.length ){
-				$( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
+				$navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
 			}
 
 			// this function updates the widths of the items within the slider, and their container.
