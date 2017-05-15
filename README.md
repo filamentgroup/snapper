@@ -12,9 +12,9 @@ MIT License
 ## Demo
 
 View the Snapper demos:
-* <a href="http://master.origin.snapper.fgview.com/demo/">Basic example with minimal controls</a>
-* <a href="http://master.origin.snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
-* <a href="http://master.origin.snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+* <a href="https://master-origin-snapper.fgview.com/demo/">Basic example with minimal controls</a>
+* <a href="https://master-origin-snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
+* <a href="https://master-origin-snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
 
 
 ## Docs
