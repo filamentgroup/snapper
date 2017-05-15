@@ -85,6 +85,7 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
+			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
 
 
 			if( typeof optionsOrMethod === "string" ){
@@ -179,7 +180,8 @@
 				else {
 					var $slide = $( slideID, self );
 					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
-					if( "replaceState" in w.history ){
+					if( $slider)
+					if( useDeepLinking && "replaceState" in w.history ){
 						w.history.replaceState( {}, document.title, slideID );
 					}
 				}
