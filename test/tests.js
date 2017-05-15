@@ -52,11 +52,16 @@ window.onload = function(){
 
 		asyncTest( 'thumbnail clicks cause pane to scroll', function() {
 			expect(2);
+			var originalHash = window.location.hash;
 			$(".snapper_pane")[0].scrollLeft = 0;
 			$(".snapper_nav a:eq(2)").trigger( "click" );
 			setTimeout(function(){
 				ok( $(".snapper_pane")[0].scrollLeft !== 0, "scroll changed" );
-				ok( window.location.hash === $(".snapper_nav a:eq(2)").attr( "href" ), "location hash set to active slide" )
+				if( $(".snapper").attr( "data-snapper-deeplinking" ) === "false" ) {
+					ok( window.location.hash === originalHash, "location hash did not change, deep linking is disabled" )
+				} else {
+					ok( window.location.hash === $(".snapper_nav a:eq(2)").attr( "href" ), "location hash set to active slide" )
+				}
 				start();
 			},1000);
 		});
