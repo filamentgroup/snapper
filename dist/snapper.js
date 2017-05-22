@@ -28,6 +28,10 @@
 			return $elem.width() + parseFloat( $elem.css( "margin-left" ) ) + parseFloat( $elem.css( "margin-right" ) );
 		}
 
+		function outerHeight( $elem ){
+			return $elem.height() + parseFloat( $elem.css( "margin-bottom" ) ) + parseFloat( $elem.css( "margin-top" ) );
+		}
+
 
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
@@ -117,6 +121,12 @@
 				return;
 			}
 
+			// NOTE all state manipulation has to come after method invocation to
+			// avoid monkeying with the DOM when it's unwarranted
+			var $navInner = $nav.find( "." + pluginName + "_nav_inner" );
+			if( !$navInner.length ){
+				$navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
+			}
 
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
@@ -274,12 +284,16 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ) );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-next" );
+				});
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ) );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-prev" );
+				});
 			}
 
 			// go to first slide
@@ -294,14 +308,30 @@
 
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
+				// function for scrolling to the xy of the active thumbnail
+				function scrollNav(elem, x, y){
+					if( typeof w.overthrow !== "undefined" ){
+						w.overthrow.toss( elem, { left: x, top:y });
+					}
+					else {
+						elem.scrollLeft = x;
+						elem.scrollTop = y;
+					}
+				}
+
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = outerWidth( $itemsContain );
+					var navWidth = outerWidth( $nav );
+					var navHeight = outerHeight( $nav );
 					var activeIndex = Math.round( currScroll / width * numItems );
-					$nav
-						.children().removeClass( navSelectedClass )
-						.eq( activeIndex )
-						.addClass( navSelectedClass );
+					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
+					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
+
+					var thumbX = activeChild[ 0 ].offsetLeft - (navWidth/2);
+					var thumbY = activeChild[ 0 ].offsetTop - (navHeight/2);
+
+					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
 				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
