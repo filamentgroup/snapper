@@ -66,6 +66,13 @@ window.onload = function(){
 			},1000);
 		});
 
+		asyncTest( 'random # link clicks are ignored', function() {
+			expect(1);
+			$("#testlink").trigger( "click" );
+			ok( true );
+			start();
+		});
+
 		asyncTest( 'Snap event check', function() {
 			expect(1);
 			$(".snapper_pane")[0].scrollLeft = 0;

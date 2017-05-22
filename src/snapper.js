@@ -174,25 +174,26 @@
 			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
 				clearInterval(autoInterval);
-
 				var slideID = $( this ).attr( "href" );
-				if( slideID.indexOf( "#" ) === -1 ){
-					// only local anchor links
-					return;
-				}
-				e.preventDefault();
+
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
+					e.preventDefault();
 					return arrowNavigate( true );
 				}
 				else if( $( this ).is( ".snapper_nextprev_prev" ) ){
+					e.preventDefault();
 					return arrowNavigate( false );
 				}
-				else {
+				// internal links to slides
+				else if( slideID.indexOf( "#" ) === 0 && slideID.length > 1 ){
+					e.preventDefault();
+
 					var $slide = $( slideID, self );
-					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
-					if( $slider)
-					if( useDeepLinking && "replaceState" in w.history ){
-						w.history.replaceState( {}, document.title, slideID );
+					if( $slide.length ){
+						goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
+						if( useDeepLinking && "replaceState" in w.history ){
+							w.history.replaceState( {}, document.title, slideID );
+						}
 					}
 				}
 			});
