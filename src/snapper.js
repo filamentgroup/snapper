@@ -128,6 +128,9 @@
 				$navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
 			}
 
+			// give the pane a tabindex for arrow key handling
+			$slider.attr("tabindex", "0");
+
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
 			function updateWidths(){
@@ -200,15 +203,17 @@
 
 			// arrow key bindings for next/prev
 			$( this )
-				.bind( "keyup", function( e ){
+				.bind( "keydown", function( e ){
 					if( e.keyCode === 37 || e.keyCode === 38 ){
 						clearInterval(autoInterval);
 						e.preventDefault();
+						e.stopImmediatePropagation();
 						arrowNavigate( false );
 					}
 					if( e.keyCode === 39 || e.keyCode === 40 ){
 						clearInterval(autoInterval);
 						e.preventDefault();
+						e.stopImmediatePropagation();
 						arrowNavigate( true );
 					}
 				} );
