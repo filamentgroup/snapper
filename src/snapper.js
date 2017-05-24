@@ -329,7 +329,7 @@
 					var width = outerWidth( $itemsContain );
 					var navWidth = outerWidth( $nav );
 					var navHeight = outerHeight( $nav );
-					var activeIndex = Math.round( currScroll / width * numItems );
+					var activeIndex = Math.round( currScroll / width * numItems ) || 0;
 					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
 					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
 
