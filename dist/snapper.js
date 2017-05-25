@@ -1,11 +1,14 @@
 /* snapper css snap points carousel */
 ;(function( w, $ ){
 	var pluginName = "snapper";
-	$.fn[ pluginName ] = function(){
+	$.fn[ pluginName ] = function(optionsOrMethod){
+		var pluginArgs = arguments;
+		var snapForbidden = false;
+
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
 		var testProp = "scroll-snap-type";
-		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")  || w.CSS.supports("-ms-" + testProp, "mandatory") );
+		var snapSupported = w.CSS && w.CSS.supports && ( w.CSS.supports( testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")	 || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
 		// get the snapper_item elements whose left offsets fall within the scroll pane. Returns a wrapped array.
 		function itemsAtOffset( elem, offset ){
@@ -25,30 +28,59 @@
 			return $elem.width() + parseFloat( $elem.css( "margin-left" ) ) + parseFloat( $elem.css( "margin-right" ) );
 		}
 
+		function outerHeight( $elem ){
+			return $elem.height() + parseFloat( $elem.css( "margin-bottom" ) ) + parseFloat( $elem.css( "margin-top" ) );
+		}
+
 
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
-		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );  } );
+		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );	} );
 		function snapEvent( elem, x ){
 			var activeSlides = itemsAtOffset( elem, x );
 			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
 		}
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
-		function goto( elem, x, nothrow ){
+		function goto( elem, x, nothrow, callback ){
 			snapEvent( elem, x );
+
+			var after = function(){
+				$( elem ).trigger( pluginName + ".after-goto", {
+					activeSlides: itemsAtOffset( elem, x )
+				});
+
+				// resume snapping on scroll
+				snapForbidden = false;
+				if( callback ){ callback(); };
+			};
+
+			// disable snapping on scroll since we're going to scroll right now
+			// programatically using overthrow where available
+			snapForbidden = true;
 			if( typeof w.overthrow !== "undefined" && !nothrow ){
-				w.overthrow.toss( elem, { left: x } );
+				w.overthrow.toss( elem, { left: x, finished: after });
 			}
 			else {
 				elem.scrollLeft = x;
+				after();
 			}
 		}
 
+		var result, innerResult;
+
 		// Loop through snapper elements and enhance/bind events
-		return this.each(function(){
+		result = this.each(function(){
+			if( innerResult !== undefined ){
+				return;
+			}
+
 			var self = this;
-			var addNextPrev = $( self ).is( "[data-" + pluginName + "-nextprev]" );
+			var $self = $( self );
+			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
+			var autoTiming =
+				$self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
+			var autoInterval;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var enhancedClass = pluginName + "-enhanced";
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
@@ -57,6 +89,44 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
+			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
+
+
+			if( typeof optionsOrMethod === "string" ){
+				var args = Array.prototype.slice.call(pluginArgs, 1);
+				var index;
+				var itemWidth = ( $itemsContain.width() / numItems );
+
+				switch(optionsOrMethod) {
+				case "goto":
+					index = args[0] % numItems;
+
+					// width / items * index to make sure it goes
+					offset = itemWidth * index;
+					goto( $slider[ 0 ], offset, false, function(){
+						// snap the scroll to the right position
+						snapScroll();
+
+						// invoke the callback if it was supplied
+						if( typeof args[1] === "function" ){
+							args[1]();
+						}
+					});
+					break;
+				case "getIndex":
+					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
+					break;
+				}
+
+				return;
+			}
+
+			// NOTE all state manipulation has to come after method invocation to
+			// avoid monkeying with the DOM when it's unwarranted
+			var $navInner = $nav.find( "." + pluginName + "_nav_inner" );
+			if( !$navInner.length ){
+				$navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
+			}
 
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
@@ -70,8 +140,10 @@
 				var computed = w.getComputedStyle( $items[ 0 ], null );
 				var itemLeftMargin = parseFloat( computed.getPropertyValue( "margin-left" ) );
 				var itemRightMargin = parseFloat( computed.getPropertyValue( "margin-right" ) );
+				var outerItemWidth = itemWidth + itemLeftMargin + itemRightMargin;
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
+				var parentWidth = numItems / Math.round(sliderWidth / outerItemWidth) * 100;
 				var iPercentWidth = itemWidth / sliderWidth * 100;
 				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
 				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
@@ -79,7 +151,7 @@
 				var percentAsWidth = iPercentWidth / outerPercentWidth;
 				var percentAsRightMargin = iPercentRightMargin / outerPercentWidth;
 				var percentAsLeftMargin = iPercentLeftMargin / outerPercentWidth;
-				$itemsContain.css( "width", Math.ceil(numItems * outerPercentWidth) + "%" );
+				$itemsContain.css( "width", parentWidth + "%");
 				$items.css( "width", 100 / numItems * percentAsWidth + "%" );
 				$items.css( "margin-left", 100 / numItems * percentAsLeftMargin + "%" );
 				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
@@ -101,36 +173,41 @@
 			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
+				clearInterval(autoInterval);
 				var slideID = $( this ).attr( "href" );
-				if( slideID.indexOf( "#" ) === -1 ){
-					// only local anchor links
-					return;
-				}
-				e.preventDefault();
+
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
+					e.preventDefault();
 					return arrowNavigate( true );
 				}
 				else if( $( this ).is( ".snapper_nextprev_prev" ) ){
+					e.preventDefault();
 					return arrowNavigate( false );
 				}
-				else {
+				// internal links to slides
+				else if( slideID.indexOf( "#" ) === 0 && slideID.length > 1 ){
+					e.preventDefault();
+
 					var $slide = $( slideID, self );
-					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
-					if( "replaceState" in w.history ){
-						w.history.replaceState( {}, document.title, slideID );
+					if( $slide.length ){
+						goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
+						if( useDeepLinking && "replaceState" in w.history ){
+							w.history.replaceState( {}, document.title, slideID );
+						}
 					}
 				}
 			});
 
 			// arrow key bindings for next/prev
 			$( this )
-				.attr( "tabindex", "0" )
 				.bind( "keyup", function( e ){
 					if( e.keyCode === 37 || e.keyCode === 38 ){
+						clearInterval(autoInterval);
 						e.preventDefault();
 						arrowNavigate( false );
 					}
 					if( e.keyCode === 39 || e.keyCode === 40 ){
+						clearInterval(autoInterval);
 						e.preventDefault();
 						arrowNavigate( true );
 					}
@@ -138,6 +215,10 @@
 
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
+				if(snapForbidden){
+					return;
+				}
+
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
@@ -203,12 +284,16 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + $slider.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-next" );
+				});
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - $slider.width() );
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), false, function(){
+					$slider.trigger( pluginName + ".after-prev" );
+				});
 			}
 
 			// go to first slide
@@ -223,14 +308,30 @@
 
 			// update thumbnail state on pane scroll
 			if( $nav.length ){
+				// function for scrolling to the xy of the active thumbnail
+				function scrollNav(elem, x, y){
+					if( typeof w.overthrow !== "undefined" ){
+						w.overthrow.toss( elem, { left: x, top:y });
+					}
+					else {
+						elem.scrollLeft = x;
+						elem.scrollTop = y;
+					}
+				}
+
 				function activeItem(){
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = outerWidth( $itemsContain );
+					var navWidth = outerWidth( $nav );
+					var navHeight = outerHeight( $nav );
 					var activeIndex = Math.round( currScroll / width * numItems );
-					$nav
-						.children().removeClass( navSelectedClass )
-						.eq( activeIndex )
-						.addClass( navSelectedClass );
+					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
+					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
+
+					var thumbX = activeChild[ 0 ].offsetLeft - (navWidth/2);
+					var thumbY = activeChild[ 0 ].offsetTop - (navHeight/2);
+
+					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
 				// set active item on scroll
 				$slider.bind( "scroll", activeItem );
@@ -247,12 +348,36 @@
 				scrollStop = setTimeout( snapScroll, 50 );
 			});
 
+			// if a touch event is fired on the snapper we know the user is trying to
+			// interact with it and we should disable the auto play
+			$self.bind("touchstart", function(){
+				clearTimeout(autoInterval);
+			});
 
+			// if the `data-autotplay` attribute is assigned a natural number value
+			// use it to make the slides cycle until there is a user interaction
+			if(autoTiming){
+				var parseError = false;
+
+				try {
+					autoTiming = parseInt(autoTiming, 10);
+				} catch(e) {
+					parseError = true;
+				}
+
+				// if NaN or there was an error throw an exception
+				if( !autoTiming || parseError ) {
+					var msg = "Snapper: `data-autoplay` must have an natural number value.";
+					throw new Error(msg);
+				}
+
+				// autoInterval is cleared in each user interaction binding
+				autoInterval = setInterval(function(){
+					arrowNavigate(true);
+				}, autoTiming);
+			}
 		});
-	};
 
-	// auto-init on enhance
-	$( document ).bind( "enhance", function( e ){
-		$( "." + pluginName, e.target ).add( e.target ).filter( "." + pluginName )[ pluginName ]();
-	});
+		return (innerResult !== undefined ? innerResult : result);
+	};
 }( this, jQuery ));

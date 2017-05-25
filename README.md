@@ -9,6 +9,14 @@ MIT License
 - jQuery or similar DOM library
 - Overthrow's toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-overthrow/src/overthrow-toss.js`
 
+## Demo
+
+View the Snapper demos:
+* <a href="https://master-origin-snapper.fgview.com/demo/">Basic example with minimal controls</a>
+* <a href="https://master-origin-snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
+* <a href="https://master-origin-snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+
+
 ## Docs
 
 1. Include dependencies, plus the css and js files in the src dir.
@@ -68,7 +76,7 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 
 ### Showing multiple images at a time
 
-To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://filamentgroup.github.io/snapper/demo/breakpoints.html
+To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
 
 ``` html
 <div class="snapper" data-snapper-setwidths>
@@ -95,7 +103,8 @@ In some browsers, native scrollbar handles can be pretty ugly across the bottom 
 					...
 				</div>
 				<div class="snapper_item" id="img-d">
-				...
+					...
+				</div>
 			</div>
 		</div>
 	</div>
