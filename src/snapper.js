@@ -36,9 +36,10 @@
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
 		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );	} );
-		function snapEvent( elem, x ){
+		function snapEvent( elem, x, prefix ){
+			prefix = prefix ? prefix + "-" : "";
 			var activeSlides = itemsAtOffset( elem, x );
-			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
+			$( elem ).trigger( pluginName + "." + prefix + "snap", { activeSlides: activeSlides } );
 		}
 
 		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
@@ -53,6 +54,7 @@
 				// resume snapping on scroll
 				snapForbidden = false;
 				if( callback ){ callback(); };
+				snapEvent( elem, x, "after" );
 			};
 
 			// disable snapping on scroll since we're going to scroll right now
@@ -238,6 +240,7 @@
 				if( currScroll !== roundedScroll ){
 					if( snapSupported ){
 						snapEvent( $slider[ 0 ], roundedScroll );
+						snapEvent( elem, x, "after" );
 					}
 					else {
 						goto( $slider[ 0 ], roundedScroll );
