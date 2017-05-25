@@ -116,6 +116,9 @@
 				case "getIndex":
 					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
 					break;
+				case "updateWidths":
+					updateWidths();
+					break;
 				}
 
 				return;
