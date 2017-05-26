@@ -245,7 +245,7 @@
 				if( currScroll !== roundedScroll ){
 					if( snapSupported ){
 						snapEvent( $slider[ 0 ], roundedScroll );
-						snapEvent( $slider[ 0 ], x, "after" );
+						snapEvent( $slider[ 0 ], roundedScroll, "after" );
 					}
 					else {
 						goto( $slider[ 0 ], roundedScroll );
