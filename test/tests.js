@@ -9,13 +9,13 @@ window.onload = function(){
 		/* TESTS HERE */
 
 
-		// overthrow dependency...
-		test( 'API Properties: overthrow is defined', function() {
-			ok( overthrow );
+		// toss dependency...
+		test( 'API Properties: toss is defined', function() {
+			ok( toss );
 		});
 
-		test( 'API Properties: overthrow is an object', function() {
-			ok( typeof( overthrow ) === "object" );
+		test( 'API Properties: toss is a function', function() {
+			ok( typeof( toss ) === "function" );
 		});
 
 		//snapper tests

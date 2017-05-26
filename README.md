@@ -7,7 +7,7 @@ MIT License
 
 ## Dependencies
 - jQuery or similar DOM library
-- Overthrow's toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-overthrow/src/overthrow-toss.js`
+- The toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-toss/src/toss.js`
 
 ## Demo
 

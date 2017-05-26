@@ -29,6 +29,6 @@
   },
   "dependencies": {
     "jquery": "^1.11.3",
-    "fg-overthrow": "0.9.0"
+    "fg-toss": "0.2.1"
   }
 }
