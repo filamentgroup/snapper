@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 				files: [
 					{ expand: true, cwd: "src", src: ["*.js"], dest: "dist/" },
           { expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"},
-          { expand: true, cwd: 'node_modules/fg-overthrow/src', src: [ "overthrow-toss.js" ], dest: "src/lib"}
+          { expand: true, cwd: 'node_modules/fg-toss/src', src: [ "toss.js" ], dest: "src/lib"}
 				]
 			}
     },
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 		'sass',
 		'test'
 	]);
-	
+
 	grunt.registerTask('stage', [
     'default'
 	]);

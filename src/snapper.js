@@ -42,7 +42,7 @@
 			$( elem ).trigger( pluginName + "." + prefix + "snap", { activeSlides: activeSlides } );
 		}
 
-		// optional: include overthrow.toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
+		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow, callback ){
 			snapEvent( elem, x );
 
@@ -58,10 +58,15 @@
 			};
 
 			// disable snapping on scroll since we're going to scroll right now
-			// programatically using overthrow where available
+			// programatically using toss where available
 			snapForbidden = true;
-			if( typeof w.overthrow !== "undefined" && !nothrow ){
-				w.overthrow.toss( elem, { left: x, finished: after });
+
+			// backport to old toss for compat
+			if( !w.toss && w.overthrow ){
+				w.toss = w.overthrow.toss;
+			}
+			if( typeof w.toss !== "undefined" && !nothrow ){
+				w.toss( elem, { left: x, finished: after });
 			}
 			else {
 				elem.scrollLeft = x;
@@ -321,8 +326,8 @@
 			if( $nav.length ){
 				// function for scrolling to the xy of the active thumbnail
 				function scrollNav(elem, x, y){
-					if( typeof w.overthrow !== "undefined" ){
-						w.overthrow.toss( elem, { left: x, top:y });
+					if( typeof w.toss !== "undefined" ){
+						w.toss( elem, { left: x, top:y });
 					}
 					else {
 						elem.scrollLeft = x;
