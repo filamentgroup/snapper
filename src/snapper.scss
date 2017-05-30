@@ -97,21 +97,6 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	@extend %clearfix;
 	position: relative;
 	margin: 1em 0;
-}
-.snapper_nav a {
-	float: left;
-	margin: 0 10px 10px 0;
-}
-.snapper_nav a.snapper_nav_item-selected {
-	/* selected styles here */
-	outline: 1px solid black;
-}
-.snapper_nav img {
-	display: block;
-}
-
-.snapper_nav {
-	margin: 1em 0;
 	overflow: hidden;
 }
 .snapper_nav_inner {
@@ -123,6 +108,7 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	height: 84px;
 }
 .snapper_nav a {
+	overflow: hidden;
 	border: 1px solid #ddd;
 	white-space: normal;
 	display: inline-block;
@@ -132,7 +118,12 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	width: auto;
 	margin: 0;
 }
+.snapper_nav a.snapper_nav_item-selected {
+	/* selected styles here */
+	outline: 1px solid black;
+}
 .snapper_nav img {
+	display: block;
 	height: 100%;
 	width: auto;
 	max-width: 100%;
