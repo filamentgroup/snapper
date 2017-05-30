@@ -14,7 +14,9 @@
 		*zoom: 1;
 	}
 }
-
+.snapper * {
+		box-sizing: border-box;
+}
 .snapper,
 .snapper_nextprev_contain {
 	@extend %clearfix;
@@ -106,4 +108,32 @@ note: only use this if you have thumbnails or some other means of advancing slid
 }
 .snapper_nav img {
 	display: block;
+}
+
+.snapper_nav {
+	margin: 1em 0;
+	overflow: hidden;
+}
+.snapper_nav_inner {
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	white-space: nowrap;
+	padding: 2px 1px 30px;
+	margin-bottom: -30px; /* leave room for thumb outline to show up.. don't fully offset */
+	height: 84px;
+}
+.snapper_nav a {
+	border: 1px solid #ddd;
+	white-space: normal;
+	display: inline-block;
+	float: none;
+	vertical-align: middle;
+	height: 50px;
+	width: auto;
+	margin: 0;
+}
+.snapper_nav img {
+	height: 100%;
+	width: auto;
+	max-width: 100%;
 }
