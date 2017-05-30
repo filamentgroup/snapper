@@ -3,7 +3,6 @@
 	var pluginName = "snapper";
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
-		var snapForbidden = false;
 
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
@@ -51,15 +50,9 @@
 					activeSlides: itemsAtOffset( elem, x )
 				});
 
-				// resume snapping on scroll
-				snapForbidden = false;
 				if( callback ){ callback(); };
 				snapEvent( elem, x, "after" );
 			};
-
-			// disable snapping on scroll since we're going to scroll right now
-			// programatically using toss where available
-			snapForbidden = true;
 
 			// backport to old toss for compat
 			if( !w.toss && w.overthrow ){
@@ -230,10 +223,6 @@
 
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
-				if(snapForbidden){
-					return;
-				}
-
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
