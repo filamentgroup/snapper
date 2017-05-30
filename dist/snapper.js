@@ -3,7 +3,6 @@
 	var pluginName = "snapper";
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
-		var snapForbidden = false;
 
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
@@ -36,9 +35,10 @@
 		// snapEvent dispatches the "snapper.snap" event.
 		// The snapper_item elements with left offsets that are inside the scroll viewport are listed in an array in the second callback argument's activeSlides property.
 		// use like this: $( ".snapper" ).bind( "snapper.snap", function( event, data ){ console.log( data.activeSlides );	} );
-		function snapEvent( elem, x ){
+		function snapEvent( elem, x, prefix ){
+			prefix = prefix ? prefix + "-" : "";
 			var activeSlides = itemsAtOffset( elem, x );
-			$( elem ).trigger( pluginName + ".snap", { activeSlides: activeSlides } );
+			$( elem ).trigger( pluginName + "." + prefix + "snap", { activeSlides: activeSlides } );
 		}
 
 		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
@@ -50,14 +50,9 @@
 					activeSlides: itemsAtOffset( elem, x )
 				});
 
-				// resume snapping on scroll
-				snapForbidden = false;
 				if( callback ){ callback(); };
+				snapEvent( elem, x, "after" );
 			};
-
-			// disable snapping on scroll since we're going to scroll right now
-			// programatically using toss where available
-			snapForbidden = true;
 
 			// backport to old toss for compat
 			if( !w.toss && w.overthrow ){
@@ -121,6 +116,9 @@
 				case "getIndex":
 					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
 					break;
+				case "updateWidths":
+					updateWidths();
+					break;
 				}
 
 				return;
@@ -132,6 +130,9 @@
 			if( !$navInner.length ){
 				$navInner = $( '<div class="'+ pluginName + '_nav_inner"></div>' ).append( $nav.children() ).appendTo( $nav );
 			}
+
+			// give the pane a tabindex for arrow key handling
+			$slider.attr("tabindex", "0");
 
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
@@ -205,25 +206,23 @@
 
 			// arrow key bindings for next/prev
 			$( this )
-				.bind( "keyup", function( e ){
+				.bind( "keydown", function( e ){
 					if( e.keyCode === 37 || e.keyCode === 38 ){
 						clearInterval(autoInterval);
 						e.preventDefault();
+						e.stopImmediatePropagation();
 						arrowNavigate( false );
 					}
 					if( e.keyCode === 39 || e.keyCode === 40 ){
 						clearInterval(autoInterval);
 						e.preventDefault();
+						e.stopImmediatePropagation();
 						arrowNavigate( true );
 					}
 				} );
 
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
-				if(snapForbidden){
-					return;
-				}
-
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
@@ -235,6 +234,7 @@
 				if( currScroll !== roundedScroll ){
 					if( snapSupported ){
 						snapEvent( $slider[ 0 ], roundedScroll );
+						snapEvent( $slider[ 0 ], roundedScroll, "after" );
 					}
 					else {
 						goto( $slider[ 0 ], roundedScroll );
@@ -329,7 +329,7 @@
 					var width = outerWidth( $itemsContain );
 					var navWidth = outerWidth( $nav );
 					var navHeight = outerHeight( $nav );
-					var activeIndex = Math.round( currScroll / width * numItems );
+					var activeIndex = Math.round( currScroll / width * numItems ) || 0;
 					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
 					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
 
