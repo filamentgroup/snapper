@@ -114,7 +114,9 @@
 					});
 					break;
 				case "getIndex":
-					innerResult = Math.floor($slider[ 0 ].scrollLeft / itemWidth);
+					// NOTE make the scroll left value large enough to overcome
+					// subpixel widths
+					innerResult = Math.floor(($slider[ 0 ].scrollLeft + 1)/ itemWidth);
 					break;
 				case "updateWidths":
 					updateWidths();
