@@ -3,6 +3,7 @@
 	var pluginName = "snapper";
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
+		var scrollListening = true;
 
 		// css snap points feature test.
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
@@ -43,6 +44,7 @@
 
 		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow, callback ){
+			scrollListening = false;
 			snapEvent( elem, x );
 
 			var after = function(){
@@ -52,6 +54,7 @@
 
 				if( callback ){ callback(); };
 				snapEvent( elem, x, "after" );
+				scrollListening = true;
 			};
 
 			// backport to old toss for compat
@@ -349,6 +352,9 @@
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
 			$slider.bind( "scroll", function(e){
+				if( !scrollListening ){
+					return;
+				}
 				if( scrollStop ){
 					clearTimeout( scrollStop );
 				}
