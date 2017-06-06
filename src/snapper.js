@@ -48,6 +48,7 @@
 			snapEvent( elem, x );
 
 			var after = function(){
+				elem.scrollLeft = x;
 				$( elem ).trigger( pluginName + ".after-goto", {
 					activeSlides: itemsAtOffset( elem, x )
 				});
@@ -353,7 +354,7 @@
 			var scrollStop;
 			$slider.bind( "scroll", function(e){
 				if( !scrollListening ){
-					return;
+					//return;
 				}
 				if( scrollStop ){
 					clearTimeout( scrollStop );
