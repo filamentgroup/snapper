@@ -76,9 +76,9 @@
 						var msg = "Snapper: `data-autoplay` must have an natural number value.";
 						throw new Error(msg);
 					}
-
-					return autoTiming;
 				}
+
+				return autoTiming;
 			}
 
 			// this function updates the widths of the items within the slider, and their container.
@@ -282,18 +282,20 @@
 
 			// if the `data-autoplay` attribute is assigned a natural number value
 			// use it to make the slides cycle until there is a user interaction
-			function autoplay() {
-				var autoTiming = getAutoplayInterval();
-				if(autoTiming){
+			function autoplay( autoTiming ) {
+				if( autoTiming ){
 					// autoTimeout is cleared in each user interaction binding
 					autoTimeout = setTimeout(function(){
-						arrowNavigate(true);
-						autoplay();
+						var timeout = getAutoplayInterval();
+						if( timeout ) {
+							arrowNavigate(true);
+							autoplay( timeout );
+						}
 					}, autoTiming);
 				}
 			}
 
-			autoplay();
+			autoplay( getAutoplayInterval() );
 		});
 	};
 
