@@ -82,9 +82,7 @@
 			var self = this;
 			var $self = $( self );
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
-			var autoTiming =
-				$self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
-			var autoInterval;
+			var autoTimeout;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var enhancedClass = pluginName + "-enhanced";
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
@@ -140,6 +138,27 @@
 			// give the pane a tabindex for arrow key handling
 			$slider.attr("tabindex", "0");
 
+			function getAutoplayInterval() {
+				var autoTiming = $self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
+				var parseError = false;
+
+				if( autoTiming ) {
+					try {
+						autoTiming = parseInt(autoTiming, 10);
+					} catch(e) {
+						parseError = true;
+					}
+
+					// if NaN or there was an error throw an exception
+					if( !autoTiming || parseError ) {
+						var msg = "Snapper: `data-autoplay` must have an natural number value.";
+						throw new Error(msg);
+					}
+
+					return autoTiming;
+				}
+			}
+
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
 			function updateWidths(){
@@ -185,7 +204,7 @@
 			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
 			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
-				clearInterval(autoInterval);
+				clearTimeout(autoTimeout);
 				var slideID = $( this ).attr( "href" );
 
 				if( $( this ).is( ".snapper_nextprev_next" ) ){
@@ -214,13 +233,13 @@
 			$( this )
 				.bind( "keydown", function( e ){
 					if( e.keyCode === 37 || e.keyCode === 38 ){
-						clearInterval(autoInterval);
+						clearTimeout(autoTimeout);
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						arrowNavigate( false );
 					}
 					if( e.keyCode === 39 || e.keyCode === 40 ){
-						clearInterval(autoInterval);
+						clearTimeout(autoTimeout);
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						arrowNavigate( true );
@@ -365,31 +384,23 @@
 			// if a touch event is fired on the snapper we know the user is trying to
 			// interact with it and we should disable the auto play
 			$self.bind("touchstart", function(){
-				clearTimeout(autoInterval);
+				clearTimeout(autoTimeout);
 			});
 
-			// if the `data-autotplay` attribute is assigned a natural number value
+			// if the `data-autoplay` attribute is assigned a natural number value
 			// use it to make the slides cycle until there is a user interaction
-			if(autoTiming){
-				var parseError = false;
-
-				try {
-					autoTiming = parseInt(autoTiming, 10);
-				} catch(e) {
-					parseError = true;
+			function autoplay() {
+				var autoTiming = getAutoplayInterval();
+				if(autoTiming){
+					// autoTimeout is cleared in each user interaction binding
+					autoTimeout = setTimeout(function(){
+						arrowNavigate(true);
+						autoplay();
+					}, autoTiming);
 				}
-
-				// if NaN or there was an error throw an exception
-				if( !autoTiming || parseError ) {
-					var msg = "Snapper: `data-autoplay` must have an natural number value.";
-					throw new Error(msg);
-				}
-
-				// autoInterval is cleared in each user interaction binding
-				autoInterval = setInterval(function(){
-					arrowNavigate(true);
-				}, autoTiming);
 			}
+
+			autoplay();
 		});
 
 		return (innerResult !== undefined ? innerResult : result);
