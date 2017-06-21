@@ -49,6 +49,7 @@
 
 			var after = function(){
 				elem.scrollLeft = x;
+				$(elem).closest( "." + pluginName ).removeClass( pluginName + "-looping" );
 				$( elem ).trigger( pluginName + ".after-goto", {
 					activeSlides: itemsAtOffset( elem, x )
 				});
@@ -296,6 +297,7 @@
 				var maxScroll = width - itemWidth - 5;
 				if( forward ){
 					if( currScroll >= maxScroll ){
+						$self.addClass( pluginName + "-looping" );
 						return first();
 					}
 					else {
@@ -304,6 +306,7 @@
 				}
 				else {
 					if( currScroll === 0 ){
+						$self.addClass( pluginName + "-looping" );
 						return last();
 					}
 					else {
