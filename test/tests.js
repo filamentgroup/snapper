@@ -155,7 +155,6 @@ window.onload = function(){
 		$snapper.attr( "data-snapper-autoplay", "500" );
 
 		$(document).one("snapper.after-snap", checkBinding = function(){
-			console.log("extra calls");
 			ok(true, "after-snap called");
 
 			if(++eventCounter === 3){
