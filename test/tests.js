@@ -121,4 +121,21 @@ window.onload = function(){
 		$(".snapper_nextprev_prev").trigger( "click" );
 	});
 
+	asyncTest( 'get index returns correct index after goto', function(){
+		var $snapper = $(".snapper").snapper();
+		equal($snapper.snapper("getIndex"), 0);
+
+		$(document).one("snapper.after-snap", function(){
+			equal($snapper.snapper("getIndex"), 1);
+
+			$(document).one("snapper.after-snap", function(){
+				equal($snapper.snapper("getIndex"), 2);
+				start();
+			});
+
+			$snapper.snapper("goto", 2);
+		});
+
+		$snapper.snapper("goto", 1);
+	});
 };
