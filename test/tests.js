@@ -74,7 +74,7 @@ window.onload = function(){
 		expect(1);
 		$(".snapper_pane")[0].scrollLeft = 0;
 
-		$(".snapper").bind( "snapper.snap", function(e, o){
+		$(".snapper").one( "snapper.snap", function(e, o){
 			ok( o.activeSlides.length > 0 );
 			start();
 		});
@@ -113,11 +113,15 @@ window.onload = function(){
 
 	asyncTest( 'back arrow loops to end', function() {
 		expect(1);
+		$(".snapper").snapper();
 		$(".snapper_pane")[0].scrollLeft = 0;
-		setTimeout(function(){
-			ok( $(".snapper_pane")[0].scrollLeft === $(".snapper_pane")[0].scrollWidth );
+		$(document).one("snapper.after-snap", function(){
+			var width = $(".snapper_pane")[0].scrollWidth;
+			var items = $(".snapper_pane .snapper_items div").length;
+			var itemWidth = width/items;
+			ok( $(".snapper_pane")[0].scrollLeft === (itemWidth * (items - 1)));
 			start();
-		}, 1000);
+		});
 		$(".snapper_nextprev_prev").trigger( "click" );
 	});
 
@@ -138,4 +142,31 @@ window.onload = function(){
 
 		$snapper.snapper("goto", 1);
 	});
+
+	asyncTest( 'autoplay advances a few times once started', function(){
+		expect(4);
+		var eventCounter = 0;
+		var checkBinding;
+
+		var $snapper = $(".snapper").snapper();
+
+		equal($snapper.snapper("getIndex"), 0);
+
+		$snapper.attr( "data-snapper-autoplay", "500" );
+
+		$(document).one("snapper.after-snap", checkBinding = function(){
+			console.log("extra calls");
+			ok(true, "after-snap called");
+
+			if(++eventCounter === 3){
+				$snapper.removeAttr( "data-snapper-autoplay" );
+				start();
+			} else {
+				$(document).one("snapper.after-snap", checkBinding);
+			}
+		});
+
+		$snapper.snapper();
+	});
+
 };
