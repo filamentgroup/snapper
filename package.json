@@ -30,5 +30,8 @@
   "dependencies": {
     "jquery": "^1.11.3",
     "fg-toss": "^0.2.3"
+  },
+  "scripts" : {
+    "test" : "grunt"
   }
 }
