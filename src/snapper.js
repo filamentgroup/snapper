@@ -72,6 +72,14 @@
 			}
 		}
 
+		// from https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
+		function preventDefault(e) {
+			e = e || window.event;
+			if (e.preventDefault)
+				e.preventDefault();
+			e.returnValue = false;
+		}
+
 		var result, innerResult;
 
 		// Loop through snapper elements and enhance/bind events
@@ -93,7 +101,6 @@
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
 			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
-
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
@@ -127,6 +134,12 @@
 				}
 
 				return;
+			} else {
+				if( optionsOrMethod && optionsOrMethod.swipe === false ){
+					$slider.bind("touchmove", preventDefault); // mobile
+				} else {
+					$slider.unbind("touchmove", preventDefault);
+				}
 			}
 
 			// NOTE all state manipulation has to come after method invocation to
