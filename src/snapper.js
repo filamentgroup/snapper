@@ -135,7 +135,7 @@
 
 				return;
 			} else {
-				if( optionsOrMethod.swipe === false ){
+				if( optionsOrMethod && optionsOrMethod.swipe === false ){
 					$slider.bind("touchmove", preventDefault); // mobile
 				} else {
 					$slider.unbind("touchmove", preventDefault);
