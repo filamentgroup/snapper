@@ -72,6 +72,7 @@
 			}
 		}
 
+
 		var result, innerResult;
 
 		// Loop through snapper elements and enhance/bind events
@@ -93,7 +94,6 @@
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navSelectedClass = pluginName + "_nav_item-selected";
 			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
-
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
@@ -247,8 +247,15 @@
 					}
 				} );
 
+			var snapScrollCancelled = false;
+
 			// snap to nearest slide. Useful after a scroll stops, for polyfilling snap points
 			function snapScroll(){
+				if(isTouched){
+					snapScrollCancelled = true;
+					return;
+				}
+
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
@@ -266,6 +273,8 @@
 						goto( $slider[ 0 ], roundedScroll );
 					}
 				}
+
+				snapScrollCancelled = false;
 			}
 
 			// retain snapping on resize (necessary even in scroll-snap supporting browsers currently, unfortunately)
@@ -366,14 +375,14 @@
 
 					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
-				// set active item on scroll
-				$slider.bind( "scroll", activeItem );
+
 				// set active item on init
 				activeItem();
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
+			var scrolling;
 			$slider.bind( "scroll", function(e){
 				if( !scrollListening ){
 					//return;
@@ -381,13 +390,32 @@
 				if( scrollStop ){
 					clearTimeout( scrollStop );
 				}
-				scrollStop = setTimeout( snapScroll, 50 );
+
+				scrolling = true;
+
+				scrollStop = setTimeout( function(){
+					snapScroll();
+					activeItem();
+					scrolling = false;
+				}, 150 );
 			});
+
+			var isTouched = false;
 
 			// if a touch event is fired on the snapper we know the user is trying to
 			// interact with it and we should disable the auto play
-			$self.bind("touchstart", function(){
+			$slider.bind("touchstart", function(){
 				clearTimeout(autoTimeout);
+
+				isTouched = true;
+			});
+
+			$slider.bind("touchend", function(){
+				isTouched = false;
+
+				if(snapScrollCancelled && !scrolling){
+					snapScroll();
+				}
 			});
 
 			// if the `data-autoplay` attribute is assigned a natural number value
