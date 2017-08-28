@@ -383,22 +383,20 @@
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
 			var scrolling;
+			var lastScroll = 0;
+
 			$slider.bind( "scroll", function(e){
-				if( !scrollListening ){
-					//return;
-				}
-				if( scrollStop ){
-					clearTimeout( scrollStop );
-				}
-
+				lastScroll = Date.now();
 				scrolling = true;
+			});
 
-				scrollStop = setTimeout( function(){
+			setInterval(function(){
+				if( scrolling && lastScroll <= Date.now() - 150) {
 					snapScroll();
 					activeItem();
 					scrolling = false;
-				}, 150 );
-			});
+				}
+			}, 150);
 
 			var isTouched = false;
 
@@ -415,6 +413,7 @@
 
 				if(snapScrollCancelled && !scrolling){
 					snapScroll();
+					scrolling = false;
 				}
 			});
 
