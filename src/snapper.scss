@@ -52,10 +52,12 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	position: relative;
 }
 /* qualify momentum scrolling to native scroll snap support */
-@supports ( -webkit-scroll-snap-type: mandatory ),
-    ( -ms-scroll-snap-type: mandatory ),
+@supports ( -webkit-scroll-snap-type: mandatory ) or
+    ( -ms-scroll-snap-type: mandatory ) or
     ( scroll-snap-type: mandatory ) {
+	.snapper_pane {
     -webkit-overflow-scrolling: touch;
+	}
 }
 .snapper_items {
 	@extend %clearfix;
