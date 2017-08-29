@@ -51,7 +51,7 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	        scroll-snap-points-x: repeat(100%);
 	position: relative;
 }
-/* qualify momentum scrolling to native scroll snap support 
+/* qualify momentum scrolling to native scroll snap support */
 @supports ( -webkit-scroll-snap-type: mandatory ) or
     ( -ms-scroll-snap-type: mandatory ) or
     ( scroll-snap-type: mandatory ) {
@@ -59,7 +59,6 @@ note: only use this if you have thumbnails or some other means of advancing slid
     -webkit-overflow-scrolling: touch;
 	}
 }
-*/
 .snapper_items {
 	@extend %clearfix;
 }
