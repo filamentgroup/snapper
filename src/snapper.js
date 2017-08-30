@@ -363,7 +363,7 @@
 				var lastActiveItem;
 				function activeItem(){
 					var currTime = new Date().getTime();
-					if( !lastActiveItem || currTime - lastActiveItem < 100 ){
+					if( lastActiveItem && currTime - lastActiveItem < 100 ){
 						return;	
 					}
 					lastActiveItem = currTime;
