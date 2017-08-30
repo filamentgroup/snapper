@@ -388,12 +388,12 @@
 			$slider.bind( "scroll", function(e){
 				lastScroll = Date.now();
 				scrolling = true;
+				activeItem();
 			});
 
 			setInterval(function(){
 				if( scrolling && lastScroll <= Date.now() - 150) {
 					snapScroll();
-					activeItem();
 					scrolling = false;
 				}
 			}, 150);
