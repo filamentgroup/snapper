@@ -1,6 +1,6 @@
 {
   "name": "fg-snapper",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A CSS Snap-Points based carousel (and lightweight polyfill)",
   "author": {
     "name": "Scott Jehl, Filament Group, Inc.",
@@ -31,7 +31,7 @@
     "jquery": "^1.11.3",
     "fg-toss": "^0.2.3"
   },
-  "scripts" : {
-    "test" : "grunt"
+  "scripts": {
+    "test": "grunt"
   }
 }
