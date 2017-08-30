@@ -360,8 +360,13 @@
 						elem.scrollTop = y;
 					}
 				}
-
+				var lastActiveItem;
 				function activeItem(){
+					var currTime = new Date().getTime();
+					if( !lastActiveItem || currTime - lastActiveItem < 100 ){
+						return;	
+					}
+					lastActiveItem = currTime;
 					var currScroll = $slider[ 0 ].scrollLeft;
 					var width = outerWidth( $itemsContain );
 					var navWidth = outerWidth( $nav );
@@ -376,23 +381,27 @@
 					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
 
+				var lastActiveItem = new Date().getTime();
+
 				// set active item on init
 				activeItem();
+				
+				$slider.bind( "scroll", activeItem );
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
 			var scrollStop;
 			var scrolling;
 			var lastScroll = 0;
+			
 
 			$slider.bind( "scroll", function(e){
-				lastScroll = Date.now();
+				lastScroll = new Date().getTime();
 				scrolling = true;
-				activeItem();
 			});
 
 			setInterval(function(){
-				if( scrolling && lastScroll <= Date.now() - 150) {
+				if( scrolling && lastScroll <= new Date().getTime() - 150) {
 					snapScroll();
 					scrolling = false;
 				}
