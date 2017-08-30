@@ -381,8 +381,6 @@
 					scrollNav( $navInner[ 0 ], thumbX, thumbY );
 				}
 
-				var lastActiveItem = new Date().getTime();
-
 				// set active item on init
 				activeItem();
 				
