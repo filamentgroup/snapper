@@ -361,9 +361,9 @@
 					}
 				}
 				var lastActiveItem;
-				function activeItem(){
+				function activeItem( force ){
 					var currTime = new Date().getTime();
-					if( lastActiveItem && currTime - lastActiveItem < 100 ){
+					if( force || lastActiveItem && currTime - lastActiveItem < 200 ){
 						return;	
 					}
 					lastActiveItem = currTime;
@@ -401,6 +401,9 @@
 			setInterval(function(){
 				if( scrolling && lastScroll <= new Date().getTime() - 150) {
 					snapScroll();
+					if( activeItem ){
+						activeItem( force );
+					}
 					scrolling = false;
 				}
 			}, 150);
