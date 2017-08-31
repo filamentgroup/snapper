@@ -363,8 +363,8 @@
 				var lastActiveItem;
 				function activeItem( force ){
 					var currTime = new Date().getTime();
-					if( force || lastActiveItem && currTime - lastActiveItem < 200 ){
-						return;	
+					if( !force && lastActiveItem && currTime - lastActiveItem < 200 ){
+						return;
 					}
 					lastActiveItem = currTime;
 					var currScroll = $slider[ 0 ].scrollLeft;
@@ -383,7 +383,7 @@
 
 				// set active item on init
 				activeItem();
-				
+
 				$slider.bind( "scroll", activeItem );
 			}
 
@@ -391,7 +391,7 @@
 			var scrollStop;
 			var scrolling;
 			var lastScroll = 0;
-			
+
 
 			$slider.bind( "scroll", function(e){
 				lastScroll = new Date().getTime();
