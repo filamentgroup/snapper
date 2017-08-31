@@ -402,7 +402,7 @@
 				if( scrolling && lastScroll <= new Date().getTime() - 150) {
 					snapScroll();
 					if( activeItem ){
-						activeItem( force );
+						activeItem( true );
 					}
 					scrolling = false;
 				}
