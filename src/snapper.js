@@ -175,7 +175,7 @@
 				var outerItemWidth = itemWidth + itemLeftMargin + itemRightMargin;
 				$items.eq(0).attr( "style", itemStyle );
 				$itemsContain.attr( "style", itemsContainStyle );
-				var parentWidth = numItems / Math.round(sliderWidth / outerItemWidth) * 100;
+				var parentWidth = numItems / (sliderWidth / outerItemWidth) * 100;
 				var iPercentWidth = itemWidth / sliderWidth * 100;
 				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
 				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
@@ -259,7 +259,7 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
-				var roundedScroll = Math.round(currScroll/itemWidth)*itemWidth;
+				var roundedScroll = ( currScroll / itemWidth ) * itemWidth;
 				var maxScroll = width - $slider.width();
 				if( roundedScroll > maxScroll ){
 					roundedScroll = maxScroll;
@@ -388,7 +388,6 @@
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
-			var scrollStop;
 			var scrolling;
 			var lastScroll = 0;
 
