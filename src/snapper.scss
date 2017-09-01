@@ -69,6 +69,22 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	white-space: normal;
 	scroll-snap-align: start;
 }
+.snapper_item:before {
+  content: "\20";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #fff;
+}
+.snapper_item:after {
+  content: "\20";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #fff;
+}
 .enhanced .snapper_item,
 .snapper-enhanced .snapper_item {
 	display: none;
