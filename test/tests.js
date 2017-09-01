@@ -5,7 +5,6 @@
 window.onload = function(){
 	/* TESTS HERE */
 
-
 	// toss dependency...
 	test( 'API Properties: toss is defined', function() {
 		ok( toss );
@@ -35,6 +34,13 @@ window.onload = function(){
 		ok( $(".snapper_pane").width() < $(".snapper_items" ).width(), "pane is narrower than items in it now" );
 		ok( $(".snapper_nextprev").length, "next prev generated" );
 		ok( $(".snapper_nextprev a").length === 2, "2 next prev links" );
+	});
+
+	var $snapper;
+	module("snapper", {
+		setup: function(){
+			$snapper = $( ".snapper").snapper();
+		}
 	});
 
 	asyncTest( 'Snapping occurs after scrolling to a spot that is not a snap point', function() {
@@ -72,12 +78,14 @@ window.onload = function(){
 
 	asyncTest( 'Snap event check', function() {
 		expect(1);
+
 		$(".snapper_pane")[0].scrollLeft = 0;
 
 		$(".snapper").one( "snapper.snap", function(e, o){
 			ok( o.activeSlides.length > 0 );
 			start();
 		});
+
 		$(".snapper_pane")[0].scrollLeft = 35;
 	});
 
@@ -113,20 +121,19 @@ window.onload = function(){
 
 	asyncTest( 'back arrow loops to end', function() {
 		expect(1);
-		$(".snapper").snapper();
 		$(".snapper_pane")[0].scrollLeft = 0;
 		$(document).one("snapper.after-snap", function(){
 			var width = $(".snapper_pane")[0].scrollWidth;
 			var items = $(".snapper_pane .snapper_items div").length;
 			var itemWidth = width/items;
-			ok( $(".snapper_pane")[0].scrollLeft === (itemWidth * (items - 1)));
+			// +3 for margin
+			equal( $(".snapper_pane")[0].scrollLeft, (itemWidth * (items - 1)) + 3);
 			start();
 		});
 		$(".snapper_nextprev_prev").trigger( "click" );
 	});
 
 	asyncTest( 'get index returns correct index after goto', function(){
-		var $snapper = $(".snapper").snapper();
 		equal($snapper.snapper("getIndex"), 0);
 
 		$(document).one("snapper.after-snap", function(){
@@ -148,8 +155,6 @@ window.onload = function(){
 		var eventCounter = 0;
 		var checkBinding;
 
-		var $snapper = $(".snapper").snapper();
-
 		equal($snapper.snapper("getIndex"), 0);
 
 		$snapper.attr( "data-snapper-autoplay", "500" );
@@ -167,5 +172,4 @@ window.onload = function(){
 
 		$snapper.snapper();
 	});
-
 };

@@ -95,6 +95,10 @@
 			var navSelectedClass = pluginName + "_nav_item-selected";
 			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
 
+			if( !snapSupported ){
+				$items.addClass("snapper_chrome_bug");
+			}
+
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
 				var index;
@@ -259,8 +263,9 @@
 				var currScroll = $slider[ 0 ].scrollLeft;
 				var width = $itemsContain.width();
 				var itemWidth = $items[ 1 ] ? $items[ 1 ].offsetLeft : outerWidth( $items.eq( 0 ) );
-				var roundedScroll = ( currScroll / itemWidth ) * itemWidth;
+				var roundedScroll = Math.round( currScroll / itemWidth ) * itemWidth;
 				var maxScroll = width - $slider.width();
+
 				if( roundedScroll > maxScroll ){
 					roundedScroll = maxScroll;
 				}
