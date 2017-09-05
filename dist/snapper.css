@@ -56,9 +56,6 @@ note: only use this if you have thumbnails or some other means of advancing slid
   .snapper_pane {
     -webkit-overflow-scrolling: touch; } }
 
-.snapper_chrome_bug {
-  margin-right: 3px; }
-
 .snapper_item {
   width: 100%;
   position: relative;

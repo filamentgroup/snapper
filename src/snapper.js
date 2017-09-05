@@ -95,10 +95,6 @@
 			var navSelectedClass = pluginName + "_nav_item-selected";
 			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
 
-			if( !snapSupported ){
-				$items.addClass("snapper_chrome_bug");
-			}
-
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
 				var index;
