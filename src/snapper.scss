@@ -52,16 +52,17 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	position: relative;
 	z-index: 0;
 }
-.snapper_pane:before,
-.snapper_pane:after {
+.snapper:before,
+.snapper:after {
 	content: "\20";
 	position: absolute;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	border-left: 1px solid #fff;
+	display: block;
 }
-.snapper_pane:after {
+.snapper:after {
 	left: auto;
 	right: 0;
 }
