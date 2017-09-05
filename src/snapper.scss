@@ -52,6 +52,19 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	position: relative;
 	z-index: 0;
 }
+.snapper_pane:before,
+.snapper_pane:after {
+	content: "\20";
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	border-left: 1px solid #fff;
+}
+.snapper_pane:after {
+	left: auto;
+	right: 0;
+}
 /* qualify momentum scrolling to native scroll snap support */
 @supports ( -webkit-scroll-snap-type: mandatory ) or
     ( -ms-scroll-snap-type: mandatory ) or
