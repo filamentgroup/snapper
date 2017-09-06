@@ -69,7 +69,8 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	white-space: normal;
 	scroll-snap-align: start;
 	box-sizing: border-box;
-	padding-right: 3px;
+	padding-right: 1px;
+	padding-left: 1px;
 }
 .enhanced .snapper_item,
 .snapper-enhanced .snapper_item {
