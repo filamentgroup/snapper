@@ -53,7 +53,9 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	z-index: 0;
 }
 .snapper:before,
-.snapper:after {
+.snapper:after,
+.snapper_item:before,
+.snapper_item:after {
 	content: "\20";
 	position: absolute;
 	top: 0;
@@ -62,7 +64,8 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	border-left: 1px solid #fff;
 	display: block;
 }
-.snapper:after {
+.snapper:after,
+.snapper_item:after {
 	left: auto;
 	right: 0;
 }
