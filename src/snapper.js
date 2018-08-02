@@ -129,6 +129,11 @@
 				return;
 			}
 
+			// avoid enhance activities
+			if( !optionsOrMethod && this.__enhanced ) {
+				return;
+			}
+
 			// NOTE all state manipulation has to come after method invocation to
 			// avoid monkeying with the DOM when it's unwarranted
 			var $navInner = $nav.find( "." + pluginName + "_nav_inner" );
@@ -405,6 +410,7 @@
 				}
 			}
 
+			this.__enhanced = true;
 			autoplay( getAutoplayInterval() );
 		});
 
