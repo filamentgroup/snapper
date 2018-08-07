@@ -5,7 +5,6 @@
 window.onload = function(){
 	/* TESTS HERE */
 
-
 	// toss dependency...
 	test( 'API Properties: toss is defined', function() {
 		ok( toss );
@@ -39,6 +38,7 @@ window.onload = function(){
 
 	asyncTest( 'Snapping occurs after scrolling to a spot that is not a snap point', function() {
 		expect(1);
+		$(".snapper").snapper();
 		$(".snapper_pane")[0].scrollLeft = 0;
 		$(".snapper_pane")[0].scrollLeft = 35;
 		setTimeout(function(){
@@ -48,6 +48,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'thumbnail clicks cause pane to scroll', function() {
+		$(".snapper").snapper();
 		expect(2);
 		var originalHash = window.location.hash;
 		$(".snapper_pane")[0].scrollLeft = 0;
@@ -64,6 +65,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'random # link clicks are ignored', function() {
+		$(".snapper").snapper();
 		expect(1);
 		$("#testlink").trigger( "click" );
 		ok( true );
@@ -71,6 +73,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'Snap event check', function() {
+		$(".snapper").snapper();
 		expect(1);
 		$(".snapper_pane")[0].scrollLeft = 0;
 
@@ -82,6 +85,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'Arrows navigate', function() {
+		$(".snapper").snapper();
 		expect(1);
 		$(".snapper_pane")[0].scrollLeft = 0;
 		setTimeout(function(){
@@ -92,6 +96,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'Arrows navigate part 2', function() {
+		$(".snapper").snapper();
 		expect(1);
 		$(".snapper_pane")[0].scrollLeft = 500;
 		setTimeout(function(){
@@ -102,6 +107,7 @@ window.onload = function(){
 	});
 
 	asyncTest( 'fwd arrow loops to 0', function() {
+		$(".snapper").snapper();
 		expect(1);
 		$(".snapper_pane")[0].scrollLeft = 5000;
 		setTimeout(function(){
@@ -147,12 +153,10 @@ window.onload = function(){
 		expect(4);
 		var eventCounter = 0;
 		var checkBinding;
+		var $snapperElem = $(".snapper");
+		var $snapper;
 
-		var $snapper = $(".snapper").snapper();
-
-		equal($snapper.snapper("getIndex"), 0);
-
-		$snapper.attr( "data-snapper-autoplay", "500" );
+		$snapperElem.attr( "data-snapper-autoplay", "500" );
 
 		$(document).one("snapper.after-snap", checkBinding = function(){
 			ok(true, "after-snap called");
@@ -165,7 +169,8 @@ window.onload = function(){
 			}
 		});
 
-		$snapper.snapper();
+		$snapper = $snapperElem.snapper();
+		equal($snapper.snapper("getIndex"), 0);
 	});
 
 };
