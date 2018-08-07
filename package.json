@@ -32,6 +32,7 @@
     "fg-toss": "^0.2.3"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt",
+    "build": "grunt"
   }
 }
