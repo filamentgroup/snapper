@@ -129,8 +129,8 @@
 				return;
 			}
 
-			// avoid enhance activities
-			if( !optionsOrMethod && this.__enhanced ) {
+			// avoid double enhance activities
+			if( $self.attr("data-" + pluginName + "-enhanced") ) {
 				return;
 			}
 
@@ -410,8 +410,8 @@
 				}
 			}
 
-			this.__enhanced = true;
 			autoplay( getAutoplayInterval() );
+			$self.attr("data-" + pluginName + "-enhanced", true);
 		});
 
 		return (innerResult !== undefined ? innerResult : result);
