@@ -50,24 +50,14 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	white-space: nowrap;
 	width: 100%;
 	/* snap to points */
-	-webkit-scroll-snap-type: mandatory;
-	    -ms-scroll-snap-type: mandatory;
-	        scroll-snap-type: mandatory;
+	scroll-snap-type: mandatory;
+	scroll-snap-type: x mandatory;
 	/* x interval for snapping (100% of container width) */
-	-webkit-scroll-snap-points-x: repeat(100%);
-	    -ms-scroll-snap-points-x: repeat(100%);
-	        scroll-snap-points-x: repeat(100%);
+	scroll-snap-points-x: repeat(100%);
 	position: relative;
 	z-index: 0;
 }
-/* qualify momentum scrolling to native scroll snap support */
-@supports ( -webkit-scroll-snap-type: mandatory ) or
-    ( -ms-scroll-snap-type: mandatory ) or
-    ( scroll-snap-type: mandatory ) {
-	.snapper_pane {
-    -webkit-overflow-scrolling: touch;
-	}
-}
+
 .snapper_items {
 	@extend %clearfix;
 }
