@@ -35,6 +35,14 @@ note: only use this if you have thumbnails or some other means of advancing slid
 .enhanced .snapper_pane_crop .snapper_pane {
   padding-bottom: 30px;
   margin-bottom: -30px;
+  /* IE and edge */
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	/* Firefox */
+	scrollbar-width: none;
+}
+.snapper-enhanced .snapper_pane_crop .snapper_pane::-webkit-scrollbar,
+.enhanced .snapper_pane_crop .snapper_pane::-webkit-scrollbar {
+	display: none;
 }
 .snapper_pane {
 	overflow-x: auto;
