@@ -9,7 +9,7 @@
 		// even if this test passes, several behaviors will still be polyfilled, such as snapping after resize, and animated advancing of slides with anchor links or next/prev links
 		var testProp = "scroll-snap-type";
 		// test latest spec first. then fallback older
-		var snapSupported = w.CSS && w.CSS.supports && (w.CSS.supports(testProp, "x mandatory") || w.CSS.supports(testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory")	 || w.CSS.supports("-ms-" + testProp, "mandatory") );
+		var snapSupported = w.CSS && w.CSS.supports && (w.CSS.supports(testProp, "x mandatory") || w.CSS.supports(testProp, "mandatory") || w.CSS.supports("-webkit-" + testProp, "mandatory") || w.CSS.supports("-ms-" + testProp, "mandatory") );
 
 		// get the snapper_item elements whose left offsets fall within the scroll pane. Returns a wrapped array.
 		function itemsAtOffset( elem, offset ){
