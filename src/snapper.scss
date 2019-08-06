@@ -34,7 +34,7 @@ note: only use this if you have thumbnails or some other means of advancing slid
 .snapper-enhanced .snapper_pane_crop .snapper_pane,
 .enhanced .snapper_pane_crop .snapper_pane {
   /* IE and edge */
-	-ms-overflow-style: -ms-autohiding-scrollbar;
+	-ms-overflow-style: none;
 	/* Firefox */
 	scrollbar-width: none;
 }
