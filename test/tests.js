@@ -21,13 +21,12 @@ window.onload = function(){
 
 	asyncTest( 'Enhancement steps', function() {
 		ok( $(".snapper_items > *:eq(2)").attr( "class" ) === undefined, "no classes applied at first" );
-		ok( $(".snapper_items > *:eq(2)").css( "float", "none" ), "no floats at first" );
+		ok( $(".snapper_items > *:eq(2)").css( "display", "table-cell" ), "table-cell layout" );
 		ok( $(".snapper_items").attr( "style" ) === undefined, "no style inline applied" );
 		document.documentElement.className += "enhanced";
 		$(function(){
 			$( ".snapper" ).snapper();
 			start();
-			ok($(".snapper_items > *:eq(2)").css("float", "left"));
 			ok($(".snapper_items").attr("style") !== undefined, "style inline applied");
 			ok($(".snapper_items > *:eq(2)").attr("style") !== undefined, "style inline applied");
 			ok($(".snapper_pane").css("overflow-x") === "auto", "pane has overflow auto");
