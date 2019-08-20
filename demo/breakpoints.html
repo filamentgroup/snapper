@@ -18,8 +18,8 @@
 
     /* breakpoints example */
     @media (min-width: 30em){
-    	.snapper-smallpoints  .snapper_item {
-    	  width: 50%;
+    	.snapper-smallpoints  .snapper_items {
+    	  width: 300%;
     	}
       .snapper-smallpoints  .snapper_pane {
     	  -webkit-scroll-snap-points-x: repeat(50%);
@@ -28,8 +28,8 @@
     	}
     }
     @media (min-width: 50em){
-      .snapper-smallpoints  .snapper_item {
-    	  width: 33.333%;
+      .snapper-smallpoints  .snapper_items {
+    	  width: 200%;
     	}
       .snapper-smallpoints  .snapper_pane {
     	  -webkit-scroll-snap-points-x: repeat(33.33333%);
@@ -109,27 +109,25 @@
     <h3 class="docs" id="css">CSS for this example</h3>
     <pre class="docs language-css"><code class="docs language-css">
 @media (min-width: 30em){
-  .snapper_item {
-    width: 40%;
-    margin-right: 10%;
-  }
-  .snapper_pane {
-    -webkit-scroll-snap-points-x: repeat(50%);
-    -ms-scroll-snap-points-x: repeat(50%);
-    scroll-snap-points-x: repeat(50%);
-  }
-}
-@media (min-width: 50em){
-  .snapper_item {
-    width: 30%;
-    margin-right: 3.3333%;
-  }
-  .snapper_pane {
-    -webkit-scroll-snap-points-x: repeat(33.33333%);
-    -ms-scroll-snap-points-x: repeat(33.33333%);
-    scroll-snap-points-x: repeat(33.33333%);
-  }
-}
+    	.snapper-smallpoints  .snapper_items {
+    	  width: 300%;
+    	}
+      .snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(50%);
+    	  -ms-scroll-snap-points-x: repeat(50%);
+    	  scroll-snap-points-x: repeat(50%);
+    	}
+    }
+    @media (min-width: 50em){
+      .snapper-smallpoints  .snapper_items {
+    	  width: 200%;
+    	}
+      .snapper-smallpoints  .snapper_pane {
+    	  -webkit-scroll-snap-points-x: repeat(33.33333%);
+    	  -ms-scroll-snap-points-x: repeat(33.33333%);
+    	  scroll-snap-points-x: repeat(33.33333%);
+    	}
+    }
 </code></pre>
 
 </div>

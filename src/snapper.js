@@ -123,7 +123,7 @@
 					innerResult = Math.floor(($slider[ 0 ].scrollLeft + 1)/ itemWidth);
 					break;
 				case "updateWidths":
-					updateWidths();
+					updateCountClass();
 					break;
 				}
 
@@ -168,34 +168,11 @@
 
 			// this function updates the widths of the items within the slider, and their container.
 			// It factors in margins and converts those to values that make sense when all items are placed in a long row
-			function updateWidths(){
-				var itemsContainStyle = $itemsContain.attr( "style" );
-				$itemsContain.attr( "style", "" );
-				var itemStyle = $items.eq(0).attr( "style" );
-				$items.eq(0).attr( "style", "" );
-				var sliderWidth = $slider.width();
-				var itemWidth = $items.eq(0).width();
-				var computed = w.getComputedStyle( $items[ 0 ], null );
-				var itemLeftMargin = parseFloat( computed.getPropertyValue( "margin-left" ) );
-				var itemRightMargin = parseFloat( computed.getPropertyValue( "margin-right" ) );
-				var outerItemWidth = itemWidth + itemLeftMargin + itemRightMargin;
-				$items.eq(0).attr( "style", itemStyle );
-				$itemsContain.attr( "style", itemsContainStyle );
-				var parentWidth = numItems / Math.round(sliderWidth / outerItemWidth) * 100;
-				var iPercentWidth = itemWidth / sliderWidth * 100;
-				var iPercentRightMargin = itemRightMargin / sliderWidth * 100;
-				var iPercentLeftMargin = itemLeftMargin / sliderWidth * 100;
-				var outerPercentWidth = iPercentWidth + iPercentLeftMargin + iPercentRightMargin;
-				var percentAsWidth = iPercentWidth / outerPercentWidth;
-				var percentAsRightMargin = iPercentRightMargin / outerPercentWidth;
-				var percentAsLeftMargin = iPercentLeftMargin / outerPercentWidth;
-				$itemsContain.css( "width", parentWidth + "%");
-				$items.css( "width", 100 / numItems * percentAsWidth + "%" );
-				$items.css( "margin-left", 100 / numItems * percentAsLeftMargin + "%" );
-				$items.css( "margin-right", 100 / numItems * percentAsRightMargin + "%" );
+			function updateCountClass(){
+				$( self ).attr("data-snapper-count", numItems );
 			}
 
-			updateWidths();
+			updateCountClass();
 			$( self ).addClass( enhancedClass );
 
 			// if the nextprev option is set, add the nextprev nav
@@ -284,7 +261,7 @@
 			}
 
 			// retain snapping on resize (necessary even in scroll-snap supporting browsers currently, unfortunately)
-			var startSlide;
+			var startSlide = 0;
 			var afterResize;
 			function snapStay(){
 				var currScroll = $slider[ 0 ].scrollLeft;
@@ -297,7 +274,6 @@
 					clearTimeout( afterResize );
 				}
 				afterResize = setTimeout( function(){
-					updateWidths();
 					goto( $slider[ 0 ], $items[ startSlide ].offsetLeft, true );
 					startSlide = afterResize = undefined;
 				}, 50 );
