@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 	var os = require( 'os' ),
 		path = require( 'path' ),
 		isWindows = os.platform().toLowerCase().indexOf( 'win' ) === 0; // watch out for 'darwin'
+const sass = require('node-sass');
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
 
@@ -30,7 +31,8 @@ module.exports = function(grunt) {
 
 		sass: {
       options: {
-				banner: '<%= meta.banner %>'
+				banner: '<%= meta.banner %>',
+				implementation: sass
 			},
 			src: {
 				files: [{
