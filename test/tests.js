@@ -74,19 +74,6 @@ window.onload = function(){
 		ok( true );
 		start();
 	});
-
-	asyncTest( 'Snap event check', function() {
-		$(".snapper").snapper();
-		expect(1);
-		$(".snapper_pane")[0].scrollLeft = 0;
-
-		$(".snapper").one( "snapper.snap", function(e, o){
-			ok( o.activeSlides.length > 0 );
-			start();
-		});
-		$(".snapper_pane")[0].scrollLeft = 35;
-	});
-
 	asyncTest( 'Arrows navigate', function() {
 		$(".snapper").snapper();
 		expect(1);
