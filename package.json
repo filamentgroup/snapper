@@ -25,7 +25,7 @@
     "grunt-sass": "^1.1.0",
     "matchdep": "^1.0.0",
     "grunt-contrib-copy": "^0.8.2",
-    "grunt-contrib-qunit": "^1.2.0"
+    "grunt-contrib-qunit": "3.1.0"
   },
   "dependencies": {
     "jquery": "3.4.1",
