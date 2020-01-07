@@ -72,17 +72,7 @@ window.onload = function(){
 		start();
 	});
 
-	// asyncTest( 'Snap event check', function() {
-	// 	$(".snapper").snapper();
-	// 	expect(1);
-	// 	$(".snapper_pane")[0].scrollLeft = 0;
 
-	// 	$(".snapper").one( "snapper.snap", function(e, o){
-	// 		ok( o.activeSlides.length > 0 );
-	// 		start();
-	// 	});
-	// 	$(".snapper_pane")[0].scrollLeft = 35;
-	// });
 
 	asyncTest( 'Arrows navigate', function() {
 		$(".snapper").snapper();
@@ -98,9 +88,9 @@ window.onload = function(){
 	asyncTest( 'Arrows navigate part 2', function() {
 		$(".snapper").snapper();
 		expect(1);
-		$(".snapper_pane")[0].scrollLeft = 500;
+		$(".snapper_pane")[0].scrollLeft = $(".snapper_pane").width();
 		setTimeout(function(){
-			ok( $(".snapper_pane")[0].scrollLeft < 500 );
+			ok($(".snapper_pane")[0].scrollLeft < $(".snapper_pane").width());
 			start();
 		}, 1000);
 		$(".snapper_nextprev_prev").trigger( "click" );
