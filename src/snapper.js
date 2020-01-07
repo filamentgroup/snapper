@@ -46,11 +46,12 @@
 		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, nothrow, callback ){
 			scrollListening = false;
+			$(elem).closest( "." + pluginName ).addClass(pluginName + "-sliding");
 			snapEvent( elem, x );
 
 			var after = function(){
 				elem.scrollLeft = x;
-				$(elem).closest( "." + pluginName ).removeClass( pluginName + "-looping" );
+				$(elem).closest( "." + pluginName ).removeClass( pluginName + "-looping" ).removeClass(pluginName + "-sliding")
 				$( elem ).trigger( pluginName + ".after-goto", {
 					activeSlides: itemsAtOffset( elem, x )
 				});
