@@ -23,6 +23,29 @@
     document.documentElement.className += "enhanced";
     $(function(){
       $( document ).trigger( "enhance" );
+
+      var lastScroll;
+      $( ".snapper_pane" )
+      .on("makeinfinite",function(){
+        var self = this;
+        var scrollWidth = this.scrollWidth;
+        var scrollLeft = this.scrollLeft;
+        var width = this.offsetWidth;
+        var items = $( this ).find( ".snapper_item" );
+
+        if( scrollLeft <= width ){
+          items.last().prependTo( items.parent() );
+          this.scrollLeft = scrollLeft + width;
+        }
+        if( scrollWidth - scrollLeft <= width ){
+          items.first().appendTo( items.parent() );
+          this.scrollLeft = scrollLeft - width;
+        }
+        
+      })
+      .on("scroll snapper.aftersnap",function(){
+        $(this).trigger("makeinfinite");
+      }).trigger("makeinfinite");
     });
   </script>
 </head>

@@ -370,7 +370,7 @@
 				var lastActiveItem;
 				function activeItem( force ){
 					var currTime = new Date().getTime();
-					if( !force && lastActiveItem && currTime - lastActiveItem < 200 ){
+					if( !force && lastActiveItem && currTime - lastActiveItem < 50 ){
 						return;
 					}
 					lastActiveItem = currTime;
@@ -380,7 +380,8 @@
 					var navHeight = outerHeight( $nav );
 					var activeIndex = Math.round( currScroll / width * numItems ) || 0;
 					var childs = $nav.find( "a" ).removeClass( navSelectedClass );
-					var activeChild = childs.eq( activeIndex ).addClass( navSelectedClass );
+					var itemID = $slider.find(".snapper_item").eq( activeIndex ).attr("id");
+					var activeChild = childs.filter("[href='#" + itemID + "']" ).addClass( navSelectedClass );
 
 					var thumbX = activeChild[ 0 ].offsetLeft - (navWidth/2);
 					var thumbY = activeChild[ 0 ].offsetTop - (navHeight/2);
