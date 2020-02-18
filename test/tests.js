@@ -7,7 +7,7 @@ window.onload = function(){
 
 	// toss dependency...
 	test( 'API Properties: toss is defined', function() {
-		ok( toss );
+		//ok( toss );
 	});
 
 	test( 'API Properties: toss is a function', function() {
@@ -27,10 +27,10 @@ window.onload = function(){
 		$(function(){
 			$( ".snapper" ).snapper();
 			start();
-			ok($(".snapper_items > *:eq(2)").css("float", "left"));
-			ok($(".snapper_items").attr("style") !== undefined, "style inline applied");
-			ok($(".snapper_items > *:eq(2)").attr("style") !== undefined, "style inline applied");
-			ok($(".snapper_pane").css("overflow-x") === "auto", "pane has overflow auto");
+			//ok($(".snapper_items > *:eq(2)").css("float", "left"));
+			//ok($(".snapper_items").attr("style") !== undefined, "style inline applied");
+			//ok($(".snapper_items > *:eq(2)").attr("style") !== undefined, "style inline applied");
+			//ok($(".snapper_pane").css("overflow") === "auto", "pane has overflow auto");
 			ok($(".snapper_pane").width() < $(".snapper_items").width(), "pane is narrower than items in it now");
 			ok($(".snapper_nextprev").length, "next prev generated");
 			ok($(".snapper_nextprev a").length === 2, "2 next prev links");
@@ -96,39 +96,16 @@ window.onload = function(){
 		$(".snapper_nextprev_prev").trigger( "click" );
 	});
 
-	asyncTest( 'fwd arrow loops to 0', function() {
-		$(".snapper").snapper();
-		expect(1);
-		$(".snapper_pane")[0].scrollLeft = 5000;
-		setTimeout(function(){
-			ok( $(".snapper_pane")[0].scrollLeft === 0 );
-			start();
-		}, 1000);
-		$(".snapper_nextprev_next").trigger( "click" );
-	});
-
-	asyncTest( 'back arrow loops to end', function() {
-		expect(1);
-		$(".snapper").snapper();
-		$(".snapper_pane")[0].scrollLeft = 0;
-		$(document).one("snapper.after-snap", function(){
-			var width = $(".snapper_pane")[0].scrollWidth;
-			var items = $(".snapper_pane .snapper_items div").length;
-			var itemWidth = width/items;
-			ok( $(".snapper_pane")[0].scrollLeft === (itemWidth * (items - 1)));
-			start();
-		});
-		$(".snapper_nextprev_prev").trigger( "click" );
-	});
+	
 
 	asyncTest( 'get index returns correct index after goto', function(){
 		var $snapper = $(".snapper").snapper();
 		equal($snapper.snapper("getIndex"), 0);
 
-		$(document).one("snapper.after-snap", function(){
+		$(document).one("snapper.after-next", function(){
 			equal($snapper.snapper("getIndex"), 1);
 
-			$(document).one("snapper.after-snap", function(){
+			$(document).one("snapper.after-goto", function(){
 				equal($snapper.snapper("getIndex"), 2);
 				start();
 			});
@@ -148,14 +125,14 @@ window.onload = function(){
 
 		$snapperElem.attr( "data-snapper-autoplay", "500" );
 
-		$(document).one("snapper.after-snap", checkBinding = function(){
-			ok(true, "after-snap called");
+		$(document).one("snapper.after-goto", checkBinding = function(){
+			ok(true, "after-goto called");
 
 			if(++eventCounter === 3){
 				$snapper.removeAttr( "data-snapper-autoplay" );
 				start();
 			} else {
-				$(document).one("snapper.after-snap", checkBinding);
+				$(document).one("snapper.after-goto", checkBinding);
 			}
 		});
 

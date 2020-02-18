@@ -29,8 +29,7 @@
     "grunt-contrib-qunit": "^3.1.0"
   },
   "dependencies": {
-    "jquery": "3.4.1",
-    "fg-toss": "^0.2.3"
+    "jquery": "3.4.1"
   },
   "scripts": {
     "test": "grunt",
