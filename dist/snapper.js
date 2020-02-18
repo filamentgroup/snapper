@@ -15,7 +15,7 @@
 		}
 
 		function observeItems( elem ){
-			var observer = new IntersectionObserver(callback, {root: elem });
+			var observer = new IntersectionObserver(observerCallback, {root: elem });
 			$( elem ).find( "." + pluginName + "_item" ).each(function(){
 				observer.observe(this);
 			});
@@ -27,23 +27,22 @@
 			return $( elem ).find( "." + pluginName + "_item-active" );
 		}
 
-		function outerWidth( $elem ){
-			return $elem.width() + parseFloat( $elem.css( "margin-left" ) ) + parseFloat( $elem.css( "margin-right" ) );
-		}
 
-		function outerHeight( $elem ){
-			return $elem.height() + parseFloat( $elem.css( "margin-bottom" ) ) + parseFloat( $elem.css( "margin-top" ) );
-		}
 
 		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
-		function goto( elem, x, nothrow, callback ){
+		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
+			var activeSlides = activeItems( elem );
 			$( elem ).trigger( pluginName + ".after-goto", {
-				activeSlides: activeItems( elem )
+				activeSlides: activeSlides[ 0 ]
 			});
 			if( callback ){ 
 				callback();
 			};
+			//TODO
+			if( useDeepLinking && "replaceState" in w.history ){
+				w.history.replaceState( {}, document.title, "#" + activeSlides[ 0 ].id );
+			}
 		}
 
 
@@ -66,7 +65,8 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navActiveClass = pluginName + "_nav_item-selected";
-			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
+			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) === "true";
+			observeItems($self[0]);
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
@@ -77,7 +77,7 @@
 				case "goto":
 					index = args[0] % numItems;
 					offset = $slider.find( "." + pluginName + "_item" ).eq( index );
-					goto( $slider[ 0 ], offset, false, function(){
+					goto( $slider[ 0 ], offset, useDeepLinking, function(){
 						// invoke the callback if it was supplied
 						if( typeof args[1] === "function" ){
 							args[1]();
@@ -133,7 +133,7 @@
 					e.preventDefault();
 					var $slide = $( slideID, self );
 					if( $slide.length ){
-						goto( $slider[ 0 ], $slide[ 0 ].offsetLeft );
+						goto( $slider[ 0 ], $slide[ 0 ].offsetLeft, useDeepLinking );
 					}
 				}
 			});
@@ -162,14 +162,14 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), false, function(){
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), useDeepLinking, function(){
 					$slider.trigger( pluginName + ".after-next" );
 				});
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), false, function(){
+				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), useDeepLinking, function(){
 					$slider.trigger( pluginName + ".after-prev" );
 				});
 			}
@@ -187,8 +187,8 @@
 						return;
 					}
 					lastActiveItem = currTime;
-					var navWidth = outerWidth( $nav );
-					var navHeight = outerHeight( $nav );
+					var navWidth = $nav.width();
+					var navHeight = $nav.height();
 					var activeIndex = activeItems()[0] || 0;
 					var childs = $nav.find( "a" ).removeClass( navActiveClass );
 					var activeChild = childs.eq( activeIndex ).addClass( navActiveClass );

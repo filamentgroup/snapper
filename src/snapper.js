@@ -33,7 +33,6 @@
 		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
 			var activeSlides = activeItems( elem );
-			console.log(activeSlides)
 			$( elem ).trigger( pluginName + ".after-goto", {
 				activeSlides: activeSlides[ 0 ]
 			});
@@ -42,7 +41,7 @@
 			};
 			//TODO
 			if( useDeepLinking && "replaceState" in w.history ){
-				w.history.replaceState( {}, document.title, activeSlides[ 0 ].id );
+				w.history.replaceState( {}, document.title, "#" + activeSlides[ 0 ].id );
 			}
 		}
 
@@ -66,8 +65,8 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navActiveClass = pluginName + "_nav_item-selected";
-			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) !== "false";
-			observeItems();
+			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) === "true";
+			observeItems($self[0]);
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
