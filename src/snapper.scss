@@ -47,6 +47,15 @@ note: only use this if you have thumbnails or some other means of advancing slid
 	overflow-y: hidden;
 	white-space: nowrap;
 	width: 100%;
+	/* keep old API for iOS older than 13, then use new API */
+	-webkit-overflow-scrolling: touch;
+	-webkit-scroll-snap-type: mandatory;
+		-ms-scroll-snap-type: mandatory;
+			scroll-snap-type: mandatory;
+	/* x interval for snapping (100% of container width) */
+	-webkit-scroll-snap-points-x: repeat(100%);
+		-ms-scroll-snap-points-x: repeat(100%);
+			scroll-snap-points-x: repeat(100%);
 	/* snap to points */
 	scroll-snap-type: mandatory;
 	scroll-snap-type: x mandatory;
