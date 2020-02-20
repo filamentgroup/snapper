@@ -7,12 +7,14 @@
 
 		function observerCallback( entries ){
 			var parentElem =  $( entries[0].target ).closest( "." + pluginName );
+			var navElem = parentElem.find( "." + pluginName + "_nav" );
 			entries.forEach(entry => {
 				var entryNavLink = parentElem.find( "a[href='#" + entry.target.id + "']" );
 				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
-					if( entryNavLink.length ){
+					if( navElem.length ){
 						entryNavLink[0].classList.add( navActiveClass );
+						navElem[0].scrollTo({ left: entryNavLink[0].offsetLeft, behavior: "smooth" });
 					}
 				}
 				else {
@@ -31,8 +33,6 @@
 			});
 		}
 
-
-
 		// get the snapper_item elements whose left offsets fall within the scroll pane.
 		function activeItems( elem ){
 			return $( elem ).find( "." + pluginName + "_item-active" );
@@ -42,17 +42,17 @@
 		function updateSort(el) {
 			var scrollWidth = el.scrollWidth;
 			var scrollLeft = el.scrollLeft;
-			var width = el.offsetWidth;
 			var contain = $(el).find( "." + pluginName + "_items" );
 			var items = contain.children();
+			var width = el.offsetWidth;
 
-			if (scrollLeft <= width ) {
+			if (scrollLeft < width ) {
 			  var sortItem = items.last();
 			  var sortItemWidth = sortItem.width();
 			  contain.prepend(sortItem);
 			  el.scrollLeft = scrollLeft + sortItemWidth;
 			}
-			else if (scrollWidth - scrollLeft <= width) {
+			else if (scrollWidth - scrollLeft - width <= 0 ) {
 			  var sortItem = items.first();
 			  var sortItemWidth = sortItem.width();
 			  contain.append(sortItem);
@@ -220,16 +220,6 @@
 
 			observeItems($slider[ 0 ]);
 
-			var afterScroll;
-			$slider.on("scroll", function(){
-				clearTimeout(afterScroll);
-				afterScroll = setTimeout(function(){
-					updateSort($slider[0]);
-				}, 100 );
-			});
-
-			updateSort($slider[0]);
-
 			function getAutoplayInterval() {
 				var autoTiming = $self.attr( "data-snapper-autoplay" );
 				if( autoTiming ) {
@@ -259,6 +249,15 @@
 			$slider.bind("pointerdown click mouseenter focus", function(){
 				clearTimeout(autoTimeout);
 			});
+
+			var scrolling;
+			$slider.bind("scroll", function(){
+				window.clearTimeout(scrolling);
+				scrolling = setTimeout(function(){
+					updateSort( $slider[0] );
+				},66);
+			});
+			updateSort( $slider[0] );
 
 			autoplay( getAutoplayInterval() );
 			$self.attr("data-" + pluginName + "-enhanced", true);
