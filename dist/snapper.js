@@ -5,9 +5,10 @@
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
 
-		function observerCallback( entries, observer ){
+		function observerCallback( entries ){
+			var parentElem =  $( entries[0].target ).closest( "." + pluginName );
 			entries.forEach(entry => {
-				var entryNavLink = $( entry.target ).closest( "." + pluginName ).find( "a[href='#" + entry.target.id + "']" );
+				var entryNavLink = parentElem.find( "a[href='#" + entry.target.id + "']" );
 				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
 					if( entryNavLink.length ){
@@ -21,24 +22,42 @@
 					}
 				}
 			});
-
-			$( entries ).closest( "." + pluginName ).find( "." + pluginName + "_nav a" ).each(function(){
-
-			})
 		}
 
 		function observeItems( elem ){
-			window.observer = new IntersectionObserver(observerCallback, {root: elem, threshold: .75 });
+			var observer = new IntersectionObserver(observerCallback, {root: elem, threshold: .75 });
 			$( elem ).find( "." + pluginName + "_item" ).each(function(){
 				observer.observe(this);
 			});
-			return observer;
 		}
+
 
 
 		// get the snapper_item elements whose left offsets fall within the scroll pane.
 		function activeItems( elem ){
 			return $( elem ).find( "." + pluginName + "_item-active" );
+		}
+
+		// sort an item to either end to ensure there's always something to advance to
+		function updateSort(el) {
+			var scrollWidth = el.scrollWidth;
+			var scrollLeft = el.scrollLeft;
+			var width = el.offsetWidth;
+			var contain = $(el).find( "." + pluginName + "_items" );
+			var items = contain.children();
+
+			if (scrollLeft <= width ) {
+			  var sortItem = items.last();
+			  var sortItemWidth = sortItem.width();
+			  contain.prepend(sortItem);
+			  el.scrollLeft = scrollLeft + sortItemWidth;
+			}
+			else if (scrollWidth - scrollLeft <= width) {
+			  var sortItem = items.first();
+			  var sortItemWidth = sortItem.width();
+			  contain.append(sortItem);
+			  el.scrollLeft = scrollLeft - sortItemWidth;
+			}
 		}
 
 		function goto( elem, x, useDeepLinking, callback ){
@@ -200,6 +219,16 @@
 			}
 
 			observeItems($slider[ 0 ]);
+
+			var afterScroll;
+			$slider.on("scroll", function(){
+				clearTimeout(afterScroll);
+				afterScroll = setTimeout(function(){
+					updateSort($slider[0]);
+				}, 100 );
+			});
+
+			updateSort($slider[0]);
 
 			function getAutoplayInterval() {
 				var autoTiming = $self.attr( "data-snapper-autoplay" );
