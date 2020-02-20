@@ -23,8 +23,7 @@ const sass = require('node-sass');
 			js: {
 				files: [
 					{ expand: true, cwd: "src", src: ["*.js"], dest: "dist/" },
-          { expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"},
-          { expand: true, cwd: 'node_modules/fg-toss/src', src: [ "toss.js" ], dest: "src/lib"}
+          { expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"}
 				]
 			}
     },
@@ -54,8 +53,8 @@ const sass = require('node-sass');
 
 	grunt.registerTask('default', [
     'copy',
-		'sass',
-		'test'
+		'sass'//,
+		//'test'
 	]);
 
 	grunt.registerTask('stage', [

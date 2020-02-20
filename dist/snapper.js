@@ -4,32 +4,32 @@
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
 
-		function observerCallback( entries ){
+		function observerCallback( entries, observer ){
 			entries.forEach(entry => {
-				if (entry.isIntersecting) {
+				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
-				} else {
+				}
+				else {
 					entry.target.classList.remove( pluginName + "_item-active" );
 				}
 			});
 		}
 
 		function observeItems( elem ){
-			var observer = new IntersectionObserver(observerCallback, {root: elem });
+			window.observer = new IntersectionObserver(observerCallback, {root: elem, threshold: .75 });
 			$( elem ).find( "." + pluginName + "_item" ).each(function(){
 				observer.observe(this);
 			});
+			return observer;
 		}
 
 
-		// get the snapper_item elements whose left offsets fall within the scroll pane. Returns a wrapped array.
+		// get the snapper_item elements whose left offsets fall within the scroll pane.
 		function activeItems( elem ){
 			return $( elem ).find( "." + pluginName + "_item-active" );
 		}
 
 
-
-		// optional: include toss() in your page to get a smooth scroll, otherwise it'll just jump to the slide
 		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
 			var activeSlides = activeItems( elem );
@@ -65,13 +65,12 @@
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
 			var navActiveClass = pluginName + "_nav_item-selected";
-			var useDeepLinking = $self.attr( "data-snapper-deeplinking" ) === "true";
-			observeItems($self[0]);
+			var useDeepLinking = !$self.is( "[data-snapper-deeplinking]" ) || $self.attr( "data-snapper-deeplinking]" ) === "true";
+			
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
 				var index;
-				var itemWidth = ( $itemsContain.width() / numItems );
 
 				switch(optionsOrMethod) {
 				case "goto":
@@ -85,7 +84,7 @@
 					});
 					break;
 				case "getIndex":
-					innerResult = activeItems().get();
+					innerResult = activeItems($self).get();
 					break;
 				case "updateWidths":
 					// no longer does anything.
@@ -131,12 +130,20 @@
 				// internal links to slides
 				else if( slideID.indexOf( "#" ) === 0 && slideID.length > 1 ){
 					e.preventDefault();
-					var $slide = $( slideID, self );
-					if( $slide.length ){
-						goto( $slider[ 0 ], $slide[ 0 ].offsetLeft, useDeepLinking );
-					}
+					gotoSlide( slideID );
 				}
 			});
+
+			function gotoSlide( href, callback ){
+				var $slide = $( href, self );
+				if( $slide.length ){
+					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft, useDeepLinking, function(){
+						if( callback ){
+							callback();
+						}
+					} );
+				}
+			}
 
 
 			// retain snapping on resize 
@@ -162,16 +169,24 @@
 
 			// advance slide one full scrollpane's width forward
 			function next(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft + ( $itemsContain.width() / numItems ), useDeepLinking, function(){
-					$slider.trigger( pluginName + ".after-next" );
-				});
+				var currentActive =  activeItems($slider).first();
+				var next = currentActive.next();
+				if( next.length ){
+					gotoSlide( "#" + next.attr( "id" ), function(){
+						$slider.trigger( pluginName + ".after-next" );
+					} );
+				}
 			}
 
 			// advance slide one full scrollpane's width backwards
 			function prev(){
-				goto( $slider[ 0 ], $slider[ 0 ].scrollLeft - ( $itemsContain.width() / numItems ), useDeepLinking, function(){
-					$slider.trigger( pluginName + ".after-prev" );
-				});
+				var currentActive =  activeItems($slider).first();
+				var prev = currentActive.prev();
+				if( prev.length ){
+					gotoSlide( "#" + prev.attr( "id" ), function(){
+						$slider.trigger( pluginName + ".after-next" );
+					} );
+				}
 			}
 
 			// update thumbnail state on pane scroll
@@ -189,17 +204,24 @@
 					lastActiveItem = currTime;
 					var navWidth = $nav.width();
 					var navHeight = $nav.height();
-					var activeIndex = activeItems()[0] || 0;
-					var childs = $nav.find( "a" ).removeClass( navActiveClass );
-					var activeChild = childs.eq( activeIndex ).addClass( navActiveClass );
-					var thumbX = activeChild[ 0 ].offsetLeft - (navWidth/2);
-					var thumbY = activeChild[ 0 ].offsetTop - (navHeight/2);
-					scrollNav( $nav[ 0 ], thumbX, thumbY );
+					var actives = activeItems($slider);
+					if( actives.length ){
+					$nav.find( "a" ).removeClass( navActiveClass );
+						actives.each(function(){
+							var elID = this.id;
+							var pairedLink = $nav.find( "a[href='#" + elID + "']" );
+							pairedLink.addClass( navActiveClass );
+						});
+						var thumbX = actives[ 0 ].offsetLeft;
+						var thumbY = actives[ 0 ].offsetTop;
+						scrollNav( $nav[ 0 ], thumbX, thumbY );
+					}
 				}
 
 				// set active item on init
 				activeItem();
-				$slider.bind( "scroll", activeItem );
+				observeItems($slider[ 0 ]);
+				//$slider.bind( "scroll", activeItem );
 			}
 
 			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
@@ -223,7 +245,7 @@
 
 
 			function getAutoplayInterval() {
-				var autoTiming = $self.attr( "data-autoplay" ) || $self.attr( "data-snapper-autoplay" );
+				var autoTiming = $self.attr( "data-snapper-autoplay" );
 				if( autoTiming ) {
 					autoTiming = parseInt(autoTiming, 10) || 5000;
 				}
@@ -248,7 +270,7 @@
 
 			// if a touch event is fired on the snapper we know the user is trying to
 			// interact with it and we should disable the auto play
-			$slider.bind("pointerdown", function(){
+			$slider.bind("pointerdown click mouseenter focus", function(){
 				clearTimeout(autoTimeout);
 			});
 

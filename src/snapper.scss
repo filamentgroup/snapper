@@ -41,13 +41,14 @@
 	white-space: normal;
 	scroll-snap-align: start;
 	box-sizing: border-box;
-	padding-right: 1px;
-    padding-left: 1px;
+	// padding-right: 1px;
+    // padding-left: 1px;
 	flex: 1 0 auto;
 	width: 100%;
 }
 .snapper_items img {
 	width: 100%;
+	display: block;
 }
 
 
