@@ -1,18 +1,30 @@
 /* snapper css snap points carousel */
 ;(function( w, $ ){
 	var pluginName = "snapper";
+	var navActiveClass = pluginName + "_nav_item-selected";
 	$.fn[ pluginName ] = function(optionsOrMethod){
 		var pluginArgs = arguments;
 
 		function observerCallback( entries, observer ){
 			entries.forEach(entry => {
+				var entryNavLink = $( entry.target ).closest( "." + pluginName ).find( "a[href='#" + entry.target.id + "']" );
 				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
+					if( entryNavLink.length ){
+						entryNavLink[0].classList.add( navActiveClass );
+					}
 				}
 				else {
 					entry.target.classList.remove( pluginName + "_item-active" );
+					if( entryNavLink.length ){
+						entryNavLink[0].classList.remove( navActiveClass );
+					}
 				}
 			});
+
+			$( entries ).closest( "." + pluginName ).find( "." + pluginName + "_nav a" ).each(function(){
+
+			})
 		}
 
 		function observeItems( elem ){
@@ -29,7 +41,6 @@
 			return $( elem ).find( "." + pluginName + "_item-active" );
 		}
 
-
 		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
 			var activeSlides = activeItems( elem );
@@ -44,7 +55,6 @@
 				w.history.replaceState( {}, document.title, "#" + activeSlides[ 0 ].id );
 			}
 		}
-
 
 		var result, innerResult;
 
@@ -64,7 +74,7 @@
 			$items.addClass( pluginName + "_item" );
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
-			var navActiveClass = pluginName + "_nav_item-selected";
+			
 			var useDeepLinking = !$self.is( "[data-snapper-deeplinking]" ) || $self.attr( "data-snapper-deeplinking]" ) === "true";
 			
 
@@ -189,60 +199,7 @@
 				}
 			}
 
-			// update thumbnail state on pane scroll
-			if( $nav.length ){
-				// function for scrolling to the xy of the active thumbnail
-				function scrollNav(elem, x, y){
-					elem.scrollTo({ left: x, top: y, behavior: "smooth" })
-				}
-				var lastActiveItem;
-				function activeItem( force ){
-					var currTime = new Date().getTime();
-					if( !force && lastActiveItem && currTime - lastActiveItem < 200 ){
-						return;
-					}
-					lastActiveItem = currTime;
-					var navWidth = $nav.width();
-					var navHeight = $nav.height();
-					var actives = activeItems($slider);
-					if( actives.length ){
-					$nav.find( "a" ).removeClass( navActiveClass );
-						actives.each(function(){
-							var elID = this.id;
-							var pairedLink = $nav.find( "a[href='#" + elID + "']" );
-							pairedLink.addClass( navActiveClass );
-						});
-						var thumbX = actives[ 0 ].offsetLeft;
-						var thumbY = actives[ 0 ].offsetTop;
-						scrollNav( $nav[ 0 ], thumbX, thumbY );
-					}
-				}
-
-				// set active item on init
-				activeItem();
-				observeItems($slider[ 0 ]);
-				//$slider.bind( "scroll", activeItem );
-			}
-
-			// apply snapping after scroll, in browsers that don't support CSS scroll-snap
-			var scrolling;
-			var lastScroll = 0;
-
-			$slider.bind( "scroll", function(e){
-				lastScroll = new Date().getTime();
-				scrolling = true;
-			});
-
-			setInterval(function(){
-				if( scrolling && lastScroll <= new Date().getTime() - 150) {
-					if( activeItem ){
-						activeItem( true );
-					}
-					scrolling = false;
-				}
-			}, 150);
-
-
+			observeItems($slider[ 0 ]);
 
 			function getAutoplayInterval() {
 				var autoTiming = $self.attr( "data-snapper-autoplay" );
