@@ -12,9 +12,9 @@ MIT License
 ## Demo
 
 View the Snapper demos:
-* <a href="https://master-origin-snapper.fgview.com/demo/">Basic example with minimal controls</a>
-* <a href="https://master-origin-snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
-* <a href="https://master-origin-snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+* <a href="https://fg-snapper.netlify.com/demo/">Basic example with minimal controls</a>
+* <a href="https://fg-snapper.netlify.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
+* <a href="https://fg-snapper.netlify.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
 
 
 ## Docs
@@ -76,7 +76,7 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 
 ### Showing multiple images at a time
 
-To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
+To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: https://fg-snapper.netlify.com/demo/breakpoints.html
 
 ``` html
 <div class="snapper" data-snapper-setwidths>
