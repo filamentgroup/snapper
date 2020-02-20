@@ -33,9 +33,9 @@
 		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
 			var activeSlides = activeItems( elem );
-			$( elem ).trigger( pluginName + ".after-goto", {
-				activeSlides: activeSlides[ 0 ]
-			});
+			 $( elem ).trigger( pluginName + ".after-goto", {
+			 	activeSlides: activeSlides[ 0 ]
+			 });
 			if( callback ){ 
 				callback();
 			};

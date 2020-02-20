@@ -45,6 +45,16 @@ const sass = require('node-sass');
 		},
 		qunit: {
 			files: ['test/**/*.html']
+		},
+		watch: {
+			all: {
+				files: [
+					'**/*.js',
+					'**/*.scss',
+					'**/*.html'
+				],
+				tasks: 'default'
+			}
 		}
 
 	});
@@ -52,7 +62,7 @@ const sass = require('node-sass');
 	grunt.registerTask('test', ['qunit']);
 
 	grunt.registerTask('default', [
-    'copy',
+    	'copy',
 		'sass'//,
 		//'test'
 	]);

@@ -74,15 +74,39 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 </div>
 ```
 
+
 ### Showing multiple images at a time
 
-To make snapper respect the CSS-specified widths of items in a slider, you can add the `data-snapper-setwidths` attribute to the snapper div. This allows you to show more than one image at a time, and even adjust that as viewport width allows. See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
+If you want to show more than one snapper item at a time, you can set the widths on `.snapper_item` elements. You can aslo adjust widths as viewport width changes. For backwards compatibility, we recommend adding a `scroll-snap-points-x` rule on the `.snapper_pane` that matches the widths. As shown below.
 
-``` html
-<div class="snapper" data-snapper-setwidths>
-	...
-</div>
+See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
+
+``` css
+@media (min-width: 30em){
+	.snapper_pane {
+		scroll-snap-points-x: repeat(50%);
+	}
+	.snapper_item {
+		width: 50%;
+	}
+}
 ```
+
+### Showing partial image reveals
+
+Just as the above specifies, you can use widths to reveal part of the next image to show there's more to scroll.
+
+
+``` css
+@media (min-width: 30em){
+	.snapper_pane {
+		scroll-snap-points-x: repeat(50%);
+	}
+	.snapper_item {
+		width: 50%;
+	}
+}
+
 
 ### Hiding the scrollbar
 
