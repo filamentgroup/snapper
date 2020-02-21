@@ -12,6 +12,7 @@
 				var entryNavLink = parentElem.find( "a[href='#" + entry.target.id + "']" );
 				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
+					$( entry.target ).trigger( pluginName + ".active" );
 					if( navElem.length ){
 						entryNavLink[0].classList.add( navActiveClass );
 						navElem[0].scrollTo({ left: entryNavLink[0].offsetLeft, behavior: "smooth" });
@@ -19,6 +20,7 @@
 				}
 				else {
 					entry.target.classList.remove( pluginName + "_item-active" );
+					$( entry.target ).trigger( pluginName + ".inactive" );
 					if( entryNavLink.length ){
 						entryNavLink[0].classList.remove( navActiveClass );
 					}
