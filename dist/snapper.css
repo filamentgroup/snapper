@@ -56,7 +56,9 @@
   display: block; }
 
 /* next prev arrow selectors */
-.snapper_nextprev-disabled {
+.snapper_nextprev-disabled,
+.snapper-hide-nav .snapper_nextprev,
+.snapper-hide-nav .snapper_nav {
   opacity: .3;
   cursor: default; }
 

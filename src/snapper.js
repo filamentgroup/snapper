@@ -76,8 +76,10 @@
 			var scrollWidth = pane[0].scrollWidth;
 			var width = pane.width();
 
+			var noScrollAvailable = (width === scrollWidth);
+
 			var maxScroll = scrollWidth - width;
-			if (currScroll >= maxScroll - 3) { // 3 here is arbitrary tolerance
+			if (currScroll >= maxScroll - 3 || noScrollAvailable ) { // 3 here is arbitrary tolerance
 				nextLink
 					.addClass("snapper_nextprev-disabled")
 					.attr("tabindex", -1);
@@ -87,7 +89,7 @@
 					.attr("tabindex", 0);
 			}
 
-			if (currScroll > 3) { // 3 is arbitrary tolerance
+			if (currScroll > 3 && !noScrollAvailable ) { // 3 is arbitrary tolerance
 				prevLink
 					.removeClass("snapper_nextprev-disabled")
 					.attr("tabindex", 0);
@@ -95,6 +97,13 @@
 				prevLink
 					.addClass("snapper_nextprev-disabled")
 					.attr("tabindex", -1);
+			}
+
+			if( noScrollAvailable ){
+				$el.addClass( "snapper-hide-nav" );
+			}
+			else {
+				$el.removeClass( "snapper-hide-nav" );
 			}
 		}
   
@@ -220,6 +229,7 @@
 				clearTimeout( afterResize );
 				afterResize = setTimeout( function(){
 					$slider[ 0 ].scrollBy(0,0);
+					setArrowState( $self );
 				}, 100 );
 			}
 			$( w ).bind( "resize", snapStay );
