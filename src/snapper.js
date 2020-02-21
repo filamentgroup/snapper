@@ -222,17 +222,19 @@
 			}
 
 
-			// retain snapping on resize 
-			// only firefox needs this! (feb 2020)
+			
 			var afterResize;
-			function snapStay(){
+			function resizeUpdates(){
 				clearTimeout( afterResize );
 				afterResize = setTimeout( function(){
+					// retain snapping on resize 
+					// only firefox needs this! (feb 2020)
 					$slider[ 0 ].scrollBy(0,0);
+					// resize can reveal or hide slides, so update arrows
 					setArrowState( $self );
 				}, 100 );
 			}
-			$( w ).bind( "resize", snapStay );
+			$( w ).bind( "resize", resizeUpdates );
 
 			// next/prev links or arrows should loop back to the other end when an extreme is reached
 			function arrowNavigate( forward ){
@@ -307,7 +309,10 @@
 				},66);
 			});
 			updateSort( $slider[0] );
-			setArrowState( $self );
+			
+			$( w ).bind( "load", function(){
+				setArrowState( $self );
+			} );
 
 			autoplay( getAutoplayInterval() );
 			$self.attr("data-" + pluginName + "-enhanced", true);
