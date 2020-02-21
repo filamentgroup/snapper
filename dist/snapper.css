@@ -56,6 +56,10 @@
   display: block; }
 
 /* next prev arrow selectors */
+.snapper_nextprev-disabled {
+  opacity: .3;
+  cursor: default; }
+
 .snapper_nav,
 .snapper_nav_inner {
   position: relative;

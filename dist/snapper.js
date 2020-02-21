@@ -40,6 +40,9 @@
 
 		// sort an item to either end to ensure there's always something to advance to
 		function updateSort(el) {
+			if( $(el).closest( "[data-snapper-noloop], [data-no-loop]" ).length ){
+				return;
+			}
 			var scrollWidth = el.scrollWidth;
 			var scrollLeft = el.scrollLeft;
 			var contain = $(el).find( "." + pluginName + "_items" );
@@ -60,6 +63,41 @@
 			}
 		}
 
+		// disable or enable snapper arrows depending on whether they can advance
+		function setArrowState($el) {
+			// old api helper here. 
+			if( !$el.closest( "[data-snapper-noloop], [data-no-loop]" ).length ){
+				return;
+			}
+			var pane = $el.find(".snapper_pane");
+			var nextLink = $el.find(".snapper_nextprev_next");
+			var prevLink = $el.find(".snapper_nextprev_prev");
+			var currScroll = pane[0].scrollLeft;
+			var scrollWidth = pane[0].scrollWidth;
+			var width = pane.width();
+
+			var maxScroll = scrollWidth - width;
+			if (currScroll >= maxScroll - 3) { // 3 here is arbitrary tolerance
+				nextLink
+					.addClass("snapper_nextprev-disabled")
+					.attr("tabindex", -1);
+			} else {
+				nextLink
+					.removeClass("snapper_nextprev-disabled")
+					.attr("tabindex", 0);
+			}
+
+			if (currScroll > 3) { // 3 is arbitrary tolerance
+				prevLink
+					.removeClass("snapper_nextprev-disabled")
+					.attr("tabindex", 0);
+			} else {
+				prevLink
+					.addClass("snapper_nextprev-disabled")
+					.attr("tabindex", -1);
+			}
+		}
+  
 		function goto( elem, x, useDeepLinking, callback ){
 			elem.scrollTo({ left: x, behavior: "smooth" });
 			var activeSlides = activeItems( elem );
@@ -255,9 +293,11 @@
 				window.clearTimeout(scrolling);
 				scrolling = setTimeout(function(){
 					updateSort( $slider[0] );
+					setArrowState( $self );
 				},66);
 			});
 			updateSort( $slider[0] );
+			setArrowState( $self );
 
 			autoplay( getAutoplayInterval() );
 			$self.attr("data-" + pluginName + "-enhanced", true);

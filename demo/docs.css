@@ -192,14 +192,19 @@ pre[class*="language-"] {
 	text-align: center;
   font-size: .7em;
   text-transform: uppercase;
-  opacity: .8;
   text-decoration: none;
-	cursor: pointer;
   border: 1px solid #eee;
   box-shadow: 0 0 5px rgba(0,0,0,.5);
 }
-.snapper_nextprev_next:hover,
-.snapper_nextprev_prev:hover {
+.snapper_nextprev_next:not(.snapper_nextprev-disabled),
+.snapper_nextprev_prev:not(.snapper_nextprev-disabled) {
+	opacity: .8;
+	cursor: pointer;
+}
+.snapper_nextprev_next:not(.snapper_nextprev-disabled):hover,
+.snapper_nextprev_next:not(.snapper_nextprev-disabled):focus,
+.snapper_nextprev_prev:not(.snapper_nextprev-disabled):hover,
+.snapper_nextprev_prev:not(.snapper_nextprev-disabled):focus {
   opacity: 1;
 }
 .snapper_nextprev_next {
