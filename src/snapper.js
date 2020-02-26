@@ -273,7 +273,7 @@
 			observeItems($slider[ 0 ]);
 
 			function getAutoplayInterval() {
-				var activeSlide = activeItems().last().next();
+				var activeSlide = activeItems().last();
 
 				var autoTiming = activeSlide.attr( "data-snapper-autoplay" ) || $self.attr( "data-snapper-autoplay" );
 				if( autoTiming ) {
