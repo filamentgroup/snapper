@@ -8,14 +8,20 @@
 		function observerCallback( entries ){
 			var parentElem =  $( entries[0].target ).closest( "." + pluginName );
 			var navElem = parentElem.find( "." + pluginName + "_nav" );
-			entries.forEach(entry => {
+			for(i in entries){
+				var entry = entries[i];
 				var entryNavLink = parentElem.find( "a[href='#" + entry.target.id + "']" );
 				if (entry.isIntersecting && entry.intersectionRatio >= .75 ) {
 					entry.target.classList.add( pluginName + "_item-active" );
 					$( entry.target ).trigger( pluginName + ".active" );
 					if( navElem.length ){
 						entryNavLink[0].classList.add( navActiveClass );
-						navElem[0].scrollTo({ left: entryNavLink[0].offsetLeft, behavior: "smooth" });
+						if( navElem[0].scrollTo ){
+							navElem[0].scrollTo({ left: entryNavLink[0].offsetLeft, behavior: "smooth" });
+						}
+						else {
+							navElem[0].scrollLeft = entryNavLink[0].offsetLeft;
+						}
 					}
 				}
 				else {
@@ -25,7 +31,7 @@
 						entryNavLink[0].classList.remove( navActiveClass );
 					}
 				}
-			});
+			}
 		}
 
 		function observeItems( elem ){
@@ -110,7 +116,12 @@
 		}
   
 		function goto( elem, x, useDeepLinking, callback ){
-			elem.scrollTo({ left: x, behavior: "smooth" });
+			if( elem.scrollTo ){
+				elem.scrollTo({ left: x, behavior: "smooth" });
+			}
+			else {
+				elem.scrollLeft = x;
+			}
 			var activeSlides = activeItems( elem );
 			 $( elem ).trigger( pluginName + ".after-goto", {
 			 	activeSlides: activeSlides[ 0 ]
