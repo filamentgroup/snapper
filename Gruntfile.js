@@ -23,7 +23,8 @@ const sass = require('node-sass');
 			js: {
 				files: [
 					{ expand: true, cwd: "src", src: ["*.js"], dest: "dist/" },
-          { expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"}
+					{ expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"},
+					{ expand: true, cwd: 'node_modules/intersection-observer', src: [ "intersection-observer.js" ], dest: "src/lib"}
 				]
 			}
     },

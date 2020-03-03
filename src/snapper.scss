@@ -10,12 +10,14 @@
 .snapper:focus { /* snapper div receives a tabindex to allow focus for keyboard arrow control */
 	outline: none;
 }
-.snapper_pane {
-  /* IE and edge */
-	-ms-overflow-style: none;
-	/* Firefox */
-	scrollbar-width: none;
-}
+@supports (scroll-snap-type: mandatory ){
+	.snapper_pane {
+	/* IE and edge */
+		-ms-overflow-style: none;
+		/* Firefox */
+		scrollbar-width: none;
+	}
+	}
 .snapper_pane::-webkit-scrollbar {
 	display: none;
 }
