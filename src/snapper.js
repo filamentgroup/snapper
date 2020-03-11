@@ -241,8 +241,7 @@
 				clearTimeout( afterResize );
 				afterResize = setTimeout( function(){
 					// retain snapping on resize 
-					// only firefox needs this! (feb 2020)
-					$slider[ 0 ].scrollBy(0,0);
+					$slider[ 0 ].scrollBy(1,0);
 					// resize can reveal or hide slides, so update arrows
 					setArrowState( $self );
 				}, 100 );
