@@ -34,6 +34,14 @@
 			}
 		}
 
+		function idItems( $elem ){
+			$elem.children().each(function(){
+				if( $( this ).attr("id") === undefined ){
+					$( this ).attr("id", new Date().getTime() );
+				}
+			});
+		}
+
 		function observeItems( elem ){
 			var observer = new IntersectionObserver(observerCallback, {root: elem, threshold: .75 });
 			$( elem ).find( "." + pluginName + "_item" ).each(function(){
@@ -190,6 +198,9 @@
 
 			// give the pane a tabindex for arrow key handling
 			$slider.attr("tabindex", "0");
+
+			// make sure items are ID'd. This is critical for arrow nav and sorting.
+			idItems( $slider.find("." + pluginName + "_items") );
 
 
 			// if the nextprev option is set, add the nextprev nav
