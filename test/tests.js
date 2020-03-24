@@ -22,6 +22,8 @@ window.onload = function(){
 		
 		
 	});
+
+	
 	asyncTest( 'Snapping occurs after scrolling to a spot that is not a snap point', function() {
 		expect(1);
 		$(".snapper").snapper();
@@ -45,6 +47,25 @@ window.onload = function(){
 		 	 start();
 		 },1000);
 	});
+
+
+	asyncTest( 'disabled arrow classes are present at extremes', function() {
+		$(".snapper").snapper();
+		expect(4);
+		
+		
+		setTimeout(function(){
+			ok( $(".snapper_nextprev_prev.snapper_nextprev-disabled").length === 0, "prev link is not disabled ");
+			ok( $(".snapper_nextprev_next.snapper_nextprev-disabled").length === 1, "next link is disabled ");
+		 	start();
+		 },2000);
+
+		 ok( $(".snapper_nextprev_prev.snapper_nextprev-disabled").length === 1, "prev link is disabled ");
+		 ok( $(".snapper_nextprev_next.snapper_nextprev-disabled").length === 0, "next link is not disabled ");
+ 
+		 $(".snapper_pane")[0].scrollTo(5000,0);
+	});
+
 
 	asyncTest( 'Arrows navigate', function() {
 		$(".snapper").snapper();

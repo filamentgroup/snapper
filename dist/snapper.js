@@ -333,9 +333,7 @@
 			});
 			updateSort( $slider[0] );
 			
-			$( w ).bind( "load", function(){
-				setArrowState( $self );
-			} );
+			setArrowState( $self );
 
 			autoplay( getAutoplayInterval() );
 			$self.attr("data-" + pluginName + "-enhanced", true);
