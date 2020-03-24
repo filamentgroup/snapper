@@ -22,7 +22,16 @@ window.onload = function(){
 		
 		
 	});
-
+	asyncTest( 'Snapping occurs after scrolling to a spot that is not a snap point', function() {
+		expect(1);
+		$(".snapper").snapper();
+		$(".snapper_pane")[0].scrollLeft = 0;
+		$(".snapper_pane")[0].scrollLeft = 35;
+		setTimeout(function(){
+			ok( $(".snapper_pane")[0].scrollLeft ===0 );
+			start();
+		},1000);
+	});
 	
 	
 
