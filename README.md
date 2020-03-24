@@ -3,18 +3,15 @@
 A CSS Snap-Points based carousel (and lightweight polyfill)
 
 MIT License
-[c] 2015 Filament Group, Inc
+[c] 2020 Filament Group, Inc
 
 ## Dependencies
 - jQuery or similar DOM library
-- The toss() extension (optional, for smoothened anchoring and scroll snapping). Run `$ npm install` to download a copy to  `./node_modules/fg-toss/src/toss.js`
+- Intersection Observer Polyfill. Run `$ npm install` to download a copy to  `./node_modules/intersection-observer/intersection-observer.js`
 
 ## Demo
 
-View the Snapper demos:
-* <a href="https://master-origin-snapper.fgview.com/demo/">Basic example with minimal controls</a>
-* <a href="https://master-origin-snapper.fgview.com/demo/nextprev.html">Next/Prev nav buttons + dot nav</a>
-* <a href="https://master-origin-snapper.fgview.com/demo/breakpoints.html">Multi-image with responsive breakpoints</a>
+<a href="https://master-origin-snapper.fgview.com/demo/">View the Snapper demos</a>
 
 
 ## Docs
@@ -79,8 +76,6 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 
 If you want to show more than one snapper item at a time, you can set the widths on `.snapper_item` elements. You can aslo adjust widths as viewport width changes. For backwards compatibility, we recommend adding a `scroll-snap-points-x` rule on the `.snapper_pane` that matches the widths. As shown below.
 
-See example: http://master.origin.snapper.fgview.com/demo/breakpoints.html
-
 ``` css
 @media (min-width: 30em){
 	.snapper_pane {
@@ -100,48 +95,28 @@ Just as the above specifies, you can use widths to reveal part of the next image
 ``` css
 @media (min-width: 30em){
 	.snapper_pane {
-		scroll-snap-points-x: repeat(50%);
+		scroll-snap-points-x: repeat(45%);
 	}
 	.snapper_item {
-		width: 50%;
+		width: 45%;
 	}
 }
 
 
-### Hiding the scrollbar
+### Looping (*experimental)
 
-In some browsers, native scrollbar handles can be pretty ugly across the bottom of the carousel. As long as you're using thumbnails or some means of advancing the slides, you can wrap the `snapper_pane` in a `div` with a class of `snapper_pane_crop` and it'll hide the scrollbar from sight.
+To make a snapper loop endlessly in either direction, you can add the data-snapper-loop attribute. This feature is experimental in this release.
 
 ``` html
-<div class="snapper">
-	<div class="snapper_pane_crop">
-		<div class="snapper_pane">
-			<div class="snapper_items">
-				<div class="snapper_item" id="img-a">
-					<img src="a-image.jpg" alt="">
-				</div>
-				<div class="snapper_item" id="img-b">
-					...
-				</div>
-				<div class="snapper_item" id="img-c">
-					...
-				</div>
-				<div class="snapper_item" id="img-d">
-					...
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="snapper_nav">
-		<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
-		<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
-		<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
-		<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
-	</div>
+<div class="snapper" data-snapper-loop>
+	...
 </div>
 ```
 
+
+
+
 ### Support
 
-CSS Snap Points support can be found here: [CSS Snap Points on Caniuse.com](http://caniuse.com/#feat=css-snappoints)
-This plugin is tested to work broadly across modern browsers, and as long as you use thumbnail navigation, it will even work in browsers that do not support overflow scrolling properly (such as Android 2.x browser).
+CSS Scroll Snap support can be found here: [CSS Snap Points on Caniuse.com](http://caniuse.com/#feat=css-snappoints)
+This plugin is tested to work broadly across modern browsers, and as long as you use thumbnail navigation. Various features may not work as well across older browsers, such as those that do not support snapping, but scroller content will still be accessible.
