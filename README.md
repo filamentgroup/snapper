@@ -107,6 +107,7 @@ Just as the above specifies, you can use widths to reveal part of the next image
 
 To make a snapper loop endlessly in either direction, you can add the data-snapper-loop attribute. This feature is experimental in this release.
 
+
 ``` html
 <div class="snapper" data-snapper-loop>
 	...
