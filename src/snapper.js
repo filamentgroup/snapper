@@ -47,6 +47,7 @@
 			$( elem ).find( "." + pluginName + "_item" ).each(function(){
 				observer.observe(this);
 			});
+			observer.takeRecords();
 		}
 
 		// get the snapper_item elements whose left offsets fall within the scroll pane.
@@ -56,7 +57,7 @@
 
 		// sort an item to either end to ensure there's always something to advance to
 		function updateSort(el) {
-			if( $(el).closest( "[data-snapper-noloop], [data-no-loop]" ).length ){
+			if( !$(el).closest( "[data-snapper-loop], [data-loop]" ).length ){
 				return;
 			}
 			var scrollWidth = el.scrollWidth;
@@ -82,7 +83,7 @@
 		// disable or enable snapper arrows depending on whether they can advance
 		function setArrowState($el) {
 			// old api helper here. 
-			if( !$el.closest( "[data-snapper-noloop], [data-no-loop]" ).length ){
+			if( $el.closest( "[data-snapper-loop], [data-loop]" ).length ){
 				return;
 			}
 			var pane = $el.find(".snapper_pane");
@@ -123,7 +124,7 @@
 			}
 		}
   
-		function goto( elem, x, useDeepLinking, callback ){
+		function goto( elem, x, callback ){
 			if( elem.scrollTo ){
 				elem.scrollTo({ left: x, behavior: "smooth" });
 			}
@@ -131,16 +132,13 @@
 				elem.scrollLeft = x;
 			}
 			var activeSlides = activeItems( elem );
-			 $( elem ).trigger( pluginName + ".after-goto", {
+
+			$( elem ).trigger( pluginName + ".after-goto", {
 			 	activeSlides: activeSlides[ 0 ]
 			 });
 			if( callback ){ 
 				callback();
 			};
-			//TODO
-			if( useDeepLinking && "replaceState" in w.history ){
-				w.history.replaceState( {}, document.title, "#" + activeSlides[ 0 ].id );
-			}
 		}
 
 		var result, innerResult;
@@ -161,9 +159,7 @@
 			$items.addClass( pluginName + "_item" );
 			var numItems = $items.length;
 			var $nav = $( "." + pluginName + "_nav", self );
-			
-			var useDeepLinking = !$self.is( "[data-snapper-deeplinking]" ) || $self.attr( "data-snapper-deeplinking]" ) === "true";
-			
+						
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
@@ -172,8 +168,9 @@
 				switch(optionsOrMethod) {
 				case "goto":
 					index = args[0] % numItems;
-					offset = $slider.find( "." + pluginName + "_item" ).eq( index );
-					goto( $slider[ 0 ], offset, useDeepLinking, function(){
+
+					var offset = $itemsContain.children().eq(index)[0].offsetLeft;
+					goto( $slider[ 0 ], offset, function(){
 						// invoke the callback if it was supplied
 						if( typeof args[1] === "function" ){
 							args[1]();
@@ -181,13 +178,12 @@
 					});
 					break;
 				case "getIndex":
-					innerResult = activeItems($self).get();
+					innerResult = activeItems($slider).index();
 					break;
 				case "updateWidths":
 					// no longer does anything.
 					break;
 				}
-
 				return;
 			}
 
@@ -201,6 +197,8 @@
 
 			// make sure items are ID'd. This is critical for arrow nav and sorting.
 			idItems( $slider.find("." + pluginName + "_items") );
+
+			observeItems($slider[ 0 ]);
 
 
 			// if the nextprev option is set, add the nextprev nav
@@ -237,7 +235,7 @@
 			function gotoSlide( href, callback ){
 				var $slide = $( href, self );
 				if( $slide.length ){
-					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft, useDeepLinking, function(){
+					goto( $slider[ 0 ], $slide[ 0 ].offsetLeft, function(){
 						if( callback ){
 							callback();
 						}
@@ -286,15 +284,15 @@
 				var prev = currentActive.prev();
 				if( prev.length ){
 					gotoSlide( "#" + prev.attr( "id" ), function(){
-						$slider.trigger( pluginName + ".after-next" );
+						$slider.trigger( pluginName + ".after-prev" );
 					} );
 				}
 			}
 
-			observeItems($slider[ 0 ]);
+			
 
 			function getAutoplayInterval() {
-				var activeSlide = activeItems().last();
+				var activeSlide = activeItems($slider).last();
 
 				var autoTiming = activeSlide.attr( "data-snapper-autoplay" ) || $self.attr( "data-snapper-autoplay" );
 				if( autoTiming ) {

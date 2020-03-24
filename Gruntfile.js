@@ -64,8 +64,8 @@ const sass = require('node-sass');
 
 	grunt.registerTask('default', [
     	'copy',
-		'sass'//,
-		//'test'
+		'sass',
+		'test'
 	]);
 
 	grunt.registerTask('stage', [
