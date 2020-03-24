@@ -124,4 +124,61 @@ window.onload = function(){
 		$snapperElem.snapper();
 	});
 
+	asyncTest( 'looping goes endlessly forward', function(){
+		expect(5);
+		var eventCounter = 0;
+		var checkBinding;
+		var $snapperElem = $(".snapper");
+		var $snapper;
+
+		$snapperElem.attr( "data-snapper-loop", "500" );
+
+		$snapperElem.bind("snapper.after-next", checkBinding = function(){
+			ok(true, "after-next called");
+
+			if(++eventCounter === 5){
+				$snapperElem.removeAttr( "data-snapper-loop" );
+				$(document).unbind("snapper.after-goto", checkBinding);
+				start();
+			}
+			else{
+				$(".snapper_nextprev_next").click();
+			} 
+		});
+
+		$snapperElem.snapper();
+		setTimeout(() => {
+			$(".snapper_nextprev_next").click();
+		 }, 500);
+	});
+
+
+	asyncTest( 'looping goes endlessly in reverse', function(){
+		expect(5);
+		var eventCounter = 0;
+		var checkBinding;
+		var $snapperElem = $(".snapper");
+		var $snapper;
+
+		$snapperElem.attr( "data-snapper-loop", "500" );
+
+		$snapperElem.bind("snapper.after-prev", checkBinding = function(){
+			ok(true, "after-prev called");
+
+			if(++eventCounter === 5){
+				$snapperElem.removeAttr( "data-snapper-loop" );
+				$(document).unbind("snapper.after-goto", checkBinding);
+				start();
+			}
+			else{
+				$(".snapper_nextprev_prev").click();
+			} 
+		});
+
+		$snapperElem.snapper();
+		setTimeout(() => {
+			$(".snapper_nextprev_prev").click();
+		 }, 500);
+	});
+
 };
