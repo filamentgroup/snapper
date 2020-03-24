@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="//filamentgroup.github.io/demo-head/demohead.css">
   <script src="../src/lib/intersection-observer.js"></script>
   <script src="../src/lib/jquery.js"></script>
-  <script src="../src/lib/toss.js"></script>
   <script src="../src/snapper.js"></script>
   <script src="../src/snapper-init.js"></script>
   <style>
@@ -41,20 +40,22 @@
   <div class="nav-container">
 		<div class="docs-globalnav">
 			<nav class="docs-nav">
-			<a href="index.html">Thumbnails</a>
-			<a href="nextprev.html">Next/Prev Links (w/ dot nav)</a>
-      <a href="breakpoints.html">Breakpoints (w/ next/prev)</a>
-      <a href="reveal.html">Reveal (w/ next/prev)</a>
+			<a href="#thumbnails">Thumbnails</a>
+      <a href="#nextprev">Next/Prev Links (w/ dot nav)</a>
+      <a href="#autoplay">Autoplay</a>
+      <a href="#breakpoints">Breakpoints (w/ next/prev)</a>
+      <a href="#reveal">Reveal (w/ next/prev)</a>
+      <a href="#looping">Endless looping</a>
     </nav>
 		</div>
 	</div>
   <div class="docs-main">
 
 
-<h2 class="docs">Basic Snapper example</h2>
-<p class="docs">A snapper carousel with some thumbnail links. By default, item widths are calculated evenly based on the number of total items, so that one item fills 100% of the scroll pane at a time, and the scroller snaps to each item.</p>
+<h2 class="docs" id="thumbnails">Basic Snapper example</h2>
+<p class="docs">A snapper carousel with some thumbnail links. </p>
 <p class="docs"> Thumbnails are just regular links to a slide's ID attribute. The scrollbar is cropped from sight using the optional <code>snapper_pane_crop</code> div (only recommended when thumbnails or next/prev navigation is in play).</p>
-<div class="snapper" data-snapper-deeplinking>
+<div class="snapper">
   <div class="snapper_pane_crop">
     <div class="snapper_pane">
       <div class="snapper_items">
@@ -126,8 +127,120 @@
 </div>
 
 
-<h2 class="docs"> Auto-play Snapper example</h2>
+
+
+<h2 class="docs" id="nextprev">Example with next prev nav</h2>
+<p class="docs">A snapper carousel with next/prev links automatically added through the addition of a <code>data-snapper-nextprev</code> attribute.</p>
+<p class="docs">Also, this demo includes an optional ".snapper_nextprev_contain" div, which the next/prev nav will append to if present. This element wraps the scroll pane and allows you to precisely position arrows based on the height of the pane, without the thumbnails or dot nav.</p>
+<div class="snapper" data-snapper-nextprev>
+  <div class="snapper_nextprev_contain"><!-- optional wrapper to allow for next-prev arrows to relatively position to a direct wrapper of the slides -->
+    <div class="snapper_pane_crop">
+      <div class="snapper_pane">
+        <div class="snapper_items">
+          <div class="snapper_item" id="img-a3">
+            <img src="imgs/monkey.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-b3">
+            <img src="imgs/large.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-c3">
+            <img src="imgs/monks.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-d3">
+            <img src="imgs/interior.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-e3">
+            <img src="imgs/cows.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-f3">
+            <img src="imgs/bike.jpg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<style>
+
+    /* breakpoints example */
+    @media (min-width: 30em){
+    	.breakpointsexample .snapper_item {
+    	  width: 50%;
+    	}
+      .breakpointsexample .snapper_pane {
+    	  scroll-snap-points-x: repeat(50%);
+    	}
+    }
+    @media (min-width: 50em){
+      .breakpointsexample .snapper_item {
+    	  width: 33.333%;
+    	}
+      .breakpointsexample .snapper_pane {
+    	  scroll-snap-points-x: repeat(33.33333%);
+    	}
+    }
+  </style>
+
+<h2 class="docs" id="breakpoints">Example w/ multiple slides showing</h2>
+<p class="docs">This example plays nicely with CSS breakpoints to show a different number of slides depending on the viewport size. To use breakpoints in this way, for back compat, be sure to include Snap Points that correspond to the item widths. <a href="#css">See CSS for this example</a></p>
+
+<div class="snapper breakpointsexample" data-snapper-nextprev>
+  <div class="snapper_pane_crop">
+    <div class="snapper_pane">
+      <div class="snapper_items">
+        <div class="snapper_item" id="img-a4">
+          <img src="imgs/monkey.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-b4">
+          <img src="imgs/large.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-c4">
+          <img src="imgs/monks.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-d4">
+          <img src="imgs/interior.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-e4">
+          <img src="imgs/cows.jpg" alt="">
+        </div>
+        <div class="snapper_item" id="img-f4">
+          <img src="imgs/bike.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h3 class="docs" id="css">CSS for this example</h3>
+<pre class="docs language-css"><code class="docs language-css">
+/* breakpoints example */
+@media (min-width: 30em){
+.snapper_item {
+width: 50%;
+}
+.snapper_pane {
+scroll-snap-points-x: repeat(50%);
+}
+}
+@media (min-width: 50em){
+.snapper_item {
+width: 33.333%;
+}
+.snapper_pane {
+scroll-snap-points-x: repeat(33.33333%);
+}
+}
+</code></pre>
+
+
+
+
+<h2 class="docs" id="autoplay"> Auto-play Snapper example</h2>
 <p class="docs">By setting the <code>data-snapper-autoplay</code> attribute on the <code>class="snapper"</code> element to a natural number value snapper will automatically rotate through the images. The value represents a the millisecond delay between item transitions. In the example below we have <code>data-snapper-autoplay="2000"</code></p>
+<p class="docs">You can also set the attribute on snapper_item elements to get individual timing.</p>
 <div class="snapper" data-snapper-autoplay="2000">
 	<div class="snapper_pane_crop">
 		<div class="snapper_pane">
@@ -138,7 +251,7 @@
 				<div class="snapper_item" id="img-b2">
 					<img src="imgs/large.jpg" alt="">
 				</div>
-				<div class="snapper_item" id="img-c2">
+				<div class="snapper_item" id="img-c2" data-snapper-autoplay="5000">
 					<img src="imgs/monks.jpg" alt="">
 				</div>
 				<div class="snapper_item" id="img-d2">
@@ -169,38 +282,122 @@
   <div class="snapper_pane_crop">
     <div class="snapper_pane">
       <div class="snapper_items">
-        <div class="snapper_item" id="img-a2">
+        <div class="snapper_item" id="img-a5">
           <img src="imgs/monkey.jpg" alt="">
         </div>
-        <div class="snapper_item" id="img-b2">
+        <div class="snapper_item" id="img-b5">
           <img src="imgs/large.jpg" alt="">
         </div>
-        <div class="snapper_item" id="img-c2">
+        <div class="snapper_item" id="img-c5">
           <img src="imgs/monks.jpg" alt="">
         </div>
-        <div class="snapper_item" id="img-d2">
+        <div class="snapper_item" id="img-d5">
           <img src="imgs/interior.jpg" alt="">
         </div>
-        <div class="snapper_item" id="img-e2">
+        <div class="snapper_item" id="img-e5">
           <img src="imgs/cows.jpg" alt="">
         </div>
-        <div class="snapper_item" id="img-f2">
+        <div class="snapper_item" id="img-f5">
           <img src="imgs/bike.jpg" alt="">
         </div>
       </div>
     </div>
   </div>
   <div class="snapper_nav">
-    <a href="#img-a2"><img src="imgs/monkey-thmb.jpg" alt=""></a>
-    <a href="#img-b2"><img src="imgs/large-thmb.jpg" alt=""></a>
-    <a href="#img-c2"><img src="imgs/monks-thmb.jpg" alt=""></a>
-    <a href="#img-d2"><img src="imgs/interior-thmb.jpg" alt=""></a>
-    <a href="#img-e2"><img src="imgs/cows-thmb.jpg" alt=""></a>
-    <a href="#img-f2"><img src="imgs/bike-thmb.jpg" alt=""></a>
+    <a href="#img-a5"><img src="imgs/monkey-thmb.jpg" alt=""></a>
+    <a href="#img-b5"><img src="imgs/large-thmb.jpg" alt=""></a>
+    <a href="#img-c5"><img src="imgs/monks-thmb.jpg" alt=""></a>
+    <a href="#img-d5"><img src="imgs/interior-thmb.jpg" alt=""></a>
+    <a href="#img-e5"><img src="imgs/cows-thmb.jpg" alt=""></a>
+    <a href="#img-f5"><img src="imgs/bike-thmb.jpg" alt=""></a>
   </div>
 </div>
 
 
+
+<style>
+
+  .revealexample .snapper_item {
+      width: 45%;
+  }
+  .revealexample .snapper_pane {
+      scroll-snap-points-x: repeat(45%);
+  }
+
+</style>
+<h2 class="docs" id="reveal">Example w/ multiple slides and revealing on partially</h2>
+
+<div class="snapper revealexample" data-snapper-nextprev>
+<div class="snapper_pane_crop">
+  <div class="snapper_pane">
+    <div class="snapper_items">
+      <div class="snapper_item" id="img-a6">
+        <img src="imgs/monkey.jpg" alt="">
+      </div>
+      <div class="snapper_item" id="img-b6">
+        <img src="imgs/large.jpg" alt="">
+      </div>
+      <div class="snapper_item" id="img-c6">
+        <img src="imgs/monks.jpg" alt="">
+      </div>
+      <div class="snapper_item" id="img-d6">
+        <img src="imgs/interior.jpg" alt="">
+      </div>
+      <div class="snapper_item" id="img-e6">
+        <img src="imgs/cows.jpg" alt="">
+      </div>
+      <div class="snapper_item" id="img-f6">
+        <img src="imgs/bike.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<h3 class="docs" id="css">CSS for this example</h3>
+<pre class="docs language-css"><code class="docs language-css">
+.revealexample .snapper_item {
+width: 45%;
+}
+.revealexample .snapper_pane {
+scroll-snap-points-x: repeat(45%);
+}
+</code></pre>
+
+
+<h2 class="docs" id="looping">Example with endless looping</h2>
+<p class="docs">A snapper carousel with <code>data-snapper-loop</code> will append items to either end as needed so the scroll is infinite. This is recommended for 1-slide-at-a-time carousels.</p>
+
+<div class="snapper" data-snapper-nextprev data-snapper-loop>
+  <div class="snapper_nextprev_contain"><!-- optional wrapper to allow for next-prev arrows to relatively position to a direct wrapper of the slides -->
+    <div class="snapper_pane_crop">
+      <div class="snapper_pane">
+        <div class="snapper_items">
+          <div class="snapper_item" id="img-a7">
+            <img src="imgs/monkey.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-b7">
+            <img src="imgs/large.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-c7">
+            <img src="imgs/monks.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-d7">
+            <img src="imgs/interior.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-e7">
+            <img src="imgs/cows.jpg" alt="">
+          </div>
+          <div class="snapper_item" id="img-f7">
+            <img src="imgs/bike.jpg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
 
 
 </div>
