@@ -11,7 +11,7 @@ MIT License
 
 ## Demo
 
-<a href="https://master-origin-snapper.fgview.com/demo/">View the Snapper demos</a>
+<a href="https://fg-snapper.netlify.com/demo/">View the Snapper demos</a>
 
 
 ## Docs
@@ -125,7 +125,7 @@ Version 4.0 breaks a few features and changes the way snapper works. Some notes 
 - A "snapper.active" and "snapper.inactive" event is fired whenever snapper items become one or the other.
 - Endless looping is optionally available as an experimental feature. Accessibility impact is TBD on this feature.
 - arrow key advance within the slider is no longer offered, as it is not part of native css snapping. Keyboard advance still works for the arrows and thumbnails.
-
+- CSS now uses flexbox. This means the JS can do less work calculating widths. You can set the widths on snapper item elements directly now instead of worrying about calculated total widths on the parent.
 
 
 ### Support
