@@ -8,8 +8,8 @@
 
 	<link rel="stylesheet" href="../dist/snapper.css">
 	<link href="test.css" rel="stylesheet" />
+	<script src="../src/lib/intersection-observer.js"></script>
 	<script src="../src/lib/jquery.js"></script>
-  <script src="../src/lib/toss.js"></script>
   <script src="../src/snapper.js"></script>
   <script src="../src/snapper-init.js"></script>
 	<script src="tests.js"></script>
@@ -28,24 +28,25 @@
 		<div class="snapper" data-snapper-nextprev>
 			<div class="snapper_pane">
 				<div class="snapper_items">
-					<div id="img-a">
+					<div class="snapper_item" id="img-a">
 						<img src="../demo/imgs/monkey.jpg" alt="">
 					</div>
-					<div id="img-b">
+					<div class="snapper_item" id="img-b">
 						<img src="../demo/imgs/large.jpg" alt="">
 					</div>
-					<div id="img-c">
+					<div class="snapper_item" id="img-c">
 						<img src="../demo/imgs/monks.jpg" alt="">
 					</div>
 				</div>
 			</div>
-			<a href="#" id="testlink">just a test link</a>
 
 			<div class="snapper_nav">
 				<a href="#img-a"><img src="../demo/imgs/monkey-thmb.jpg" alt=""></a>
 				<a href="#img-b"><img src="../demo/imgs/large-thmb.jpg" alt=""></a>
 				<a href="#img-c"><img src="../demo/imgs/monks-thmb.jpg" alt=""></a>
 			</div>
+			<a href="#" id="testlink">just a test link</a>
+
 		</div>
 	</div>
 

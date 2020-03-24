@@ -26,11 +26,12 @@
     "matchdep": "^2.0.0",
     "node-sass": "^4.13.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-qunit": "^3.1.0"
+    "grunt-contrib-qunit": "^3.1.0",
+    "grunt-contrib-watch": "^0.6.1"
   },
   "dependencies": {
     "jquery": "3.4.1",
-    "fg-toss": "^0.2.3"
+    "intersection-observer": "0.7.0"
   },
   "scripts": {
     "test": "grunt",

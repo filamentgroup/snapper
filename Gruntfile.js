@@ -23,8 +23,8 @@ const sass = require('node-sass');
 			js: {
 				files: [
 					{ expand: true, cwd: "src", src: ["*.js"], dest: "dist/" },
-          { expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"},
-          { expand: true, cwd: 'node_modules/fg-toss/src', src: [ "toss.js" ], dest: "src/lib"}
+					{ expand: true, cwd: 'node_modules/jquery/dist', src: [ "jquery.js" ], dest: "src/lib"},
+					{ expand: true, cwd: 'node_modules/intersection-observer', src: [ "intersection-observer.js" ], dest: "src/lib"}
 				]
 			}
     },
@@ -46,6 +46,16 @@ const sass = require('node-sass');
 		},
 		qunit: {
 			files: ['test/**/*.html']
+		},
+		watch: {
+			all: {
+				files: [
+					'**/*.js',
+					'**/*.scss',
+					'**/*.html'
+				],
+				tasks: 'default'
+			}
 		}
 
 	});
@@ -53,7 +63,7 @@ const sass = require('node-sass');
 	grunt.registerTask('test', ['qunit']);
 
 	grunt.registerTask('default', [
-    'copy',
+    	'copy',
 		'sass',
 		'test'
 	]);
