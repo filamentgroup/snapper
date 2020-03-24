@@ -180,9 +180,6 @@
 				case "getIndex":
 					innerResult = activeItems($slider).index();
 					break;
-				case "updateWidths":
-					// no longer does anything.
-					break;
 				}
 				return;
 			}
