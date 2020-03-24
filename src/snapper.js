@@ -189,9 +189,6 @@
 				return;
 			}
 
-			// give the pane a tabindex for arrow key handling
-			$slider.attr("tabindex", "0");
-
 			// make sure items are ID'd. This is critical for arrow nav and sorting.
 			idItems( $slider.find("." + pluginName + "_items") );
 

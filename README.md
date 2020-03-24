@@ -114,6 +114,18 @@ To make a snapper loop endlessly in either direction, you can add the data-snapp
 ```
 
 
+## Changes in 4.0x
+
+Version 4.0 breaks a few features and changes the way snapper works. Some notes on that:
+
+- The HTML is largely the same
+- Fake snapping is no longer supported. If a browser doesn't support CSS scroll snap, it won't happen, but the scrolling will still work.
+- Snap and scroll related events no longer fire. This is because we no longer support polyfilled snapping. The goto, next, prev events remain as they were.
+- Active state is tracked via intersection observer for performance reasons. 
+- A "snapper.active" and "snapper.inactive" event is fired whenever snapper items become one or the other.
+- Endless looping is optionally available as an experimental feature. Accessibility impact is TBD on this feature.
+- arrow key advance within the slider is no longer offered, as it is not part of native css snapping. Keyboard advance still works for the arrows and thumbnails.
+
 
 
 ### Support
