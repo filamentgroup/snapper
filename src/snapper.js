@@ -201,7 +201,7 @@
 				$nextprev.appendTo( $nextprevContain );
 			}
 
-			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
+			// This click binding will allow linking to slides from thumbnails without causing the page to scroll to the carousel container
 			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
 				clearTimeout(autoTimeout);
