@@ -154,6 +154,8 @@
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
 			var autoTimeout;
 			var $slider = $( "." + pluginName + "_pane", self );
+			// give the pane a tabindex for arrow key handling
+			$slider.attr("tabindex", "0");
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
 			// make sure items are ID'd. This is critical for arrow nav and sorting.
 			idItems( $itemsContain );
@@ -221,6 +223,23 @@
 					gotoSlide( slideID );
 				}
 			});
+
+			// arrow key bindings for next/prev
+			$( this )
+				.bind( "keydown", function( e ){
+					if( e.keyCode === 37 || e.keyCode === 38 ){
+						clearTimeout(autoTimeout);
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						arrowNavigate( false );
+					}
+					if( e.keyCode === 39 || e.keyCode === 40 ){
+						clearTimeout(autoTimeout);
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						arrowNavigate( true );
+					}
+				} );
 
 			function gotoSlide( href, callback ){
 				var $slide = $( href, self );

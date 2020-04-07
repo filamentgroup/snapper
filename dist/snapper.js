@@ -154,6 +154,8 @@
 			var addNextPrev = $self.is( "[data-" + pluginName + "-nextprev]" );
 			var autoTimeout;
 			var $slider = $( "." + pluginName + "_pane", self );
+			// give the pane a tabindex for arrow key handling
+			$slider.attr("tabindex", "0");
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
 			// make sure items are ID'd. This is critical for arrow nav and sorting.
 			idItems( $itemsContain );
@@ -201,7 +203,7 @@
 				$nextprev.appendTo( $nextprevContain );
 			}
 
-			// This click binding will allow deep-linking to slides without causing the page to scroll to the carousel container
+			// This click binding will allow linking to slides from thumbnails without causing the page to scroll to the carousel container
 			// this also supports click handling for generated next/prev links
 			$( "a", this ).bind( "click", function( e ){
 				clearTimeout(autoTimeout);
@@ -221,6 +223,23 @@
 					gotoSlide( slideID );
 				}
 			});
+
+			// arrow key bindings for next/prev
+			$( this )
+				.bind( "keydown", function( e ){
+					if( e.keyCode === 37 || e.keyCode === 38 ){
+						clearTimeout(autoTimeout);
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						arrowNavigate( false );
+					}
+					if( e.keyCode === 39 || e.keyCode === 40 ){
+						clearTimeout(autoTimeout);
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						arrowNavigate( true );
+					}
+				} );
 
 			function gotoSlide( href, callback ){
 				var $slide = $( href, self );
