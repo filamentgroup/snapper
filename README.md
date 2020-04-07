@@ -126,7 +126,7 @@ Version 4.0 breaks a few features and changes the way snapper works. Some notes 
 - A "snapper.active" and "snapper.inactive" event is fired whenever snapper items become one or the other.
 - Endless looping is optionally available as an experimental feature. Accessibility impact is TBD on this feature.
 - arrow key advance within the slider is no longer offered, as it is not part of native css snapping. Keyboard advance still works for the arrows and thumbnails.
-- CSS now uses flexbox. This means the JS can do less work calculating widths. You can set the widths on snapper item elements directly now instead of worrying about calculated total widths on the parent.
+- CSS now uses flexbox, not floats. This means the JS can do less work calculating widths. You can set the widths on snapper item elements directly now instead of worrying about calculated total widths on the parent. If you set widths on the parent, it'll likely conflict with this. Instead, just set desired widths on the items.
 
 
 ### Support
