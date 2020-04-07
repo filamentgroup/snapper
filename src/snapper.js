@@ -155,6 +155,8 @@
 			var autoTimeout;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
+			// make sure items are ID'd. This is critical for arrow nav and sorting.
+			idItems( $itemsContain );
 			var $items = $itemsContain.children();
 			$items.addClass( pluginName + "_item" );
 			var numItems = $items.length;
@@ -188,9 +190,6 @@
 			if( $self.attr("data-" + pluginName + "-enhanced") ) {
 				return;
 			}
-
-			// make sure items are ID'd. This is critical for arrow nav and sorting.
-			idItems( $slider.find("." + pluginName + "_items") );
 
 			observeItems($slider[ 0 ]);
 
