@@ -155,11 +155,11 @@
 			var autoTimeout;
 			var $slider = $( "." + pluginName + "_pane", self );
 			var $itemsContain = $slider.find( "." + pluginName + "_items" );
+			// make sure items are ID'd. This is critical for arrow nav and sorting.
+			idItems( $itemsContain );
 			var $items = $itemsContain.children();
 			$items.addClass( pluginName + "_item" );
-			var numItems = $items.length;
-			var $nav = $( "." + pluginName + "_nav", self );
-						
+			var numItems = $items.length;						
 
 			if( typeof optionsOrMethod === "string" ){
 				var args = Array.prototype.slice.call(pluginArgs, 1);
@@ -189,11 +189,7 @@
 				return;
 			}
 
-			// make sure items are ID'd. This is critical for arrow nav and sorting.
-			idItems( $slider.find("." + pluginName + "_items") );
-
 			observeItems($slider[ 0 ]);
-
 
 			// if the nextprev option is set, add the nextprev nav
 			if( addNextPrev ){
@@ -283,16 +279,12 @@
 				}
 			}
 
-			
-
 			function getAutoplayInterval() {
 				var activeSlide = activeItems($slider).last();
-
 				var autoTiming = activeSlide.attr( "data-snapper-autoplay" ) || $self.attr( "data-snapper-autoplay" );
 				if( autoTiming ) {
 					autoTiming = parseInt(autoTiming, 10) || 5000;
 				}
-
 				return autoTiming;
 			}
 
@@ -325,6 +317,7 @@
 					setArrowState( $self );
 				},66);
 			});
+
 			updateSort( $slider[0] );
 			
 			setArrowState( $self );
