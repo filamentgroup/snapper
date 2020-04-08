@@ -255,14 +255,19 @@
 
 			
 			var afterResize;
+			var currSlide;
 			function resizeUpdates(){
 				clearTimeout( afterResize );
+				if( !currSlide ){
+					currSlide = activeItems($slider).first();
+				}
 				afterResize = setTimeout( function(){
 					// retain snapping on resize 
-					$slider[ 0 ].scrollBy(1,0);
+					gotoSlide( currSlide.attr("id") );
+					currSlide = null;
 					// resize can reveal or hide slides, so update arrows
 					setArrowState( $self );
-				}, 100 );
+				}, 300 );
 			}
 			$( w ).bind( "resize", resizeUpdates );
 
