@@ -1,7 +1,8 @@
 /* snapper css snap points carousel */
-;(function( w, $ ){
+
+;(function(){
 	// auto-init on enhance
-	$( document ).bind( "enhance", function( e ){
-		$( ".snapper", e.target ).add( e.target ).filter( ".snapper" ).snapper();
+	document.addEventListener( "enhance", function( e ){
+		snapper(e.target.querySelectorAll( ".snapper" ));
 	});
-}( this, jQuery ));
+}());

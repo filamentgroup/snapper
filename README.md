@@ -6,12 +6,11 @@ MIT License
 [c] 2020 Filament Group, Inc
 
 ## Dependencies
-- jQuery or similar DOM library
 - Intersection Observer Polyfill. Run `$ npm install` to download a copy to  `./node_modules/intersection-observer/intersection-observer.js`
 
 ## Demo
 
-<a href="https://fg-snapper.netlify.com/demo/">View the Snapper demos</a>
+<a href="https://fg-snapper.netlify.app/demo/">View the Snapper demos</a>
 
 
 ## Docs
@@ -21,31 +20,49 @@ MIT License
 
 ``` html
 <div class="snapper">
-	<div class="snapper_pane">
-		<div class="snapper_items">
-			<div class="snapper_item" id="img-a">
-				<img src="a-image.jpg" alt="">
-			</div>
-			<div class="snapper_item" id="img-b">
-				<img src="b-image.jpg" alt="">
-			</div>
-			<div class="snapper_item" id="img-c">
-				<img src="c-image.jpg" alt="">
-			</div>
-			<div class="snapper_item" id="img-d">
-				<img src="d-image.jpg" alt="">
-			</div>
-		</div>
-	</div>
+    <div class="snapper_pane">
+        <div class="snapper_items">
+            <div class="snapper_item" id="img-a">
+                <img src="a-image.jpg" alt="">
+            </div>
+            <div class="snapper_item" id="img-b">
+                <img src="b-image.jpg" alt="">
+            </div>
+            <div class="snapper_item" id="img-c">
+                <img src="c-image.jpg" alt="">
+            </div>
+            <div class="snapper_item" id="img-d">
+                <img src="d-image.jpg" alt="">
+            </div>
+        </div>
+    </div>
 </div>
 ```
 
 3. Trigger an "enhance" event on a parent of the markup to initialize. You might do this on domready, as shown below:
 
 ``` js
-$( function(){
-	$( document ).trigger( "enhance" );
+document.addEventListener("DOMContentLoaded", function() {
+    document.dispatchEvent(new Event('enhance'));
 });
+```
+
+or with jQuery:
+
+``` js
+$( function(){
+    $( document ).trigger( "enhance" );
+});
+```
+
+Alternatively, you can enhance a selection of carousel(s) manually:
+``` js
+snapper(document.querySelectorAll('.snapper'));
+```
+
+or with jQuery:
+``` js
+$('.snapper').snapper();
 ```
 
 ### Adding thumbnails
@@ -54,12 +71,13 @@ To add thumbnail or graphic navigation to the carousel, you can append the follo
 
 ``` html
 <div class="snapper_nav">
-	<a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
-	<a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
-	<a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
-	<a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
+    <a href="#img-a"><img src="a-thumb.jpg" alt=""></a>
+    <a href="#img-b"><img src="b-thumb.jpg" alt=""></a>
+    <a href="#img-c"><img src="c-thumb.jpg" alt=""></a>
+    <a href="#img-d"><img src="d-thumb.jpg" alt=""></a>
 </div>
 ```
+
 
 ### Adding next/prev navigation
 
@@ -67,7 +85,7 @@ To add next and previous links that persist state, you can add a `data-snapper-n
 
 ``` html
 <div class="snapper" data-snapper-nextprev>
-	...
+    ...
 </div>
 ```
 
@@ -78,14 +96,15 @@ If you want to show more than one snapper item at a time, you can set the widths
 
 ``` css
 @media (min-width: 30em){
-	.snapper_pane {
-		scroll-snap-points-x: repeat(50%);
-	}
-	.snapper_item {
-		width: 50%;
-	}
+    .snapper_pane {
+        scroll-snap-points-x: repeat(50%);
+    }
+    .snapper_item {
+        width: 50%;
+    }
 }
 ```
+
 
 ### Showing partial image reveals
 
@@ -94,13 +113,14 @@ Just as the above specifies, you can use widths to reveal part of the next image
 
 ``` css
 @media (min-width: 30em){
-	.snapper_pane {
-		scroll-snap-points-x: repeat(45%);
-	}
-	.snapper_item {
-		width: 45%;
-	}
+    .snapper_pane {
+        scroll-snap-points-x: repeat(45%);
+    }
+    .snapper_item {
+        width: 45%;
+    }
 }
+```
 
 
 ### Looping (*experimental)
@@ -110,8 +130,55 @@ To make a snapper loop endlessly in either direction, you can add the data-snapp
 
 ``` html
 <div class="snapper" data-snapper-loop>
-	...
+    ...
 </div>
+```
+
+
+### Methods
+
+The carousel provides the following methods:
+
+| name       | description                       | returns | argument |
+| ---------- | --------------------------------- | ------- | -------- |
+| `goto`     | scroll to item by index           |         | integer  |
+| `getIndex` | get the index of the current item | integer |          |
+
+They can be invoked using plain JavaScript:
+``` js
+snapper(document.querySelector('.snapper'), 'methodName', 'methodArgument');
+```
+
+or using jQuery:
+``` js
+$('.snapper').snapper('methodName', 'methodArgument');
+```
+
+
+### Events
+
+The carousel dispatches the following events:
+
+| name                 | description                                   |
+| -------------------- | --------------------------------------------- |
+| `snapper.after-next` | when navigating to next item                  |
+| `snapper.after-prev` | when navigating to previous item              |
+| `snapper.active`     | fired by carousel item which becomes active   |
+| `snapper.inactive`   | fired by carousel item which becomes inactive |
+
+
+This is how you can listen to them using plain JavaScript:
+``` js
+document.querySelector('.snapper').addEventListener('snapper.xyz', event => {
+    ...
+});
+```
+
+or using jQuery:
+``` js
+$('.snapper').on('snapper.xyz', event => {
+    ...
+});
 ```
 
 
