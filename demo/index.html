@@ -16,9 +16,10 @@
   }
   </style>
   <script>
-    document.documentElement.className += "enhanced";
-    $(function(){
-      $( document ).trigger( "enhance" );
+    document.documentElement.classList.add("enhanced");
+
+    document.addEventListener("DOMContentLoaded", function() {
+      document.dispatchEvent(new Event('enhance'));
     });
   </script>
 </head>
