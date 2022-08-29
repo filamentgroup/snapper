@@ -11,7 +11,7 @@ MIT License
 
 ## Demo
 
-<a href="https://fg-snapper.netlify.com/demo/">View the Snapper demos</a>
+[https://filamentgroup.github.io/snapper/demo](https://filamentgroup.github.io/snapper/demo/)
 
 
 ## Docs
