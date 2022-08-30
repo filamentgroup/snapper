@@ -1,3 +1,5 @@
+:warning: This project is archived and the repository is no longer maintained. 
+
 # snapper
 
 A CSS Snap-Points based carousel (and lightweight polyfill)
