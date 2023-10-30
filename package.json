@@ -27,7 +27,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-sass": "^3.1.0",
     "matchdep": "^2.0.0",
-    "node-sass": "^4.13.1"
+    "node-sass": "^7.0.0"
   },
   "dependencies": {
     "jquery": "3.4.1",
